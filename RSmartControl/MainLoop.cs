@@ -33,24 +33,8 @@ namespace RSmartControl
 
                 if( actualTime - lastTime >= _interval * 10000000 )
                 {
-                    
-                    if(_motorLeft.Direction == EDirection.BackWard)
-                    {
-                        _motorLeft.Direction = EDirection.Forward;
-                    }
-                    else
-                    {
-                        _motorLeft.Direction = EDirection.BackWard;
-                    }
 
-                    if( _motorRight.Direction == EDirection.BackWard )
-                    {
-                        _motorRight.Direction = EDirection.Forward;
-                    }
-                    else
-                    {
-                        _motorRight.Direction = EDirection.BackWard;
-                    }
+                   // _motorRight.Stop( 1000 );
                     lastTime = actualTime;
 
                 }

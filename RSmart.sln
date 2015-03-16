@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSmart", "RSmart\RSmart.csproj", "{5B842CBF-450E-4F95-BE3B-A2242776F413}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetduinoApplication1", "NetduinoApplication1\NetduinoApplication1.csproj", "{7B021C9D-654C-49A2-A1B4-E63CB32462EC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSmartControl", "RSmartControl\RSmartControl.csproj", "{A18ED7D6-0FCF-4DD2-9561-3F27CD50656F}"
 EndProject
 Global
@@ -15,18 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B842CBF-450E-4F95-BE3B-A2242776F413}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B021C9D-654C-49A2-A1B4-E63CB32462EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{A18ED7D6-0FCF-4DD2-9561-3F27CD50656F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A18ED7D6-0FCF-4DD2-9561-3F27CD50656F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18ED7D6-0FCF-4DD2-9561-3F27CD50656F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
