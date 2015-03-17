@@ -14,9 +14,18 @@ namespace RSmartControl
         public static void Main()
         {
             // write your code here
-            MainLoop loop = new MainLoop(5);
-                
+            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
+            Thread server = new Thread(() =>
+            {
+                WebServer webServer = new WebServer();
+                webServer.ListenForRequest();
+            });
+            server.Start();
+            
+            MainLoop loop = new MainLoop(2);
+            loop.Run();
         }
+
 
 
     }

@@ -11,6 +11,8 @@ namespace RSmartControl
 {
     public class Motor
     {
+        const double roverHeight = 24.5;
+        const int maxSpeed = 1;
         PWM _motor;
         EDirection _direction;
         OutputPort _frontDirection, _backDirection;
@@ -18,15 +20,11 @@ namespace RSmartControl
         public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection, Cpu.Pin motorBackDirection )
         {
             _direction = EDirection.Forward;
-            _motor = new PWM( motor, 500, 0.5, false );
+            _motor = new PWM( motor, 500, 1, false );
 
             _frontDirection = new OutputPort( motorFrontDirection, false );
             _backDirection = new OutputPort( motorBackDirection, true );
 
-
-
-
-            _motor.Start();
         }
 
         public EDirection Direction
@@ -57,7 +55,7 @@ namespace RSmartControl
             _motor.Stop();
         }
 
-        public void Stop(int interval)
+        public void Stop(double interval)
         {
             _motor.Stop();
             _motorTimer = new CustomTimer( interval );
@@ -94,6 +92,20 @@ namespace RSmartControl
                     _motor.Start();
                 }
             }
+        }
+
+        public static int timeAngleRotation(double speed, double angle)
+        {
+            if (speed < 0 || speed > 1)
+                throw new ArgumentException("Invalid speed");
+            if(angle <= 0 || angle >= 360)
+                throw new ArgumentException("Invalid angle ");
+
+            double p = (double)(2 * roverHeight * System.Math.PI);
+            double distanceToDo = (double)((double)(angle/(double)360) * p);
+            double speedCm = (double)(1 * speed * 27.777);
+            int time = (int)((double)(distanceToDo / speedCm) * 1000);
+            return time; 
         }
     }
 }

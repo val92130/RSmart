@@ -8,10 +8,12 @@ namespace RSmartControl
         long actualTime = DateTime.Now.Ticks;
         long lastTime = DateTime.Now.Ticks;
         bool _tick;
-        int _interval;
-        public CustomTimer(int interval)
+        double _interval;
+        public CustomTimer(double interval)
         {
             _interval = interval;
+            actualTime = DateTime.Now.Ticks;
+            lastTime = DateTime.Now.Ticks;
         }
 
         public bool Tick
@@ -26,9 +28,10 @@ namespace RSmartControl
         {
             actualTime = DateTime.Now.Ticks;
 
-            if( actualTime - lastTime >= _interval * 10000000 )
+            if (actualTime - lastTime >= _interval * 10000000)
             {
                 _tick = true;
+                lastTime = actualTime;
             }
             else
             {
