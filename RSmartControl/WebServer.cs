@@ -45,6 +45,7 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                         Debug.Print(request);
+                        
                         //Compose a response
                         string response = "Welcome to RSAMART VAL AND RAMI SAYS HELLO TO YOU";
                         string header = "HTTP/1.0 200 OK\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
