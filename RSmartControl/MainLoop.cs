@@ -40,7 +40,7 @@ namespace RSmartControl
                 // motor correction timer
                 if (actualTime - lastTime >= _interval * 10000000)
                 {
-                    _motorRight.Stop(0.4);
+                    _motorRight.Stop(0.1);
                     lastTime = actualTime;
                 }
                 else
