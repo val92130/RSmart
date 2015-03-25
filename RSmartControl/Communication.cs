@@ -17,9 +17,17 @@ namespace RSmartControl
         {
             lock (_queue)
             {
-                Debug.Print( msgServer );
-                _queue.Enqueue(msgServer);
+                if(Utility.IsQueryValid(msgServer))
+                {
+                    Debug.Print( "Valid message : " + msgServer );
+                    _queue.Enqueue( msgServer );                  
+                }
+                else
+                {
+                    Debug.Print( "Invalid message " );
+                }
                 Debug.Print( "Queue count : " + _queue.Count );
+
             }
         }
         public Object GetMessage()
