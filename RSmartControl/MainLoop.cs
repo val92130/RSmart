@@ -3,6 +3,7 @@ using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
+using MFToolkit.Collection.Spezialized;
 
 namespace RSmartControl
 {
@@ -10,7 +11,7 @@ namespace RSmartControl
     {
         long actualTime = DateTime.Now.Ticks;
         long lastTime = DateTime.Now.Ticks;
-        OutputPort onboardLED;
+        //OutputPort onboardLED;
         int _interval;
         Motor _motorLeft, _motorRight;
         Communication _com;
@@ -51,5 +52,22 @@ namespace RSmartControl
             }
 
         }
+        public void MessageAnalyse(NameValueCollection nvc)
+        {
+            foreach (string key in nvc)
+            {
+                switch (key)
+                {
+                    case "Start" :
+                        if(nvc[key] == "true")
+                        {
+
+                        }
+                        break;
+                }
+            }
+        }
+
+
     }
 }
