@@ -13,10 +13,11 @@ namespace RSmartControl
         OutputPort onboardLED;
         int _interval;
         Motor _motorLeft, _motorRight;
+        Communication _com;
 
-
-        public MainLoop(int interval)
+        public MainLoop(int interval, Communication Com)
         {
+            _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
 
@@ -40,7 +41,7 @@ namespace RSmartControl
                 // motor correction timer
                 if (actualTime - lastTime >= _interval * 10000000)
                 {
-                    _motorRight.Stop(0.4);
+                    _motorRight.Stop(0.1);
                     lastTime = actualTime;
                 }
                 else
