@@ -32,6 +32,7 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
+    <Compile Include="Communication.cs" />
     <Compile Include="CustomTimer.cs" />
     <Compile Include="EDirection.cs" />
     <Compile Include="MainLoop.cs" />

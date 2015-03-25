@@ -6,8 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using SecretLabs.NETMF.Hardware.Netduino;
-using MFToolkit;
-using MFToolkit.Collection.Spezialized;
+
 
 namespace RSmartControl
 {
@@ -19,12 +18,13 @@ namespace RSmartControl
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         public WebServer(Communication Com)
         {
-            
+            IPAddress ip = IPAddress.Parse("192.168.100.3");
             _com = Com;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
-            socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+            //socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+            socket.Bind(new IPEndPoint(IPAddress.Parse("192.168.100.3"), 80));
             //Debug print our IP address
             Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
             //Start listen for web requests
@@ -50,13 +50,14 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                         Debug.Print(request);
-                        _com.AddMessage(request);
+                        //_com.AddMessage(request);
                         //Compose a response
                         string response = "Welcome to RSAMART VAL AND RAMI SAYS HELLO TO YOU";
                         string header = "HTTP/1.0 200 OK\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
                         clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
                         clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
                         //Blink the onboard LED
+                        _com.AddMessage(request);
                         led.Write(true);
                         Thread.Sleep(150);
                         led.Write(false);
