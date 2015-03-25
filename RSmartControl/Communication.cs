@@ -17,7 +17,9 @@ namespace RSmartControl
         {
             lock (_queue)
             {
+                Debug.Print( msgServer );
                 _queue.Enqueue(msgServer);
+                Debug.Print( "Queue count : " + _queue.Count );
             }
         }
         public Object GetMessage()

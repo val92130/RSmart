@@ -51,13 +51,14 @@ namespace RSmartControl
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                         Debug.Print(request);
                         //_com.AddMessage(request);
+                        _com.AddMessage( request );
                         //Compose a response
                         string response = "Welcome to RSAMART VAL AND RAMI SAYS HELLO TO YOU";
                         string header = "HTTP/1.0 200 OK\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
                         clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
                         clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
                         //Blink the onboard LED
-                        _com.AddMessage(request);
+                        
                         led.Write(true);
                         Thread.Sleep(150);
                         led.Write(false);
