@@ -32,9 +32,22 @@ namespace RSmartControl
         }
         public Object GetMessage()
         {
+            object o = null;
             lock(_queue)
             {
-                return _queue.Dequeue();  
+                if(_queue.Count != 0)
+                {
+                    o = _queue.Dequeue();
+                    Debug.Print((string)o);
+                    return o;
+                }
+                else
+                {
+                    return null;
+                }
+                   
+
+                
             }
         }
         

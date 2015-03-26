@@ -1,69 +1,74 @@
 using System;
-using MFToolkit.Collection.Spezialized;
 using Microsoft.SPOT;
+using System.Collections;
 
 namespace RSmartControl
 {
     class Utility
     {
-        public static NameValueCollection ParseQueryString(string query)
+        public static Hashtable ParseQueryString(object query)
         {
-            string text = query;
-
-            if( text.Length == 0 )
+            if (query == null)
+                return null;
+            string text = (string)query;
+            if(text == null)
+            {
+                return null;
+            }
+            if (text.Length == 0)
                 return null;
 
             string newtext = "";
-            for( int i = 0; i < text.Length; i++ )
+            for (int i = 0; i < text.Length; i++)
             {
-                if( text[i] == 'H' )
+                if (text[i] == 'H')
                 {
-                    if( text[i + 1] == 'T' )
+                    if (text[i + 1] == 'T')
                     {
-                        if( text[i + 2] == 'T' )
+                        if (text[i + 2] == 'T')
                         {
-                            newtext = text.Substring( 0, i );
+                            newtext = text.Substring(0, i);
                         }
                     }
                 }
             }
 
-            string lastText ="";
-            for( int i = 0; i < newtext.Length; i++ )
+            string lastText = "";
+            for (int i = 0; i < newtext.Length; i++)
             {
                 // if there are arguments
-                if( newtext[i] == '?' )
+                if (newtext[i] == '?')
                 {
-                    lastText = newtext.Substring( i + 1, newtext.Length - i - 1 );
+                    lastText = newtext.Substring(i + 1, newtext.Length - i - 1);
 
                 }
             }
 
-            NameValueCollection collection = new NameValueCollection();
+            Hashtable collection = new Hashtable();
 
-            if( lastText != "" )
+            if (lastText != "")
             {
-                for( int i = 0; i < lastText.Length; i++ )
+                for (int i = 0; i < lastText.Length; i++)
                 {
-                    if( lastText[i] == '=' )
+                    if (lastText[i] == '=')
                     {
-                        string name = lastText.Substring( 0, i );
+                        string name = lastText.Substring(0, i);
                         string value = "";
-                        lastText = lastText.Substring( i + 1, lastText.Length - i - 1 );
+                        lastText = lastText.Substring(i + 1, lastText.Length - i - 1);
                         i = 0;
-                        for( int j = 0; j < lastText.Length; j++ )
+                        for (int j = 0; j < lastText.Length; j++)
                         {
-                            if( lastText[j] == '&' )
+                            if (lastText[j] == '&')
                             {
-                                value = lastText.Substring( 0, j );
-                                lastText = lastText.Substring( j + 1, lastText.Length - j - 1 );
+                                value = lastText.Substring(0, j);
+                                lastText = lastText.Substring(j + 1, lastText.Length - j - 1);
                                 break;
                             }
                         }
 
-                        if( name != "" && value != "" )
+                        if (name != "" && value != "")
                         {
-                            collection.Add( name, value );
+                            collection.Add(name, value);
                         }
 
                     }
@@ -74,39 +79,39 @@ namespace RSmartControl
                 return null;
             }
 
-            if(collection.Count == 0 )
+            if (collection.Count == 0)
                 return null;
 
             return collection;
         }
 
-        public static bool IsQueryValid( string query )
+        public static bool IsQueryValid(string query)
         {
             string text = query;
 
-            if( text.Length == 0 )
+            if (text.Length == 0)
                 return false;
 
             string newtext = "";
-            for( int i = 0; i < text.Length; i++ )
+            for (int i = 0; i < text.Length; i++)
             {
-                if( text[i] == 'H' )
+                if (text[i] == 'H')
                 {
-                    if( text[i + 1] == 'T' )
+                    if (text[i + 1] == 'T')
                     {
-                        if( text[i + 2] == 'T' )
+                        if (text[i + 2] == 'T')
                         {
-                            newtext = text.Substring( 0, i );
+                            newtext = text.Substring(0, i);
                         }
                     }
                 }
             }
 
-            string lastText ="";
-            for( int i = 0; i < newtext.Length; i++ )
+            string lastText = "";
+            for (int i = 0; i < newtext.Length; i++)
             {
                 // if there are arguments
-                if( newtext[i] == '?' )
+                if (newtext[i] == '?')
                 {
                     return true;
 
