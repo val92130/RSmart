@@ -34,7 +34,7 @@ namespace RSmartControl
             server.Start();
             
             MainLoop loop = new MainLoop(2, _communication);
-            //loop.Run();
+            loop.Run();
         }
 
 

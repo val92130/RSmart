@@ -3,7 +3,7 @@ using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
-using MFToolkit.Collection.Spezialized;
+using System.Collections;
 
 namespace RSmartControl
 {
@@ -31,39 +31,53 @@ namespace RSmartControl
 
         public void Run()
         {
-            _motorLeft.Start();
-            _motorRight.Start();
+           // _motorLeft.Start();
+     //       _motorRight.Start();
             while (true)
             {
+                if(_com.GetMessage() != null)
+                {
+                    MessageAnalyse(Utility.ParseQueryString((string)(_com.GetMessage())));
+                }
+                
                 _motorLeft.Update();
                 _motorRight.Update();
                 actualTime = DateTime.Now.Ticks;
 
                 // motor correction timer
-                if (actualTime - lastTime >= _interval * 10000000)
-                {
-                    _motorRight.Stop(0.1);
-                    lastTime = actualTime;
-                }
-                else
-                {
+                //if (actualTime - lastTime >= _interval * 10000000)
+                //{
+                //    _motorRight.Stop(0.1);
+                //    lastTime = actualTime;
+                //}
+                //else
+                //{
 
-                }
+                //}
             }
 
         }
-        public void MessageAnalyse(NameValueCollection nvc)
+        public void MessageAnalyse(Hashtable nvc)
         {
             foreach (string key in nvc)
             {
                 switch (key)
                 {
-                    case "Start" :
-                        if(nvc[key] == "true")
+                    case "Start":
+                        if (nvc[key] == "true")
                         {
-
+                            _motorLeft.Start();
+                            _motorRight.Start();
                         }
                         break;
+                    case "Stop":
+                        if (nvc[key] == "false")
+                        {
+                            _motorLeft.Stop();
+                            _motorRight.Stop();
+                        }
+                        break;
+
                 }
             }
         }

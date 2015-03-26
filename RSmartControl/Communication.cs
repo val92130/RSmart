@@ -34,7 +34,10 @@ namespace RSmartControl
         {
             lock(_queue)
             {
-                return _queue.Dequeue();  
+                if(_queue.Count != 0)
+                    return _queue.Dequeue();
+
+                return null;
             }
         }
         
