@@ -35,11 +35,9 @@ namespace RSmartControl
      //       _motorRight.Start();
             while (true)
             {
-                if(_com.GetMessage() != null)
-                {
-                    MessageAnalyse(Utility.ParseQueryString((string)(_com.GetMessage())));
-                }
-                
+
+                MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
+
                 _motorLeft.Update();
                 _motorRight.Update();
                 actualTime = DateTime.Now.Ticks;
@@ -57,26 +55,92 @@ namespace RSmartControl
             }
 
         }
+        public void TurnRight()
+        {
+            _motorRight.Stop(0.6);
+           
+        }
+        public void TurnLeft()
+        {
+            _motorLeft.Stop(0.6);
+            
+        }
+        public void GoForward()
+        {
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+        }
+        public void GoBackward()
+        {
+            _motorRight.Direction= EDirection.BackWard;
+            _motorLeft.Direction = EDirection.BackWard;
+        }
+
         public void MessageAnalyse(Hashtable nvc)
         {
-            foreach (string key in nvc)
+            if (nvc == null)
+                return;
+            foreach (DictionaryEntry entry in nvc)
             {
-                switch (key)
+                switch ((string)entry.Key)
                 {
                     case "Start":
-                        if (nvc[key] == "true")
+                        if ((string)entry.Value == "true")
                         {
                             _motorLeft.Start();
                             _motorRight.Start();
                         }
                         break;
                     case "Stop":
-                        if (nvc[key] == "false")
+                        if ((string)entry.Value == "true")
                         {
                             _motorLeft.Stop();
                             _motorRight.Stop();
                         }
                         break;
+                    case "Speed":
+                        if(entry.Value == null)
+                            return;
+                        int speed;
+                        try
+                        {
+                                speed = Convert.ToInt32((string)entry.Value);
+                        } catch(Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                            return;
+                        }
+                        
+                        if (speed < 0 || speed > 100)
+                            return;
+                        _motorLeft.DutyCycle = (double)((double)(speed) / (double)(100));
+                        _motorRight.DutyCycle = (double)((double)(speed) / (double)(100));
+                        break;
+                    case "Forward":
+                        if ((string)entry.Value == "true")
+                        {
+                            GoForward();
+                        }
+                        break;
+                    case "Backward":
+                        if ((string)entry.Value == "true")
+                        {
+                            GoBackward();
+                        }
+                        break;
+                    case "Right":
+                        if ((string)entry.Value == "true")
+                        {
+                            TurnRight();
+                        }
+                        break;
+                    case "Left":
+                        if ((string)entry.Value == "true")
+                        {
+                            TurnLeft();
+                        }
+                        break;
+
 
                 }
             }

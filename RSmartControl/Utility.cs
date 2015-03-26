@@ -6,9 +6,11 @@ namespace RSmartControl
 {
     class Utility
     {
-        public static Hashtable ParseQueryString(string query)
+        public static Hashtable ParseQueryString(object query)
         {
-            string text = query;
+            if (query == null)
+                return null;
+            string text = (string)query;
             if(text == null)
             {
                 return null;

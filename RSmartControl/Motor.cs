@@ -46,6 +46,7 @@ namespace RSmartControl
                         _frontDirection.Write( true );
                         _backDirection.Write( false );
                         break;
+                    
                 }
             }
         }
@@ -90,6 +91,7 @@ namespace RSmartControl
                 if(_motorTimer.Tick)
                 {
                     _motor.Start();
+                    _motorTimer = null;
                 }
             }
         }
