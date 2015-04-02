@@ -27,6 +27,26 @@ namespace RSmartControl
 
         }
 
+        public string DirectionString
+        {
+            get
+            {
+                switch (this.Direction)
+                {
+                    case EDirection.Forward:
+                        return "Forward";
+                    case EDirection.BackWard:
+                        return "Backward";
+                    case EDirection.Left:
+                        return "Left";
+                    case EDirection.Right:
+                        return "Right";
+                    default:
+                        return "null";
+                }
+            }
+        }
+
         public EDirection Direction
         {
             get
@@ -60,6 +80,13 @@ namespace RSmartControl
         {
             _motor.Stop();
             _motorTimer = new CustomTimer( interval );
+        }
+
+        public void Start(double interval)
+        {
+            this.Direction = EDirection.BackWard;
+            _motor.Start();
+            _motorTimer = new CustomTimer(interval);
         }
 
         public void Start()
@@ -96,7 +123,7 @@ namespace RSmartControl
             }
         }
 
-        public static int timeAngleRotation(double speed, double angle)
+        public static double timeAngleRotation(double speed, double angle)
         {
             if (speed < 0 || speed > 1)
                 throw new ArgumentException("Invalid speed");
@@ -106,7 +133,7 @@ namespace RSmartControl
             double p = (double)(2 * roverHeight * System.Math.PI);
             double distanceToDo = (double)((double)(angle/(double)360) * p);
             double speedCm = (double)(1 * speed * 27.777);
-            int time = (int)((double)(distanceToDo / speedCm) * 1000);
+            double time = ((double)(distanceToDo / speedCm) );
             return time; 
         }
     }
