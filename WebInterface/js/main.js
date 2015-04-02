@@ -2,47 +2,85 @@
 var ip = "10.8.110.204";
 
 
+// check if robot is online
 $.get( "http://"+ip+"/", function( data ) {
 	if(data)
 	{
-		$("#status").html('<span style="Color:green">Offline</span>');
+		$("#status").html('<span style="Color:green">Online</span>');
 	}
 });
 
-$("#start_motors").click(function()
+function StartMotors()
 {
 	$.get( "http://"+ip+"/?Start=true&robot=true", function( data ) {
 	});
-});
+}
 
-$("#stop_motors").click(function()
+function StopMotors()
 {
 	$.get( "http://"+ip+"/?Stop=true&robot=true", function( data ) {
 	});
+}
+
+function TurnLeft()
+{
+	$.get( "http://"+ip+"?Left=true&robot=true", function( data ) {
+	});
+}
+function TurnRight()
+{
+	$.get( "http://"+ip+"/?Right=true&robot=true", function( data ) {
+	});
+}
+
+function GoForward()
+{
+	$.get( "http://"+ip+"/?Forward=true&robot=true", function( data ) {
+	});
+}
+
+function GoBackward()
+{
+	$.get( "http://"+ip+"/?Backward=true&robot=true", function( data ) {
+	});
+}
+
+function GetDirection()
+{
+	$.get( "http://"+ip+"/?GetDirection=true&robot=true", function( data ) {
+		$("#direction").html('<span style="Color:blue">'+data+'</span>');
+	});
+}
+
+$("#start_motors").click(function()
+{
+	StartMotors();
+});
+
+
+$("#stop_motors").click(function()
+{
+	StopMotors();
 });
 
 $("#turn_left").click(function()
 {
-	$.get( "http://"+ip+"?Left=true&robot=true", function( data ) {
-	});
+	TurnLeft();
 });
 
 $("#turn_right").click(function()
 {
-	$.get( "http://"+ip+"/?Right=true&robot=true", function( data ) {
-	});
+	TurnRight();
 });
 
 $("#go_forward").click(function()
 {
-	$.get( "http://"+ip+"/?Forward=true&robot=true", function( data ) {
-	});
+	GoForward();
 });
 
 $("#go_backward").click(function()
 {
-	$.get( "http://"+ip+"/?Backward=true&robot=true", function( data ) {
-	});
+	GoBackward();
 });
 
 $("#send_speed").click(function()
@@ -56,8 +94,7 @@ $("#send_speed").click(function()
 setInterval(function() {
 	$("#img").attr("src", "https://www.tradeit.fr/Webcam/image_upload/img.jpg?"+new Date().getTime());
 	$('#img').html('<img src="https://www.tradeit.fr/Webcam/image_upload/img.jpg" id="img" class="img_centered" width=500 height=500></img>');
-
-
+	
 }, 500);
 
 setInterval(function() {
@@ -68,7 +105,8 @@ setInterval(function() {
 		}
 	});
 
-}, 10000);
+GetDirection();
+}, 60000);
 
 
 $( "body" ).keypress(function( event ) {
@@ -77,20 +115,16 @@ $( "body" ).keypress(function( event ) {
 	switch(key)
 	{
 		case 122:
-		$.get( "http://"+ip+"/?Forward=true&robot=true", function( data ) {
-		});
+			GoForward();
 		break;
 		case 115:
-		$.get( "http://"+ip+"/?Backward=true&robot=true", function( data ) {
-		});
+			GoBackward();
 		break;
 		case 113:
-		$.get( "http://"+ip+"/?Left=true&robot=true", function( data ) {
-		});
+			TurnLeft();
 		break;
 		case 100:
-		$.get( "http://"+ip+"/?Right=true&robot=true", function( data ) {
-		});
+			TurnRight();
 		break;
 	}
 
