@@ -16,14 +16,14 @@ namespace RSmartControl
         {
             Communication _communication = new Communication();
             // write your code here
-           // Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
+           Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
 
-            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            if (interfaces.Length > 0)
-            {
-                NetworkInterface myInterface = interfaces[0];
-                myInterface.EnableStaticIP("192.168.100.3", "255.255.255.0", "192.168.100.1");​
-            }
+            //NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+            //if (interfaces.Length > 0)
+            //{
+            //    NetworkInterface myInterface = interfaces[0];
+            //    myInterface.EnableStaticIP("192.168.100.3", "255.255.255.0", "192.168.100.1");​
+            //}
             
 
             Thread server = new Thread(() =>

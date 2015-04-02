@@ -8,10 +8,36 @@ namespace RSmartControl
     {
         Queue _queue;
 
+        private Motor _motorLeft, _motorRight;
+
         public Communication()
         {
             _queue = new Queue();
  
+        }
+
+        public Motor MotorLeft
+        {
+            get
+            {
+                return _motorLeft;
+            }
+            set
+            {
+                _motorLeft = value;
+            }
+        }
+
+        public Motor MotorRight
+        {
+            get
+            {
+                return _motorRight;
+            }
+            set
+            {
+                _motorRight = value;
+            }
         }
         public void AddMessage(String msgServer)
         {

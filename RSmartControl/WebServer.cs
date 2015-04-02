@@ -10,6 +10,8 @@ using SecretLabs.NETMF.Hardware.Netduino;
 
 namespace RSmartControl
 {
+    using System.Collections;
+
     public class WebServer : IDisposable
     {
         Communication _com;
@@ -23,8 +25,8 @@ namespace RSmartControl
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
-            //socket.Bind(new IPEndPoint(IPAddress.Any, 80));
-            socket.Bind(new IPEndPoint(IPAddress.Parse("192.168.100.3"), 80));
+            socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+            //socket.Bind(new IPEndPoint(IPAddress.Parse("192.168.100.3"), 80));
             //Debug print our IP address
             Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
             //Start listen for web requests
@@ -53,10 +55,9 @@ namespace RSmartControl
                         //_com.AddMessage(request);
                         _com.AddMessage( request );
                         //Compose a response
-                        string response = "Welcome to RSAMART VAL AND RAMI SAYS HELLO TO YOU";
-                        string header = "HTTP/1.0 200 OK\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
-                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+
+                        MessageAnalyse(Utility.ParseQueryString(request), clientSocket);
+
                         //Blink the onboard LED
                         
                         led.Write(true);
@@ -73,7 +74,48 @@ namespace RSmartControl
         {
             Dispose();
         }
-        public void Dispose()
+
+        public void MessageAnalyse(Hashtable nvc, Socket clientSocket)
+        {
+            if (nvc == null) return;
+            foreach (DictionaryEntry entry in nvc)
+            {
+                string response;
+                string header;
+                switch ((string)entry.Key)
+                {
+                    case "GetDirection":
+                        response = _com.MotorLeft.DirectionString;
+                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
+                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        break;
+
+                    case "GetSpeedLeft":
+                        response = _com.MotorLeft.DutyCycle.ToString();
+                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
+                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        break;
+                    case "GetSpeedRight":
+                        response = _com.MotorRight.DutyCycle.ToString();
+                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
+                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        break;
+
+                    default :                                               
+                        response = "Welcome to RSAMART VAL AND RAMI SAY HELLO TO YOU";
+                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
+                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        break;
+                }
+            }
+        }
+
+        public
+              void Dispose()
         {
             if (socket != null)
                 socket.Close();

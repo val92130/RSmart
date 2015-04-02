@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace RSmartControl
 {
-    class MainLoop
+   public class MainLoop
     {
         long actualTime = DateTime.Now.Ticks;
         long lastTime = DateTime.Now.Ticks;
@@ -15,9 +15,12 @@ namespace RSmartControl
         int _interval;
         Motor _motorLeft, _motorRight;
         Communication _com;
+        Sensor _frontSensor, _backSensor;
 
         public MainLoop(int interval, Communication Com)
         {
+            _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
+            _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
             _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
@@ -26,35 +29,56 @@ namespace RSmartControl
             _motorRight.Direction = EDirection.Forward;
 
             _interval = interval;
+
+            _com.MotorLeft = _motorLeft;
+            _com.MotorRight = _motorRight;
         }
 
 
         public void Run()
         {
+
            // _motorLeft.Start();
      //       _motorRight.Start();
             while (true)
             {
-
+                double t = _backSensor.AnalogInput.Read();
                 MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
 
                 _motorLeft.Update();
                 _motorRight.Update();
                 actualTime = DateTime.Now.Ticks;
+                _frontSensor.sensorBehaviour();
+                _backSensor.sensorBehaviour();
 
-                // motor correction timer
-                //if (actualTime - lastTime >= _interval * 10000000)
-                //{
-                //    _motorRight.Stop(0.1);
-                //    lastTime = actualTime;
-                //}
-                //else
-                //{
-
-                //}
             }
 
         }
+
+        public Motor  MotorLeft
+        {
+            get
+            {
+                return _motorLeft;
+            }
+            set
+            {
+                _motorLeft = value;
+            }
+        }
+
+        public Motor MotorRight
+        {
+            get
+            {
+                return _motorRight;
+            }
+            set
+            {
+                _motorRight = value;
+            }
+        }
+
         public void TurnRight()
         {
             _motorRight.Stop(0.6);
@@ -96,6 +120,18 @@ namespace RSmartControl
                         {
                             _motorLeft.Stop();
                             _motorRight.Stop();
+                        }
+                        break;
+
+                    case "Rotate" :
+                        if ((string)entry.Value == "left")
+                        {
+                            _motorLeft.Stop(Motor.timeAngleRotation(_motorLeft.DutyCycle, 90));
+                        }
+
+                        if ((string)entry.Value == "right")
+                        {
+                            _motorRight.Stop(Motor.timeAngleRotation(_motorLeft.DutyCycle, 90));
                         }
                         break;
                     case "Speed":
