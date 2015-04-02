@@ -1,0 +1,19 @@
+
+
+.centered
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	text-align: center;
+}
+
+.img_centered
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	height:50%;
+	text-align: center;
+	display: block;
+}
