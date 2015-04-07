@@ -59,5 +59,10 @@ namespace RSmartControl
             nv.Y = v1.Y - v2.Y;
             return nv;
         }
+
+        public override string ToString()
+        {
+            return "X : " + this.X.ToString() + "Y : " + this.Y.ToString(); 
+        }
     }
 }

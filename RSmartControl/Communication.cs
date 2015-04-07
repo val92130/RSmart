@@ -12,6 +12,7 @@ namespace RSmartControl
         private const int MaxMessages = 15000;
 
         private Motor _motorLeft, _motorRight;
+        private MainLoop _mainLoop;
 
         public Communication()
         {
@@ -29,6 +30,16 @@ namespace RSmartControl
             {
                 _motorLeft = value;
             }
+        }
+
+        public MainLoop MainLoop
+        {
+            get
+            {
+                return _mainLoop;
+                
+            }
+            set { _mainLoop = value; }
         }
 
         public Motor MotorRight

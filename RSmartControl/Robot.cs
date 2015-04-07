@@ -70,6 +70,22 @@ namespace RSmartControl
             _motorLeft.Stop(0.6);
 
         }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return _pos;                
+            }
+        }
+
+        public Vector2 Direction
+        {
+            get
+            {
+                return _dir;
+            }
+        }
         public void GoForward()
         {
             _motorRight.Direction = EDirection.Forward;
