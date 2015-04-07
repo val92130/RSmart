@@ -44,18 +44,18 @@ namespace RSmartControl
                     switch (this._direction)
                     {
                         case EDirection.Forward:
-                            if (_mainloop.MotorRight.Direction != EDirection.BackWard && _mainloop.MotorLeft.Direction != EDirection.BackWard)
+                            if( _mainloop.Robot.MotorRight.Direction != EDirection.BackWard && _mainloop.Robot.MotorLeft.Direction != EDirection.BackWard )
                             {
 
-                                _mainloop.MotorLeft.Stop();
-                                _mainloop.MotorRight.Stop();
+                                _mainloop.Robot.MotorLeft.Stop();
+                                _mainloop.Robot.MotorRight.Stop();
                             }
                             break;
                         case EDirection.BackWard:
-                            if (_mainloop.MotorRight.Direction != EDirection.Forward && _mainloop.MotorLeft.Direction != EDirection.Forward)
+                            if( _mainloop.Robot.MotorRight.Direction != EDirection.Forward && _mainloop.Robot.MotorLeft.Direction != EDirection.Forward )
                             {
-                                _mainloop.MotorLeft.Stop();
-                                _mainloop.MotorRight.Stop();
+                                _mainloop.Robot.MotorLeft.Stop();
+                                _mainloop.Robot.MotorRight.Stop();
                             }
                             break;
                     }

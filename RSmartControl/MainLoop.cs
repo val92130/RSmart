@@ -31,6 +31,14 @@ namespace RSmartControl
             _robot = new Robot( _motorLeft, _motorRight,  _frontSensor, _backSensor, _com);
         }
 
+       public Robot Robot
+       {
+           get
+           {
+               return _robot;
+           }
+       }
+
 
         public void Run()
         {
