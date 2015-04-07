@@ -142,7 +142,7 @@ setInterval(function() {
 }, 6000);
 
 
-$( "body" ).keypress(function( event ) {
+$( document ).keypress(function( event ) {
 	var key = event.keyCode;
 	console.log(key);
 	switch(key)
@@ -160,7 +160,5 @@ $( "body" ).keypress(function( event ) {
 		TurnRight();
 		break;
 	}
-
-	event.preventDefault();
 
 });

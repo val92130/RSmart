@@ -28,7 +28,7 @@ context.stroke();
 }
 
 drawBoard();
-
+$("#pos").html("X : " + posX + " Y : " + posY);
 setInterval(function() {
 
 
@@ -47,4 +47,6 @@ $.get( "http://"+ip+"/?GetPositionY=true&robot=true", function( data ) {
 	context.fillRect(posX,posY,10,10);
 	drawBoard();
 
-}, 1000);
+	$("#pos").html("X : " + posX + " Y : " + posY);
+
+}, 2500);
