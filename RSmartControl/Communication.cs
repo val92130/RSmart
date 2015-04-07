@@ -9,7 +9,7 @@ namespace RSmartControl
         Queue _queue;
 
         // Maximum messages that the queue can handle
-        private const int MaxMessages = 15;
+        private const int MaxMessages = 15000;
 
         private Motor _motorLeft, _motorRight;
 

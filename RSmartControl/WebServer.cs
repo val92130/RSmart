@@ -56,7 +56,7 @@ namespace RSmartControl
 
                         //Blink the onboard LED                  
                         led.Write(true);
-                        Thread.Sleep(50);
+                        Thread.Sleep(150);
                         led.Write(false);
                         
 

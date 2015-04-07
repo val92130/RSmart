@@ -137,7 +137,9 @@ setInterval(function() {
 	});
 
 	GetDirection();
-}, 60000);
+	GetMotorRightStatus();
+	GetMotorLeftStatus()
+}, 6000);
 
 
 $( "body" ).keypress(function( event ) {
