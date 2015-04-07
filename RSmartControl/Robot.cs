@@ -6,6 +6,7 @@ using System.Collections;
 
 namespace RSmartControl
 {
+    using System.Diagnostics;
 
     public class Robot
     {
@@ -27,11 +28,13 @@ namespace RSmartControl
 
              _mainLoop = MainLoop;
 
-            _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
-            _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
+             _motorLeft = MotorLeft;
+             _motorRight = MotorRight;
 
-            _frontSensor = new Sensor(_mainLoop, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
-            _backSensor = new Sensor(_mainLoop, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
+             _frontSensor = frontSensor;
+             _backSensor = BackSensor;
+
+             _com = Com;
         }
         public Motor MotorLeft
         {
@@ -170,6 +173,15 @@ namespace RSmartControl
 
             _frontSensor.sensorBehaviour();
             _backSensor.sensorBehaviour();
+
+            if (_motorLeft.IsStarted && _motorRight.IsStarted)
+            {
+                double _step = _motorRight.DutyCycle;
+                this._dir.Y += _step;
+                this._pos += this._dir;
+                
+            }
+
         }
     }
 }
