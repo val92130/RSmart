@@ -192,9 +192,18 @@ namespace RSmartControl
 
             if (_motorLeft.IsStarted && _motorRight.IsStarted)
             {
-                double _step = _motorRight.DutyCycle;
-                this._dir.Y += _step;
-                this._pos += this._dir;
+                if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
+                {
+                    double _step = _motorRight.DutyCycle / 100;
+                    this._dir.Y = _step;
+                    this._pos += this._dir;
+                } else if (_motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
+                {
+                    double _step = _motorRight.DutyCycle / 100;
+                    this._dir.Y = _step;
+                    this._pos -= this._dir;
+                }
+
                 
             }
 
