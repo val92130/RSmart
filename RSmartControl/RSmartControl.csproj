@@ -32,6 +32,7 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
+    <Compile Include="Box.cs" />
     <Compile Include="Communication.cs" />
     <Compile Include="CustomTimer.cs" />
     <Compile Include="EDirection.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Sensor.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
