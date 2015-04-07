@@ -131,7 +131,7 @@ namespace RSmartControl
                 _motorTimer.Update();
                 if(_motorTimer.Tick)
                 {
-                    _motor.Start();
+                    this.Start();
                     _motorTimer = null;
                 }
             }
