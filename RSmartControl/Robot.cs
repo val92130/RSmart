@@ -37,6 +37,8 @@ namespace RSmartControl
              _backSensor = BackSensor;
 
              _com = Com;
+
+             _dir.Y = 1;
         }
         public Motor MotorLeft
         {
@@ -196,23 +198,15 @@ namespace RSmartControl
             _frontSensor.sensorBehaviour();
             _backSensor.sensorBehaviour();
 
-            if (_motorLeft.IsStarted && _motorRight.IsStarted)
+            if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                //if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
-                //{
-                //    double _step = _motorRight.DutyCycle / 100;
-                //    this._dir.Y = _step;
-                //    this._pos += this._dir;
-                //} else if (_motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
-                //{
-                //    double _step = _motorRight.DutyCycle / 100;
-                //    this._dir.Y = _step;
-                //    this._pos -= this._dir;
-                //}
 
-                
-                this._pos.X += this._dir.X;
-                this._pos.Y += this._dir.Y;
+
+                double _step = _motorRight.DutyCycle / 50;
+
+                this._pos.X += _step * this._dir.X;
+                this._pos.Y += _step * this._dir.Y;
+                Debug.Print(_dir.ToString());
 
 
 
