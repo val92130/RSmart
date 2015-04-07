@@ -43,5 +43,21 @@ namespace RSmartControl
 
             return newVec;
         }
+
+        public static Vector2 operator +(Vector2 v1, Vector2 v2)
+        {
+            Vector2 nv = new Vector2();
+            nv.X = v1.X + v2.X;
+            nv.Y = v1.Y + v2.Y;
+            return nv;
+        }
+
+        public static Vector2 operator -( Vector2 v1, Vector2 v2 )
+        {
+            Vector2 nv = new Vector2();
+            nv.X = v1.X - v2.X;
+            nv.Y = v1.Y - v2.Y;
+            return nv;
+        }
     }
 }
