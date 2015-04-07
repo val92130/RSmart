@@ -19,6 +19,8 @@ namespace RSmartControl
 
          MainLoop _mainLoop;
 
+        private double RotationSpeed = Utility.DegreeToRadian(30);
+
         private Communication _com;
 
          public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Communication Com)
@@ -63,11 +65,15 @@ namespace RSmartControl
         public void TurnRight()
         {
             _motorRight.Stop(0.6);
+            this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
 
         }
         public void TurnLeft()
         {
             _motorLeft.Stop(0.6);
+            this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
 

@@ -159,15 +159,6 @@ $( "body" ).keypress(function( event ) {
 		case 100:
 		TurnRight();
 		break;
-		case 32:
-		if(GetMotorLeftStatus() == "true" && GetMotorRightStatus() == "true")
-		{
-			StopMotors();
-		}
-		else
-		{
-			StartMotors();
-		}
 	}
 
 	event.preventDefault();

@@ -93,6 +93,14 @@ namespace RSmartControl
                         response = _com.MainLoop.Robot.Position.ToString();
                         SendResponse( clientSocket, response );
                         break;
+                    case "GetPositionX":
+                        response = _com.MainLoop.Robot.Position.X.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+                    case "GetPositionY":
+                        response = _com.MainLoop.Robot.Position.Y.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
 
                     case "GetRobotDirection":
                         response = _com.MainLoop.Robot.Direction.ToString();

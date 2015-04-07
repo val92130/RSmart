@@ -118,5 +118,10 @@ namespace RSmartControl
             }
             return false;
         }
+
+        public static double DegreeToRadian(double degree)
+        {
+            return degree*(System.Math.PI/180);
+        }
     }
 }
