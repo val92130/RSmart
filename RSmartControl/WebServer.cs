@@ -16,7 +16,6 @@ namespace RSmartControl
     {
         Communication _com;
         private Socket socket = null;
-        //open connection to onbaord led so we can blink it with every request
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         public WebServer(Communication Com)
         {
@@ -26,7 +25,6 @@ namespace RSmartControl
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
             socket.Bind(new IPEndPoint(IPAddress.Any, 80));
-            //socket.Bind(new IPEndPoint(IPAddress.Parse("192.168.100.3"), 80));
             //Debug print our IP address
             Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
             //Start listen for web requests
@@ -43,7 +41,6 @@ namespace RSmartControl
                     //Get clients IP
                     IPEndPoint clientIP = clientSocket.RemoteEndPoint as IPEndPoint;
                     EndPoint clientEndPoint = clientSocket.RemoteEndPoint;
-                    //int byteCount = cSocket.Available;
                     int bytesReceived = clientSocket.Available;
                     if (bytesReceived > 0)
                     {
@@ -52,16 +49,14 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                         Debug.Print(request);
-                        //_com.AddMessage(request);
                         _com.AddMessage( request );
-                        //Compose a response
 
+                        //Analyze the message then send a response
                         MessageAnalyse(Utility.ParseQueryString(request), clientSocket);
 
-                        //Blink the onboard LED
-                        
+                        //Blink the onboard LED                  
                         led.Write(true);
-                        Thread.Sleep(150);
+                        Thread.Sleep(50);
                         led.Write(false);
                         
 
@@ -77,47 +72,64 @@ namespace RSmartControl
 
         public void MessageAnalyse(Hashtable nvc, Socket clientSocket)
         {
-            if (nvc == null) return;
+            if (nvc == null)
+            {
+                const string response = "Welcome to RSAMART VAL AND RAMI SAY HELLO TO YOU";
+                SendResponse( clientSocket, response );
+                return;
+            }
+
             foreach (DictionaryEntry entry in nvc)
             {
                 string response;
-                string header;
                 switch ((string)entry.Key)
                 {
                     case "GetDirection":
                         response = _com.MotorLeft.DirectionString;
-                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
-                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        SendResponse(clientSocket, response);
                         break;
 
                     case "GetSpeedLeft":
                         response = _com.MotorLeft.DutyCycle.ToString();
-                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
-                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        SendResponse( clientSocket, response );
                         break;
                     case "GetSpeedRight":
                         response = _com.MotorRight.DutyCycle.ToString();
-                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
-                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        SendResponse( clientSocket, response );
+                        break;
+
+                    case "GetMotorStatusRight":
+                        response = _com.MotorRight.IsStarted.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+                    case "GetMotorStatusLeft":
+                        response = _com.MotorLeft.IsStarted.ToString();
+                        SendResponse( clientSocket, response );
                         break;
 
                     default :                                               
                         response = "Welcome to RSAMART VAL AND RAMI SAY HELLO TO YOU";
-                        header = "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
-                        clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                        clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                        SendResponse( clientSocket, response );
                         break;
                 }
             }
         }
 
-        public
-              void Dispose()
+        public string CreateHeader(string response)
         {
-            if (socket != null)
+            return "HTTP/1.0 200 OK\r\nContent-Type: text charset=utf-8\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+        }
+
+        public void SendResponse(Socket clientSocket, string response)
+        {
+            string header = CreateHeader( response );
+            clientSocket.Send( Encoding.UTF8.GetBytes( header ), header.Length, SocketFlags.None );
+            clientSocket.Send( Encoding.UTF8.GetBytes( response ), response.Length, SocketFlags.None );
+        }
+
+        public void Dispose()
+        {
+            if( socket != null )
                 socket.Close();
         }
         #endregion

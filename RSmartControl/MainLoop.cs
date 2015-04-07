@@ -9,26 +9,21 @@ namespace RSmartControl
 {
    public class MainLoop
     {
-        long actualTime = DateTime.Now.Ticks;
-        long lastTime = DateTime.Now.Ticks;
-        //OutputPort onboardLED;
-        int _interval;
         Motor _motorLeft, _motorRight;
         Communication _com;
         Sensor _frontSensor, _backSensor;
 
-        public MainLoop(int interval, Communication Com)
+        public MainLoop(Communication Com)
         {
             _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
             _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
+
             _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
 
             _motorLeft.Direction = EDirection.Forward;
             _motorRight.Direction = EDirection.Forward;
-
-            _interval = interval;
 
             _com.MotorLeft = _motorLeft;
             _com.MotorRight = _motorRight;
@@ -38,19 +33,15 @@ namespace RSmartControl
         public void Run()
         {
 
-           // _motorLeft.Start();
-     //       _motorRight.Start();
             while (true)
             {
-                double t = _backSensor.AnalogInput.Read();
                 MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
 
                 _motorLeft.Update();
                 _motorRight.Update();
-                actualTime = DateTime.Now.Ticks;
+
                 _frontSensor.sensorBehaviour();
                 _backSensor.sensorBehaviour();
-
             }
 
         }
@@ -126,12 +117,12 @@ namespace RSmartControl
                     case "Rotate" :
                         if ((string)entry.Value == "left")
                         {
-                            _motorLeft.Stop(Motor.timeAngleRotation(_motorLeft.DutyCycle, 90));
+                            _motorLeft.Stop(Motor.TimeAngleRotation(_motorLeft.DutyCycle, 90));
                         }
 
                         if ((string)entry.Value == "right")
                         {
-                            _motorRight.Stop(Motor.timeAngleRotation(_motorLeft.DutyCycle, 90));
+                            _motorRight.Stop(Motor.TimeAngleRotation(_motorLeft.DutyCycle, 90));
                         }
                         break;
                     case "Speed":

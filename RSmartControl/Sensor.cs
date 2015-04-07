@@ -32,14 +32,13 @@ namespace RSmartControl
 
         public void sensorBehaviour()
         {
-
-
             double distance = _sanalog.Read();
 
             if (distance >= 0.5)
             {
                 counter++;
 
+                // if the sensor detects an obstacle for more than 10 frames
                 if (counter > 10)
                 {
                     switch (this._direction)
@@ -61,9 +60,6 @@ namespace RSmartControl
                             break;
                     }
                 }
-
-
-
 
             }
             else

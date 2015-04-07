@@ -1,7 +1,27 @@
 
+@font-face {
+	font-family: "Bebas";
+	src: url("../fonts/BebasNeue Light.otf") format("truetype");
+}
 
+@font-face {
+	font-family: "BebasBold";
+	src: url("../fonts/BebasNeue Book.otf") format("truetype");
+}
+
+.title
+{
+	font-family: "BebasBold";
+	font-size: 1.2em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	text-align: center;
+}
 .centered
 {
+	font-family: "Bebas";
+	font-size: 1.8em;
 	margin-left: auto;
 	margin-right: auto;
 	width: 50%;
@@ -16,4 +36,29 @@
 	height:50%;
 	text-align: center;
 	display: block;
+}
+
+.btn
+{
+	font-size: 18px;
+  outline: none;
+}
+
+.jumbotron
+{
+	background-image: url("../img/03.jpg");
+}
+
+body
+{
+	background-image: url("../img/03.jpg");
+}
+
+.panel
+{
+	background-color: rgb(202, 202, 202);
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 3px 1px 12px #383838;
 }

@@ -1,6 +1,19 @@
 
 var ip = "10.8.110.204";
 
+$("#camera").hide();
+
+
+$("#btn_camera").click(function()
+{
+	if($("#camera").is(":visible"))
+	{
+		$("#camera").fadeOut("slow");
+	}else
+	{
+		$("#camera").fadeIn("slow");
+	}
+});
 
 // check if robot is online
 $.get( "http://"+ip+"/", function( data ) {
@@ -49,6 +62,22 @@ function GetDirection()
 {
 	$.get( "http://"+ip+"/?GetDirection=true&robot=true", function( data ) {
 		$("#direction").html('<span style="Color:blue">'+data+'</span>');
+	});
+}
+
+function GetMotorLeftStatus()
+{
+	$.get( "http://"+ip+"/?GetMotorStatusLeft=true&robot=true", function( data ) {
+		$("#motorLeftStatus").html('<span style="Color:blue">'+data+'</span>');
+		return data;
+	});
+}
+
+function GetMotorRightStatus()
+{
+	$.get( "http://"+ip+"/?GetMotorStatusRight=true&robot=true", function( data ) {
+		$("#motorRightStatus").html('<span style="Color:blue">'+data+'</span>');
+		return data;
 	});
 }
 
@@ -101,11 +130,11 @@ setInterval(function() {
 	$.get( "http://"+ip+"/", function( data ) {
 		if(data)
 		{
-			$("#status").html('<span style="Color:green">Offline</span>');
+			$("#status").html('<span style="Color:green">Online</span>');
 		}
 	});
 
-GetDirection();
+	GetDirection();
 }, 60000);
 
 
@@ -115,17 +144,28 @@ $( "body" ).keypress(function( event ) {
 	switch(key)
 	{
 		case 122:
-			GoForward();
+		GoForward();
 		break;
 		case 115:
-			GoBackward();
+		GoBackward();
 		break;
 		case 113:
-			TurnLeft();
+		TurnLeft();
 		break;
 		case 100:
-			TurnRight();
+		TurnRight();
 		break;
+		case 32:
+		if(GetMotorLeftStatus() == "true" && GetMotorRightStatus() == "true")
+		{
+			StopMotors();
+		}
+		else
+		{
+			StartMotors();
+		}
 	}
+
+	event.preventDefault();
 
 });

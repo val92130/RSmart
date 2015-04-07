@@ -5,15 +5,15 @@ namespace RSmartControl
 {
     class CustomTimer
     {
-        long actualTime = DateTime.Now.Ticks;
-        long lastTime = DateTime.Now.Ticks;
+        long _actualTime;
+        long _lastTime;
         bool _tick;
-        double _interval;
+        readonly double _interval;
         public CustomTimer(double interval)
         {
             _interval = interval;
-            actualTime = DateTime.Now.Ticks;
-            lastTime = DateTime.Now.Ticks;
+            _actualTime = DateTime.Now.Ticks;
+            _lastTime = DateTime.Now.Ticks;
         }
 
         public bool Tick
@@ -26,12 +26,12 @@ namespace RSmartControl
 
         public void Update()
         {
-            actualTime = DateTime.Now.Ticks;
+            _actualTime = DateTime.Now.Ticks;
 
-            if (actualTime - lastTime >= _interval * 10000000)
+            if (_actualTime - _lastTime >= _interval * 10000000)
             {
                 _tick = true;
-                lastTime = actualTime;
+                _lastTime = _actualTime;
             }
             else
             {

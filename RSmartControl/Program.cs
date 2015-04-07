@@ -14,26 +14,21 @@ namespace RSmartControl
     {
         public static void Main()
         {
+            // Initializing the communication module
             Communication _communication = new Communication();
-            // write your code here
-           Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
 
-            //NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            //if (interfaces.Length > 0)
-            //{
-            //    NetworkInterface myInterface = interfaces[0];
-            //    myInterface.EnableStaticIP("192.168.100.3", "255.255.255.0", "192.168.100.1");​
-            //}
-            
+            // Enabling DHCP
+            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
 
-            Thread server = new Thread(() =>
+            // Starting the Server
+            Thread server = new Thread( () =>
             {
-                WebServer webServer = new WebServer(_communication);
+                WebServer webServer = new WebServer( _communication );
                 webServer.ListenForRequest();
-            });
+            } );
             server.Start();
-            
-            MainLoop loop = new MainLoop(2, _communication);
+
+            MainLoop loop = new MainLoop(_communication );
             loop.Run();
         }
 

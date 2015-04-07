@@ -8,6 +8,9 @@ namespace RSmartControl
     {
         Queue _queue;
 
+        // Maximum messages that the queue can handle
+        private const int MaxMessages = 15;
+
         private Motor _motorLeft, _motorRight;
 
         public Communication()
@@ -41,8 +44,15 @@ namespace RSmartControl
         }
         public void AddMessage(String msgServer)
         {
+
             lock (_queue)
             {
+                // if there are too many messages pending, we leave
+                if( _queue.Count >= MaxMessages )
+                {
+                    return;
+                }
+
                 if(Utility.IsQueryValid(msgServer))
                 {
                     Debug.Print( "Valid message : " + msgServer );
@@ -71,9 +81,7 @@ namespace RSmartControl
                 {
                     return null;
                 }
-                   
-
-                
+                              
             }
         }
         

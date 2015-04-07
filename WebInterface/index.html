@@ -9,6 +9,9 @@
 	<!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
+
+
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,49 +25,59 @@
   	<div class="jumbotron">
   		<div class="container">
   			<h1>
-  				<div class="centered">Robot Control</div>
+  				<div class="title">Robot Control <span id="status"><span style="Color:red">Offline</span></span></div>
   			</h1>
   		</div>
 
   		<div class="panel panel-default">
-  			<div class="panel-body">
-  			<span id="status"><span style="Color:red">Offline</span></span>
-  			<br/>
-  			<br/>
-  			Direction : 
-  			<span id="direction"><span style="Color:blue"></span></span>
-  			<br/>
-  			<br/>
+  			<div class="centered">
+  				<div class="panel-body">
+  					Direction :
+  					<span id="direction"><span style="Color:blue"></span></span>
+  					<br/>
+  					Motor Left : <span id="motorLeftStatus"></span>
+  					<br/>
+  					Motor Right : <span id="motorRightStatus"></span>
+  					<br/>
+  					<br/>
+  				</div>
   				<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
   				<button type="button" class="btn btn-success" id="start_motors">Start Motors</button>
-  				<br/>
-  				<br/>
   				<!-- Indicates a successful or positive action -->
   				<button type="button" class="btn btn-danger" id="stop_motors">Stop Motors</button>
 
-				<br/><br/>
-				Speed % : 
-  					<input type="number" min="20" max="100" id="speed_input" value="20"></input>
-  					<button type="submit" class="btn btn-success" id="send_speed" >Set Speed</button>
+  				<br/><br/>
+  				Speed % : 
+  				<input type="number" min="20" max="100" id="speed_input" value="20"></input>
+  				<button type="submit" class="btn btn-success" id="send_speed" >Set Speed</button>
 
   				<br/>
   				<br/>
-  				<button type="button" class="btn btn-success" id="turn_left">Turn Left</button>
-  				<button type="button" class="btn btn-success" id="turn_right">Turn Right</button>
-  				<button type="button" class="btn btn-success" id="go_forward">Forward</button>
-  				<button type="button" class="btn btn-success" id="go_backward">Backward</button>
+  				<button type="button" class="btn btn-primary" id="go_forward">
+  					<i class="fa fa-arrow-up"></i>Forward</button>
+  					<br/>
+  					<button type="button" class="btn btn-info" id="turn_left"><i class="fa fa-arrow-left"></i>Turn Left</button>
+  					<button type="button" class="btn btn-info" id="turn_right">Turn Right<i class="fa fa-arrow-right"></i></button>
+  					<br/>
+  					<button type="button" class="btn btn-danger" id="go_backward">
+  						<i class="fa fa-arrow-down"></i>Backward</button>
+  					</div>
+  					<br/>
+  					<br/>
+  				</div>
+
+  				<div class="centered">
+  					<button type="button" class="btn btn-primary" id="btn_camera">Camera</button>
+  				</div>
+  				<div class="panel panel-default" id="camera">
+  					<img src="https://www.tradeit.fr/Webcam/image_upload/img.jpg" id="img" class="img_centered" width=500 height=500></img>
+  				</div>
   			</div>
-  		</div>
 
-  		<div class="panel panel-default">
-  		<img src="https://www.tradeit.fr/Webcam/image_upload/img.jpg" id="img" class="img_centered" width=500 height=500></img>
-  		</div>
-  	</div>
-
-  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  	<!-- Include all compiled plugins (below), or include individual files as needed -->
-  	<script src="js/bootstrap.min.js"></script>
-  	<script src="js/main.js"></script>
-  </body>
-  </html>
+  			<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  			<!-- Include all compiled plugins (below), or include individual files as needed -->
+  			<script src="js/bootstrap.min.js"></script>
+  			<script src="js/main.js"></script>
+  		</body>
+  		</html>

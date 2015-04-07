@@ -107,7 +107,6 @@ namespace RSmartControl
                 }
             }
 
-            string lastText = "";
             for (int i = 0; i < newtext.Length; i++)
             {
                 // if there are arguments
