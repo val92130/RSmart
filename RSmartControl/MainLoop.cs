@@ -28,7 +28,7 @@ namespace RSmartControl
 
             _com.MotorLeft = _motorLeft;
             _com.MotorRight = _motorRight;
-            _robot = new Robot( _motorLeft, _motorRight,  _frontSensor, _backSensor, _com);
+            _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _com);
         }
 
        public Robot Robot

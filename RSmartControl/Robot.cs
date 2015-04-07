@@ -20,10 +20,12 @@ namespace RSmartControl
 
         private Communication _com;
 
-         public Robot(Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Communication Com)
+         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
+
+             _mainLoop = MainLoop;
 
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
