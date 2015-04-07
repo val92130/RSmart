@@ -3,6 +3,8 @@ var ip = "10.8.110.204";
 
 $("#camera").hide();
 
+$("#ip").html(ip);
+
 
 $("#btn_camera").click(function()
 {
