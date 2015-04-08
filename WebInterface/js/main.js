@@ -17,6 +17,18 @@ $("#btn_camera").click(function()
 	}
 });
 
+
+$("#btn_map2d").click(function()
+{
+	if($("#canvas_map").is(":visible"))
+	{
+		$("#canvas_map").fadeOut("slow");
+	}else
+	{
+		$("#canvas_map").fadeIn("slow");
+	}
+});
+
 // check if robot is online
 $.get( "http://"+ip+"/", function( data ) {
 	if(data)
