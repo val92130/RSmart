@@ -48,8 +48,10 @@ namespace RSmartControl
                         byte[] buffer = new byte[bytesReceived];
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
+                       
                         Debug.Print(request);
                         _com.AddMessage( request );
+                       
 
                         //Analyze the message then send a response
                         MessageAnalyse(Utility.ParseQueryString(request), clientSocket);

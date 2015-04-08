@@ -64,6 +64,18 @@ namespace RSmartControl
             }
         }
 
+        public Communication GetCommunication
+        {
+            get
+            {
+                return _com;
+            }
+            set
+            {
+                _com = value;
+            }
+        }
+
         public void TurnRight()
         {
             _motorRight.Stop(0.6);
@@ -191,6 +203,7 @@ namespace RSmartControl
         public void Update()
         {
             MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
+            
 
             _motorLeft.Update();
             _motorRight.Update();

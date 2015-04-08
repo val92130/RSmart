@@ -40,7 +40,9 @@ namespace RSmartControl
 
                 // if the sensor detects an obstacle for more than 10 frames
                 if (counter > 10)
+
                 {
+                    _mainloop.Robot.GetCommunication.AddObstacle(_mainloop.Robot.Position);
                     switch (this._direction)
                     {
                         case EDirection.Forward:
@@ -49,6 +51,7 @@ namespace RSmartControl
 
                                 _mainloop.Robot.MotorLeft.Stop();
                                 _mainloop.Robot.MotorRight.Stop();
+
                             }
                             break;
                         case EDirection.BackWard:
