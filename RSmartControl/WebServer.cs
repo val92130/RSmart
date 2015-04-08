@@ -11,7 +11,6 @@ using SecretLabs.NETMF.Hardware.Netduino;
 namespace RSmartControl
 {
     using System.Collections;
-    using Json.NETMF;
 
     public class WebServer : IDisposable
     {
