@@ -7,7 +7,7 @@ namespace RSmartControl
     public class Communication
     {
         Queue _queue;
-
+        ArrayList _obstacleList;
         // Maximum messages that the queue can handle
         private const int MaxMessages = 15000;
 
@@ -17,7 +17,7 @@ namespace RSmartControl
         public Communication()
         {
             _queue = new Queue();
- 
+            _obstacleList = new ArrayList();
         }
 
         public Motor MotorLeft
@@ -77,6 +77,62 @@ namespace RSmartControl
 
             }
         }
+        public void AddObstacle(Vector2 Obstacle )
+        {
+            if (_obstacleList.Count ==0)
+            {
+                _obstacleList.Add(Obstacle);
+                return;
+            }
+
+            foreach (Object o in _obstacleList)
+            {
+                Vector2 t = (Vector2)o;
+                double x = t.X;
+                double x2 = Obstacle.X;
+
+                double y = t.Y;
+                double y2 = Obstacle.Y;
+                double diffX ;
+                double diffY;
+                if (x > x2)
+                {
+                    diffX = x - x2;
+                    
+                }
+                else
+                {
+                    diffX = x2 - x;
+                }
+                if (y > y2)
+                {
+                    diffY = y - y2;
+
+                }
+                else
+                {
+                    diffY = y2 - y;
+                }
+                if ((diffX + diffY) > 10)
+                {
+                    _obstacleList.Add(Obstacle);
+                    Debug.Print(_obstacleList.Count.ToString());
+                    return;
+                }
+                
+            }
+
+        }
+
+        public ArrayList ObstacleList
+        {
+            get {
+                lock (_obstacleList)
+                {
+                    return _obstacleList;
+                }
+            }
+        }
         public Object GetMessage()
         {
             object o = null;
@@ -95,6 +151,7 @@ namespace RSmartControl
                               
             }
         }
+       
          
     }
     
