@@ -219,7 +219,6 @@ namespace RSmartControl
 
                 this._pos.X += _step * this._dir.X;
                 this._pos.Y += _step * this._dir.Y;
-                Debug.Print(_dir.ToString());
 
             }
 

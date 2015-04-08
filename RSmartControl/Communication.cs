@@ -116,9 +116,11 @@ namespace RSmartControl
                 if ((diffX + diffY) > 10)
                 {
                     _obstacleList.Add(Obstacle);
-                    Debug.Print(_obstacleList.Count.ToString());
+                    Debug.Print("Obstacle Added " + _obstacleList.Count.ToString());
                     return;
                 }
+
+                
                 
             }
 
@@ -141,7 +143,6 @@ namespace RSmartControl
                 if(_queue.Count != 0)
                 {
                     o = _queue.Dequeue();
-                    Debug.Print((string)o);
                     return o;
                 }
                 else

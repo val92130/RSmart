@@ -11,6 +11,7 @@ using SecretLabs.NETMF.Hardware.Netduino;
 namespace RSmartControl
 {
     using System.Collections;
+    using Json.NETMF;
 
     public class WebServer : IDisposable
     {
@@ -49,7 +50,7 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                        
-                        Debug.Print(request);
+                        //Debug.Print(request);
                         _com.AddMessage( request );
                        
 
@@ -87,6 +88,12 @@ namespace RSmartControl
                     case "GetDirection":
                         response = _com.MotorLeft.DirectionString;
                         SendResponse(clientSocket, response);
+                        break;
+
+                    case "GetObstacles" :
+                        response = JsonSerializer.SerializeObject(_com.ObstacleList);
+                        if(response.Length > 0)
+                        SendResponse( clientSocket, response );
                         break;
 
                     case "GetPosition":
