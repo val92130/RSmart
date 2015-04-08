@@ -19,6 +19,8 @@ namespace RSmartControl
                 return null;
 
             string newtext = "";
+
+            // is it valid ?
             for (int i = 0; i < text.Length; i++)
             {
                 if (text[i] == 'H')
@@ -27,7 +29,7 @@ namespace RSmartControl
                     {
                         if (text[i + 2] == 'T')
                         {
-                            newtext = text.Substring(0, i);
+                            newtext = text.Substring(0, i);                            
                         }
                     }
                 }

@@ -67,15 +67,18 @@ namespace RSmartControl
         public void TurnRight()
         {
             _motorRight.Stop(0.6);
-            this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
+
+            this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
         public void TurnLeft()
         {
             _motorLeft.Stop(0.6);
-            this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
+            
+
+            this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
 
         }
 
@@ -182,8 +185,6 @@ namespace RSmartControl
                             TurnLeft();
                         }
                         break;
-
-
                 }
             }
         }
@@ -201,14 +202,11 @@ namespace RSmartControl
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
 
-
                 double _step = _motorRight.DutyCycle / 50;
 
                 this._pos.X += _step * this._dir.X;
                 this._pos.Y += _step * this._dir.Y;
                 Debug.Print(_dir.ToString());
-
-
 
             }
 
