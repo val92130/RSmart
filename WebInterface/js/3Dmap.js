@@ -6,6 +6,7 @@ var robotX = 0;
 var robotY = 0;
 
 var robot;
+var controls;
 
 
 
@@ -24,14 +25,17 @@ function init() {
   info.style.textAlign = 'center';
   container.appendChild( info );
 
-  camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+  // CAMERA
+  camera = new THREE.PerspectiveCamera( 65, window.innerWidth / window.innerHeight, 1, 1000 );
   camera.position.x = 200;
   camera.position.y = 100;
   camera.position.z = 200;
 
+
+
   scene = new THREE.Scene();
 
-        // Grid
+        // GRID CREATION
 
         var size = 500, step = 10;
 
@@ -47,12 +51,12 @@ function init() {
 
         }
 
-        var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } );
+        var material = new THREE.LineBasicMaterial( { color: "rgb(255,0,0)", opacity: 0.2 } );
 
         var line = new THREE.Line( geometry, material, THREE.LinePieces );
         scene.add( line );
 
-        // Cubes
+        // ROBOT INITIALISATION
 
         var geometry = new THREE.BoxGeometry( 2, 2, 2 );
         var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5 } );
@@ -67,7 +71,7 @@ function init() {
 
         scene.add( robot );
 
-        // Lights
+        // LIGHTS
 
         var ambientLight = new THREE.AmbientLight( Math.random() * 0x10 );
         scene.add( ambientLight );
@@ -86,13 +90,20 @@ function init() {
         directionalLight.position.normalize();
         scene.add( directionalLight );
 
-        renderer = new THREE.WebGLRenderer();
+        // RENDERER
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setClearColor( 0xf0f0f0 );
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
         container.appendChild( renderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
+
+
+        // ORBIT CAMERA
+
+        controls = new THREE.OrbitControls( camera, renderer.domElement );
 
       }
 
@@ -120,10 +131,7 @@ function init() {
 
         var timer = Date.now() * 0.0001;
 
-        camera.position.x = Math.cos( timer ) * 200;
-        //camera.position.z = robot.position.z;
-        camera.position.y = 200;
-        camera.lookAt( scene.position );
+
 
         robot.position.x = robotX;
         robot.position.z = robotY;

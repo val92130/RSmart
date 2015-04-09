@@ -52,13 +52,12 @@ namespace RSmartControl
                         //Debug.Print(request);
                         _com.AddMessage( request );
                        
-
                         //Analyze the message then send a response
                         MessageAnalyse(Utility.ParseQueryString(request), clientSocket);
 
                         //Blink the onboard LED                  
                         led.Write(true);
-                        Thread.Sleep(150);
+                        Thread.Sleep(80);
                         led.Write(false);                    
                     }
                 }

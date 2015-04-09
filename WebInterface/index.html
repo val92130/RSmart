@@ -71,6 +71,11 @@
 
     <div class="centered">
     <button type="button" class="btn btn-primary" id="btn_map2d">2D Map</button>
+
+    <form method="post" action="map.html">
+    <button  type="submit" class="btn btn-primary" >3D Map</button>
+    </form>
+    
       <div class="panel panel-default" id="canvas_map">
         <span id="pos"></span>
         <canvas width="500" height="500" id="map" style="margin-left:auto; margin-right:auto; width:500px"></canvas>
@@ -93,11 +98,11 @@
  <!-- Include all compiled plugins (below), or include individual files as needed -->
  <script src="js/bootstrap.min.js"></script>
  <script src="js/three.js"></script>
+ <script src="js/OrbitControls.js"></script>
  <script src="js/projector.js"></script>
  <script src="js/CanvasRenderer.js"></script>
  <script src="js/main.js"></script>
  <script src="js/map.js"></script>
- <script src="js/3Dmap.js"></script>
 
 
 </body>

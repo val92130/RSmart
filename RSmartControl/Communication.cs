@@ -19,8 +19,6 @@ namespace RSmartControl
         {
             _queue = new Queue();
             this._obstacles = new  ArrayList();
-
-            
         }
 
         public Motor MotorLeft
@@ -69,20 +67,13 @@ namespace RSmartControl
 
                 if(Utility.IsQueryValid(msgServer))
                 {
-                    //Debug.Print( "Valid message : " + msgServer );
                     _queue.Enqueue( msgServer );                  
                 }
-                else
-                {
-                    //Debug.Print( "Invalid message " );
-                }
-                //Debug.Print( "Queue count : " + _queue.Count );
 
             }
         }
         public void AddObstacle(Vector2 Obstacle )
         {
-
 
             bool found = false;
             double x2 = Obstacle.X;
@@ -124,6 +115,7 @@ namespace RSmartControl
 
             }
 
+            // if there is not already an obstacle near to this position, we add it to the list
             if (!found)
             {
                 this._obstacles.Add(Obstacle);
