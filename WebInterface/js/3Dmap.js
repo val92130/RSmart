@@ -86,7 +86,7 @@ function init() {
         directionalLight.position.normalize();
         scene.add( directionalLight );
 
-        renderer = new THREE.CanvasRenderer();
+        renderer = new THREE.WebGLRenderer();
         renderer.setClearColor( 0xf0f0f0 );
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -142,4 +142,22 @@ function init() {
           robotY = data;
         });
 
+        $.getJSON( "http://"+ip+"/?GetObstacles=true&robot=true", function( data ) {
+          for(var i = 0; i < data.length; i++)
+          {
+            var geometry = new THREE.BoxGeometry( 2, 2, 2 );
+            var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5 } );
+
+            var box = new THREE.Mesh( geometry, material );
+
+            box.scale.y = 1;
+            box.scale.x = 3;
+
+            box.position.x = data[i].X;
+            box.position.y = 1;
+            box.position.z = data[i].Y;;
+
+            scene.add( box );
+          }
+        });
       }, 2500);
