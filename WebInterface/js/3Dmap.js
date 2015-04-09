@@ -1,35 +1,35 @@
 
-      var container;
-      var camera, scene, renderer;
+var container;
+var camera, scene, renderer;
 
-      var robotX = 0;
-      var robotY = 0;
+var robotX = 0;
+var robotY = 0;
 
-      var robot;
+var robot;
 
 
 
-      init();
-      animate();
+init();
+animate();
 
-      function init() {
+function init() {
 
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
+  container = document.createElement( 'div' );
+  document.body.appendChild( container );
 
-        var info = document.createElement( 'div' );
-        info.style.position = 'absolute';
-        info.style.top = '10px';
-        info.style.width = '500px';
-        info.style.textAlign = 'center';
-        container.appendChild( info );
+  var info = document.createElement( 'div' );
+  info.style.position = 'absolute';
+  info.style.top = '10px';
+  info.style.width = '500px';
+  info.style.textAlign = 'center';
+  container.appendChild( info );
 
-        camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, - 500, 1000 );
-        camera.position.x = 200;
-        camera.position.y = 100;
-        camera.position.z = 200;
+  camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+  camera.position.x = 200;
+  camera.position.y = 100;
+  camera.position.z = 200;
 
-        scene = new THREE.Scene();
+  scene = new THREE.Scene();
 
         // Grid
 
@@ -59,13 +59,13 @@
 
         robot = new THREE.Mesh( geometry, material );
 
-          robot.scale.y = 1;
+        robot.scale.y = 1;
 
-          robot.position.x = robotX;
-          robot.position.y = robotY;
-          robot.position.z = 1;
+        robot.position.x = robotX;
+        robot.position.y = robotY;
+        robot.position.z = 1;
 
-          scene.add( robot );
+        scene.add( robot );
 
         // Lights
 
@@ -92,8 +92,6 @@
         renderer.setSize( window.innerWidth, window.innerHeight );
         container.appendChild( renderer.domElement );
 
-        //
-
         window.addEventListener( 'resize', onWindowResize, false );
 
       }
@@ -108,10 +106,7 @@
         camera.updateProjectionMatrix();
 
         renderer.setSize( window.innerWidth, window.innerHeight );
-
       }
-
-      //
 
       function animate() {
 
@@ -126,8 +121,8 @@
         var timer = Date.now() * 0.0001;
 
         camera.position.x = Math.cos( timer ) * 200;
-        camera.position.z = Math.sin( timer ) * 200;
-        camera.position.y = 100;
+        //camera.position.z = robot.position.z;
+        camera.position.y = 200;
         camera.lookAt( scene.position );
 
         robot.position.x = robotX;
@@ -137,14 +132,14 @@
 
       }
 
-setInterval(function() {
+      setInterval(function() {
 
-$.get( "http://"+ip+"/?GetPositionX=true&robot=true", function( data ) {
-    robotX = data;
-  });
+        $.get( "http://"+ip+"/?GetPositionX=true&robot=true", function( data ) {
+          robotX = data;
+        });
 
-$.get( "http://"+ip+"/?GetPositionY=true&robot=true", function( data ) {
-    robotY = data;
-  });
+        $.get( "http://"+ip+"/?GetPositionY=true&robot=true", function( data ) {
+          robotY = data;
+        });
 
-}, 2500);
+      }, 2500);

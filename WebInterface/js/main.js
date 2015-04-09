@@ -4,6 +4,7 @@ var ip = "10.8.110.204";
 $("#camera").hide();
 
 $("#ip").html(ip);
+$("#canvas_map").hide();
 
 
 $("#btn_camera").click(function()
@@ -151,7 +152,7 @@ setInterval(function() {
 	GetDirection();
 	GetMotorRightStatus();
 	GetMotorLeftStatus()
-}, 6000);
+}, 15000);
 
 
 $( document ).keypress(function( event ) {
