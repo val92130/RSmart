@@ -7,17 +7,19 @@ namespace RSmartControl
     public class Communication
     {
         Queue _queue;
-        ArrayList _obstacleList;
         // Maximum messages that the queue can handle
         private const int MaxMessages = 15000;
 
         private Motor _motorLeft, _motorRight;
         private MainLoop _mainLoop;
+        private Hashtable _hashObstacles;
 
         public Communication()
         {
             _queue = new Queue();
-            _obstacleList = new ArrayList();
+            _hashObstacles = new Hashtable();
+
+            
         }
 
         public Motor MotorLeft
@@ -79,26 +81,26 @@ namespace RSmartControl
         }
         public void AddObstacle(Vector2 Obstacle )
         {
-            if (_obstacleList.Count ==0)
+
+            if (_hashObstacles.Count ==0)
             {
-                _obstacleList.Add(Obstacle);
+                _hashObstacles.Add(0,Obstacle);
                 return;
             }
 
-            foreach (Object o in _obstacleList)
+            foreach (Object o in _hashObstacles.Values)
             {
                 Vector2 t = (Vector2)o;
                 double x = t.X;
                 double x2 = Obstacle.X;
-
                 double y = t.Y;
                 double y2 = Obstacle.Y;
-                double diffX ;
+                double diffX;
                 double diffY;
+
                 if (x > x2)
                 {
-                    diffX = x - x2;
-                    
+                    diffX = x - x2;                   
                 }
                 else
                 {
@@ -107,7 +109,6 @@ namespace RSmartControl
                 if (y > y2)
                 {
                     diffY = y - y2;
-
                 }
                 else
                 {
@@ -115,23 +116,21 @@ namespace RSmartControl
                 }
                 if ((diffX + diffY) > 10)
                 {
-                    _obstacleList.Add(Obstacle);
-                    Debug.Print("Obstacle Added " + _obstacleList.Count.ToString());
+                    _hashObstacles.Add(_hashObstacles.Count + 1, Obstacle);
+                    Debug.Print("Obstacle Added " + _hashObstacles.Count.ToString());
                     return;
                 }
-
-                
-                
+               
             }
 
         }
 
-        public ArrayList ObstacleList
+        public Hashtable ObstacleList
         {
             get {
-                lock (_obstacleList)
+                lock( _hashObstacles )
                 {
-                    return _obstacleList;
+                    return _hashObstacles;
                 }
             }
         }
