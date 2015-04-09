@@ -215,7 +215,7 @@ namespace RSmartControl
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
 
-                double _step = _motorRight.DutyCycle / 50;
+                double _step = _motorRight.DutyCycle / 100;
 
                 this._pos.X += _step * this._dir.X;
                 this._pos.Y += _step * this._dir.Y;

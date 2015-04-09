@@ -42,7 +42,8 @@ namespace RSmartControl
                 if (counter > 10)
 
                 {
-                    _mainloop.Robot.GetCommunication.AddObstacle(_mainloop.Robot.Position);
+
+                    _mainloop.Robot.GetCommunication.AddObstacle(new Vector2(_mainloop.Robot.Position.X, _mainloop.Robot.Position.Y));
                     switch (this._direction)
                     {
                         case EDirection.Forward:

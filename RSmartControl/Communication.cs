@@ -12,12 +12,13 @@ namespace RSmartControl
 
         private Motor _motorLeft, _motorRight;
         private MainLoop _mainLoop;
-        private Hashtable _hashObstacles;
+        private ArrayList _obstacles;
+
 
         public Communication()
         {
             _queue = new Queue();
-            _hashObstacles = new Hashtable();
+            this._obstacles = new  ArrayList();
 
             
         }
@@ -68,69 +69,81 @@ namespace RSmartControl
 
                 if(Utility.IsQueryValid(msgServer))
                 {
-                    Debug.Print( "Valid message : " + msgServer );
+                    //Debug.Print( "Valid message : " + msgServer );
                     _queue.Enqueue( msgServer );                  
                 }
                 else
                 {
-                    Debug.Print( "Invalid message " );
+                    //Debug.Print( "Invalid message " );
                 }
-                Debug.Print( "Queue count : " + _queue.Count );
+                //Debug.Print( "Queue count : " + _queue.Count );
 
             }
         }
         public void AddObstacle(Vector2 Obstacle )
         {
 
-            if (_hashObstacles.Count ==0)
+
+            bool found = false;
+            double x2 = Obstacle.X;
+            double y2 = Obstacle.Y;
+            for (int i = 0; i < _obstacles.Count; i++)
             {
-                _hashObstacles.Add(0,Obstacle);
-                return;
+                if (!found)
+                {
+                    Vector2 t = (Vector2)_obstacles[i];
+                    double x = t.X;
+                    
+                    double y = t.Y;
+                    
+                    double diffX;
+                    double diffY;
+
+                    if (x > x2)
+                    {
+                        diffX = x - x2;
+                    }
+                    else
+                    {
+                        diffX = x2 - x;
+                    }
+                    if (y > y2)
+                    {
+                        diffY = y - y2;
+                    }
+                    else
+                    {
+                        diffY = y2 - y;
+                    }
+                    if ((diffX + diffY) < 50)
+                    {
+                        found = true;
+                    }
+                     
+                }
+
             }
 
-            foreach (Object o in _hashObstacles.Values)
+            if (!found)
             {
-                Vector2 t = (Vector2)o;
-                double x = t.X;
-                double x2 = Obstacle.X;
-                double y = t.Y;
-                double y2 = Obstacle.Y;
-                double diffX;
-                double diffY;
-
-                if (x > x2)
-                {
-                    diffX = x - x2;                   
-                }
-                else
-                {
-                    diffX = x2 - x;
-                }
-                if (y > y2)
-                {
-                    diffY = y - y2;
-                }
-                else
-                {
-                    diffY = y2 - y;
-                }
-                if ((diffX + diffY) > 10)
-                {
-                    _hashObstacles.Add(_hashObstacles.Count + 1, Obstacle);
-                    Debug.Print("Obstacle Added " + _hashObstacles.Count.ToString());
-                    return;
-                }
-               
+                this._obstacles.Add(Obstacle);
+                Debug.Print("Obstacle Added " + this._obstacles.Count.ToString());
+                return;
+            }
+            if (this._obstacles.Count == 0)
+            {
+                this._obstacles.Add(Obstacle);
+                return;
             }
 
         }
 
-        public Hashtable ObstacleList
+        public ArrayList ObstacleList
         {
             get {
-                lock( _hashObstacles )
+                lock( this._obstacles )
                 {
-                    return _hashObstacles;
+                    return this._obstacles;
                 }
             }
         }
