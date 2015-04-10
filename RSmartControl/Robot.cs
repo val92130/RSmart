@@ -209,8 +209,8 @@ namespace RSmartControl
             _motorLeft.Update();
             _motorRight.Update();
 
-            _frontSensor.sensorBehaviour();
-            _backSensor.sensorBehaviour();
+            //_frontSensor.sensorBehaviour();
+            //_backSensor.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {

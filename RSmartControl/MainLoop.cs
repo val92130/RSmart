@@ -20,8 +20,8 @@ namespace RSmartControl
             _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
 
             _com = Com;
-            _motorLeft = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D2, Pins.GPIO_PIN_D3);
-            _motorRight = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1);
+            _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
+            _motorRight = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D0);
 
             _motorLeft.Direction = EDirection.Forward;
             _motorRight.Direction = EDirection.Forward;
@@ -31,6 +31,7 @@ namespace RSmartControl
 
             _com.MainLoop = this;
             _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _com);
+
         }
 
        public Robot Robot
@@ -52,9 +53,6 @@ namespace RSmartControl
             }
 
         }
-
-       
-
 
     }
 }

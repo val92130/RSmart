@@ -16,16 +16,14 @@ namespace RSmartControl
         readonly PWM _motor;
         EDirection _direction;
         readonly OutputPort _frontDirection;
-        readonly OutputPort _backDirection;
         CustomTimer _motorTimer;
         private bool _started = false;
-        public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection, Cpu.Pin motorBackDirection )
+        public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection )
         {
             _direction = EDirection.Forward;
-            _motor = new PWM( motor, 500, 1, false );
+            _motor = new PWM( motor, 500, 0.8, false );
 
-            _frontDirection = new OutputPort( motorFrontDirection, false );
-            _backDirection = new OutputPort( motorBackDirection, true );
+            _frontDirection = new OutputPort( motorFrontDirection, true );
 
         }
 
@@ -61,12 +59,10 @@ namespace RSmartControl
                 switch(value)
                 {
                     case EDirection.Forward :
-                        _frontDirection.Write( false );
-                        _backDirection.Write( true );
+                        _frontDirection.Write( true );
                         break;
                     case EDirection.BackWard:
-                        _frontDirection.Write( true );
-                        _backDirection.Write( false );
+                        _frontDirection.Write( false );
                         break;
                     
                 }
@@ -116,7 +112,7 @@ namespace RSmartControl
             }
             set
             {
-                if(value >= 0 && value <= 1)
+                if(value >= 0 && value <= 0.8)
                 {
                     _motor.DutyCycle = value;
                 }
