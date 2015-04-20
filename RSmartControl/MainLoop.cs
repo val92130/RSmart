@@ -11,13 +11,15 @@ namespace RSmartControl
     {
         Motor _motorLeft, _motorRight;
         Communication _com;
-        Sensor _frontSensor, _backSensor;
+        Sensor _frontSensor, _backSensor, _leftSensor, _rightSensor;
 
         Robot _robot;
         public MainLoop(Communication Com)
         {
             _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
             _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
+            _leftSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_2), EDirection.Forward);
+            _rightSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.BackWard);
 
             _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
@@ -30,7 +32,7 @@ namespace RSmartControl
             _com.MotorRight = _motorRight;
 
             _com.MainLoop = this;
-            _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _com);
+            _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _leftSensor, _rightSensor,_com);
 
         }
 
