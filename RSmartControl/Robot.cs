@@ -3,6 +3,7 @@ using Microsoft.SPOT;
 using SecretLabs.NETMF.Hardware.Netduino;
 using Microsoft.SPOT.Hardware;
 using System.Collections;
+using System.Threading;
 
 namespace RSmartControl
 {
@@ -75,6 +76,20 @@ namespace RSmartControl
             set
             {
                 _com = value;
+            }
+        }
+
+        public void Reverse(int time)
+        {
+            if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
+            {
+                _motorRight.Direction = EDirection.BackWard;
+                _motorLeft.Direction = EDirection.BackWard;
+                _motorRight.Start();
+                _motorLeft.Start();
+                Thread.Sleep(time);
+                _motorRight.Direction = EDirection.Forward;
+                _motorLeft.Direction = EDirection.Forward;
             }
         }
 
@@ -217,6 +232,7 @@ namespace RSmartControl
 
             if (_frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
             {
+                Reverse(1000);
                 this.TurnRight();
             }
 
@@ -228,12 +244,14 @@ namespace RSmartControl
 
             if (_rightSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_leftSensor.Collide)
             {
+                Reverse( 1000 );
                 this.TurnLeft();
             }
 
             if (_leftSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward &&
                 _motorRight.Direction == EDirection.Forward && !_rightSensor.Collide)
             {
+                Reverse( 1000 );
                 this.TurnRight();
             }
 
