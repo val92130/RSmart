@@ -13,6 +13,7 @@ namespace RSmartControl
         Communication _com;
         Sensor _frontSensor, _backSensor, _leftSensor, _rightSensor;
 
+       private PWM p;
         Robot _robot;
         public MainLoop(Communication Com)
         {
@@ -25,6 +26,7 @@ namespace RSmartControl
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D0);
 
+
             _motorLeft.Direction = EDirection.Forward;
             _motorRight.Direction = EDirection.Forward;
 
@@ -35,6 +37,7 @@ namespace RSmartControl
             _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _leftSensor, _rightSensor,_com);
 
         }
+       
 
        public Robot Robot
        {
