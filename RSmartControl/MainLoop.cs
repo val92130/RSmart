@@ -18,8 +18,8 @@ namespace RSmartControl
         {
             _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
             _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
-            _leftSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_2), EDirection.Forward);
-            _rightSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.BackWard);
+            _leftSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.Left);
+            _rightSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_2), EDirection.Right);
 
             _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);

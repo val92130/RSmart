@@ -62,6 +62,14 @@ namespace RSmartControl
                                 _mainloop.Robot.MotorRight.Stop();
                             }
                             break;
+                        case EDirection.Left:
+                            _mainloop.Robot.MotorLeft.Stop();
+                            _mainloop.Robot.MotorRight.Stop();
+                            break;
+                        case EDirection.Right:
+                            _mainloop.Robot.MotorLeft.Stop();
+                            _mainloop.Robot.MotorRight.Stop();
+                            break;
                     }
                 }
 

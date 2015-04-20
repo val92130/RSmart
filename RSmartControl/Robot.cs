@@ -11,7 +11,7 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        Sensor _frontSensor, _backSensor;
+        Sensor _frontSensor, _backSensor, _leftSensor, _rightSensor;
 
          Vector2 _pos, _dir;
 
@@ -23,7 +23,7 @@ namespace RSmartControl
 
         private Communication _com;
 
-         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Communication Com)
+         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Sensor LeftSensor, Sensor RightSensor, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
@@ -35,6 +35,8 @@ namespace RSmartControl
 
              _frontSensor = frontSensor;
              _backSensor = BackSensor;
+             _leftSensor = LeftSensor;
+             _rightSensor = RightSensor;
 
              _com = Com;
 
@@ -78,7 +80,7 @@ namespace RSmartControl
 
         public void TurnRight()
         {
-            _motorRight.Stop(0.6);
+            _motorRight.Stop(0.3);
 
             this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
@@ -86,7 +88,7 @@ namespace RSmartControl
         }
         public void TurnLeft()
         {
-            _motorLeft.Stop(0.6);
+            _motorLeft.Stop(0.3);
             
 
             this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
@@ -209,8 +211,11 @@ namespace RSmartControl
             _motorLeft.Update();
             _motorRight.Update();
 
-            //_frontSensor.sensorBehaviour();
-            //_backSensor.sensorBehaviour();
+            _frontSensor.sensorBehaviour();
+            _backSensor.sensorBehaviour();
+            _rightSensor.sensorBehaviour();
+            _leftSensor.sensorBehaviour();
+
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
