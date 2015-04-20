@@ -43,7 +43,7 @@ namespace RSmartControl
         {
             double distance = _sanalog.Read();
 
-            if (distance >= 0.5)
+            if (distance >= 0.7)
             {
                 counter++;
 
@@ -51,8 +51,7 @@ namespace RSmartControl
                 if (counter > 10)
 
                 {
-
-                    _mainloop.Robot.GetCommunication.AddObstacle(new Vector2(_mainloop.Robot.Position.X, _mainloop.Robot.Position.Y));
+                    _mainloop.Robot.GetCommunication.AddObstacle(new Vector2(_mainloop.Robot.Position.X + _mainloop.Robot.Direction.X, _mainloop.Robot.Position.Y + _mainloop.Robot.Direction.Y));
                     _collide = true;
                 }
 

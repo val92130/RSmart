@@ -217,43 +217,48 @@ namespace RSmartControl
             }
         }
 
-        public void Update()
+        public void Behavior()
         {
-            MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
-            
-
-            _motorLeft.Update();
-            _motorRight.Update();
-
             _frontSensor.sensorBehaviour();
             _backSensor.sensorBehaviour();
             _rightSensor.sensorBehaviour();
             _leftSensor.sensorBehaviour();
 
-            if (_frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
+            if( _frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide )
             {
-                Reverse(1000);
                 this.TurnRight();
+                return;
             }
 
-            if (_frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_backSensor.Collide)
+            if( _frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_backSensor.Collide )
             {
                 _motorLeft.Direction = EDirection.BackWard;
                 _motorRight.Direction = EDirection.BackWard;
+                return;
             }
 
-            if (_rightSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_leftSensor.Collide)
+            if( _rightSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_leftSensor.Collide )
             {
-                Reverse( 1000 );
                 this.TurnLeft();
+                return;
             }
 
-            if (_leftSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward &&
-                _motorRight.Direction == EDirection.Forward && !_rightSensor.Collide)
+            if( _leftSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward &&
+                _motorRight.Direction == EDirection.Forward && !_rightSensor.Collide )
             {
-                Reverse( 1000 );
                 this.TurnRight();
+                return;
             }
+        }
+
+        public void Update()
+        {
+            MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
+            
+            _motorLeft.Update();
+            _motorRight.Update();
+
+            Behavior();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
