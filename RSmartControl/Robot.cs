@@ -90,7 +90,6 @@ namespace RSmartControl
         {
             _motorLeft.Stop(0.3);
             
-
             this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
 
@@ -216,6 +215,27 @@ namespace RSmartControl
             _rightSensor.sensorBehaviour();
             _leftSensor.sensorBehaviour();
 
+            if (_frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
+            {
+                this.TurnRight();
+            }
+
+            if (_frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_backSensor.Collide)
+            {
+                _motorLeft.Direction = EDirection.BackWard;
+                _motorRight.Direction = EDirection.BackWard;
+            }
+
+            if (_rightSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward && !_leftSensor.Collide)
+            {
+                this.TurnLeft();
+            }
+
+            if (_leftSensor.Collide && _frontSensor.Collide && _motorLeft.Direction == EDirection.Forward &&
+                _motorRight.Direction == EDirection.Forward && !_rightSensor.Collide)
+            {
+                this.TurnRight();
+            }
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {

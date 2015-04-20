@@ -9,6 +9,7 @@ namespace RSmartControl
         MainLoop _mainloop;
         AnalogInput _sanalog;
         int counter = 0;
+        private bool _collide;
 
         private EDirection _direction;
         public Sensor(MainLoop mainLoop, AnalogInput Sanalog, EDirection direction)
@@ -30,6 +31,14 @@ namespace RSmartControl
             }
         }
 
+        public bool Collide
+        {
+            get
+            {
+                return _collide;
+            }
+        }
+
         public void sensorBehaviour()
         {
             double distance = _sanalog.Read();
@@ -44,38 +53,13 @@ namespace RSmartControl
                 {
 
                     _mainloop.Robot.GetCommunication.AddObstacle(new Vector2(_mainloop.Robot.Position.X, _mainloop.Robot.Position.Y));
-                    switch (this._direction)
-                    {
-                        case EDirection.Forward:
-                            if( _mainloop.Robot.MotorRight.Direction != EDirection.BackWard && _mainloop.Robot.MotorLeft.Direction != EDirection.BackWard )
-                            {
-
-                                _mainloop.Robot.MotorLeft.Stop();
-                                _mainloop.Robot.MotorRight.Stop();
-
-                            }
-                            break;
-                        case EDirection.BackWard:
-                            if( _mainloop.Robot.MotorRight.Direction != EDirection.Forward && _mainloop.Robot.MotorLeft.Direction != EDirection.Forward )
-                            {
-                                _mainloop.Robot.MotorLeft.Stop();
-                                _mainloop.Robot.MotorRight.Stop();
-                            }
-                            break;
-                        case EDirection.Left:
-                            _mainloop.Robot.MotorLeft.Stop();
-                            _mainloop.Robot.MotorRight.Stop();
-                            break;
-                        case EDirection.Right:
-                             _mainloop.Robot.MotorLeft.Stop();
-                            _mainloop.Robot.MotorRight.Stop();
-                            break;
-                    }
+                    _collide = true;
                 }
 
             }
             else
             {
+                _collide = false;
                 counter = 0;
             }
 
