@@ -148,10 +148,6 @@ setInterval(function() {
 			$("#status").html('<span style="Color:green">Online</span>');
 		}
 	});
-
-	GetDirection();
-	GetMotorRightStatus();
-	GetMotorLeftStatus()
 }, 15000);
 
 
