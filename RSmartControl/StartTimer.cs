@@ -3,13 +3,13 @@ using Microsoft.SPOT;
 
 namespace RSmartControl
 {
-    class CustomTimer
+    class StartTimer
     {
         long _actualTime;
         long _lastTime;
         bool _tick;
         readonly double _interval;
-        public CustomTimer(double interval)
+        public StartTimer(double interval)
         {
             _interval = interval;
             _actualTime = DateTime.Now.Ticks;
