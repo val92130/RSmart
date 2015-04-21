@@ -31,7 +31,7 @@ $("#btn_map2d").click(function()
 });
 
 // check if robot is online
-$.get( "http://"+ip+"/", function( data ) {
+$.get( "http://"+ip+"/?GetDirection=true&robot=true", function( data ) {
 	if(data)
 	{
 		$("#status").html('<span style="Color:green">Online</span>');
@@ -139,7 +139,7 @@ setInterval(function() {
 	$("#img").attr("src", "https://www.tradeit.fr/Webcam/image_upload/img.jpg?"+new Date().getTime());
 	$('#img').html('<img src="https://www.tradeit.fr/Webcam/image_upload/img.jpg" id="img" class="img_centered" width=500 height=500></img>');
 	
-}, 500);
+}, 5000);
 
 setInterval(function() {
 	$.get( "http://"+ip+"/", function( data ) {

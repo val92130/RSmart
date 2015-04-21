@@ -56,6 +56,7 @@ namespace RSmartControl
             return collection;
         }
 
+
         public static bool IsQueryValid( string query )
         {
             string text = query;
@@ -63,9 +64,29 @@ namespace RSmartControl
             if( text.Length == 0 )
                 return false;
 
-            if (text.IndexOf('?') != -1)
+            string newtext = "";
+            for( int i = 0; i < text.Length; i++ )
             {
-                return true;
+                if( text[i] == 'H' )
+                {
+                    if( text[i + 1] == 'T' )
+                    {
+                        if( text[i + 2] == 'T' )
+                        {
+                            newtext = text.Substring( 0, i );
+                        }
+                    }
+                }
+            }
+
+            for( int i = 0; i < newtext.Length; i++ )
+            {
+                // if there are arguments
+                if( newtext[i] == '?' )
+                {
+                    return true;
+
+                }
             }
             return false;
         }
