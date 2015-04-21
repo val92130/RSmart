@@ -34,7 +34,7 @@
   <ItemGroup>
     <Compile Include="Box.cs" />
     <Compile Include="Communication.cs" />
-    <Compile Include="CustomTimer.cs" />
+    <Compile Include="StartTimer.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="EDirection.cs" />
     <Compile Include="Utilities\JsonParser.cs" />

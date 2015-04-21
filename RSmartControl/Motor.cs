@@ -16,7 +16,7 @@ namespace RSmartControl
         readonly PWM _motor;
         EDirection _direction;
         readonly OutputPort _frontDirection;
-        CustomTimer _motorTimer;
+        StartTimer _motorTimer;
         private bool _started = false;
         public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection )
         {
@@ -87,7 +87,7 @@ namespace RSmartControl
         {
             _motor.Stop();
             _started = false;
-            _motorTimer = new CustomTimer( interval );
+            _motorTimer = new StartTimer(interval);
         }
 
         public void Start(double interval)
@@ -95,7 +95,7 @@ namespace RSmartControl
             this.Direction = EDirection.BackWard;
             _motor.Start();
             _started = true;
-            _motorTimer = new CustomTimer(interval);
+            _motorTimer = new StartTimer(interval);
         }
 
         public void Start()
