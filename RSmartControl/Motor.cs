@@ -17,6 +17,7 @@ namespace RSmartControl
         EDirection _direction;
         readonly OutputPort _frontDirection;
         StartTimer _motorTimer;
+        private StartTimer _directionTimer;
         private bool _started = false;
         public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection )
         {
@@ -77,6 +78,19 @@ namespace RSmartControl
             }
         }
 
+        public void ReverseDirection(double interval)
+        {
+            if (this._direction == EDirection.Forward)
+            {
+                this._direction = EDirection.BackWard;
+            }
+            else
+            {
+                this._direction = EDirection.Forward;
+            }
+            _directionTimer = new StartTimer(interval);
+        }
+
         public void Stop()
         {
             _motor.Stop();
@@ -129,6 +143,25 @@ namespace RSmartControl
                 {
                     this.Start();
                     _motorTimer = null;
+                }
+
+                
+            }
+
+            if (_directionTimer != null)
+            {
+                _directionTimer.Update();
+                if( _directionTimer.Tick )
+                {
+                    if( this._direction == EDirection.Forward )
+                    {
+                        this._direction = EDirection.BackWard;
+                    }
+                    else
+                    {
+                        this._direction = EDirection.Forward;
+                    }
+                    _directionTimer = null;
                 }
             }
         }
