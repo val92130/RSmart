@@ -67,7 +67,8 @@ namespace RSmartControl
 
                 if(Utility.IsQueryValid(msgServer))
                 {
-                    _queue.Enqueue( msgServer );                  
+                    _queue.Enqueue( msgServer ); 
+                    Debug.Print(msgServer);
                 }
 
             }
