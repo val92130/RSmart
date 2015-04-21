@@ -14,7 +14,7 @@ namespace RSmartControl
             string keyword = "HTTP";
             int ind = request.IndexOf(keyword);
 
-            if (query == null || ind == -1)
+            if (ind == -1)
                 return null;
 
             request = request.Substring(ind + keyword.Length, request.Length - ind - keyword.Length);
