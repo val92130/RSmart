@@ -96,7 +96,7 @@ namespace RSmartControl
         public void TurnRight()
         {
 
-            _motorRight.ReverseDirection(0.2);
+            _motorRight.ReverseDirection(0.3);
 
             this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
@@ -104,7 +104,7 @@ namespace RSmartControl
         }
         public void TurnLeft()
         {
-            _motorLeft.ReverseDirection( 0.2 );
+            _motorLeft.ReverseDirection( 0.3 );
             
             this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
