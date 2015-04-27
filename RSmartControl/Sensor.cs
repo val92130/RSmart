@@ -43,7 +43,7 @@ namespace RSmartControl
         {
             double distance = _sanalog.Read();
 
-            if (distance >= 0.7)
+            if (distance >= 0.5)
             {
                 counter++;
 

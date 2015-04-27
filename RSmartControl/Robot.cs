@@ -91,12 +91,22 @@ namespace RSmartControl
                 _motorRight.Direction = EDirection.Forward;
                 _motorLeft.Direction = EDirection.Forward;
             }
+            if (_motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
+            {
+                _motorRight.Direction = EDirection.Forward;
+                _motorLeft.Direction = EDirection.Forward;
+                _motorRight.Start();
+                _motorLeft.Start();
+                Thread.Sleep(time);
+                _motorRight.Direction = EDirection.BackWard;
+                _motorLeft.Direction = EDirection.BackWard;
+            }
         }
 
         public void TurnRight()
         {
 
-            _motorRight.ReverseDirection(0.2);
+            _motorRight.ReverseDirection(0.3);
 
             this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
@@ -104,7 +114,7 @@ namespace RSmartControl
         }
         public void TurnLeft()
         {
-            _motorLeft.ReverseDirection( 0.2 );
+            _motorLeft.ReverseDirection( 0.3 );
             
             this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
@@ -218,6 +228,7 @@ namespace RSmartControl
             }
         }
 
+       
         public void Behavior()
         {
             _frontSensor.sensorBehaviour();
@@ -229,12 +240,62 @@ namespace RSmartControl
             {
                 if (_frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
                 {
+                    this.RandomMethod();
+                    return;
+                }
+                if (_frontSensor.Collide && !_backSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
+                {
+                    this.TurnLeft();
+                    return;
+                }
+                if (_frontSensor.Collide && !_backSensor.Collide && _leftSensor.Collide && _rightSensor.Collide)
+                {
                     this.TurnRight();
                     return;
+                }
+                if (!_frontSensor.Collide && _backSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
+                {
+                    _motorLeft.ReverseDirection(0.5);
+                    _motorRight.ReverseDirection(0.5);
+                    return;
+
+                }
+                if (!_frontSensor.Collide && _backSensor.Collide && _leftSensor.Collide && !_rightSensor.Collide)
+                {
+                    _motorLeft.ReverseDirection(0.2);
+                    _motorRight.ReverseDirection(0.2);
+                    this.TurnRight();
+                    return;
+
+                }
+                if (!_frontSensor.Collide && _backSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
+                {
+                    _motorLeft.ReverseDirection(0.2);
+                    _motorRight.ReverseDirection(0.2);
+                    this.TurnLeft();
+                    return;
+
                 }
  
             }
 
+        }
+
+        public void RandomMethod()
+        {
+            Random r = new Random();
+            int method = r.Next(1);
+            if (method == 0)
+            {
+                this.TurnRight();
+                return;
+            }
+            else
+            {
+                this.TurnLeft();
+                return;
+
+            }
         }
 
         public void Update()

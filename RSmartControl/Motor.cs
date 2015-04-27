@@ -80,14 +80,12 @@ namespace RSmartControl
 
         public void ReverseDirection(double interval)
         {
-            if (this._direction == EDirection.Forward)
+            if (_directionTimer != null && !_directionTimer.Tick)
             {
-                this._direction = EDirection.BackWard;
+                return;
             }
-            else
-            {
-                this._direction = EDirection.Forward;
-            }
+
+            this.Direction = EDirection.BackWard;
             _directionTimer = new StartTimer(interval);
         }
 
@@ -153,14 +151,7 @@ namespace RSmartControl
                 _directionTimer.Update();
                 if( _directionTimer.Tick )
                 {
-                    if( this._direction == EDirection.Forward )
-                    {
-                        this._direction = EDirection.BackWard;
-                    }
-                    else
-                    {
-                        this._direction = EDirection.Forward;
-                    }
+                     this.Direction = EDirection.Forward;
                     _directionTimer = null;
                 }
             }
