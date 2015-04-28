@@ -70,6 +70,10 @@ namespace RSmartServer
         {
             SendRequest( "10.8.110.204", "Start=true" );
         }
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            SendRequest("10.8.110.204", "Stop=true");
+        }
 
         public void SendRequest(string ip, string req)
         {
@@ -81,5 +85,9 @@ namespace RSmartServer
 
             Stream resStream = response.GetResponseStream();
         }
+
+        
+
+        
     }
 }

@@ -31,6 +31,7 @@
             this.textBoxRequest = new System.Windows.Forms.RichTextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.labelIp = new System.Windows.Forms.Label();
+            this.stopButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxRequest
@@ -60,11 +61,22 @@
             this.labelIp.TabIndex = 2;
             this.labelIp.Text = "label1";
             // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(146, 78);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 3;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(678, 524);
+            this.Controls.Add(this.stopButton);
             this.Controls.Add(this.labelIp);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.textBoxRequest);
@@ -80,6 +92,7 @@
         private System.Windows.Forms.RichTextBox textBoxRequest;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Label labelIp;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 
