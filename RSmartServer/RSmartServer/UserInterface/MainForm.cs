@@ -21,6 +21,7 @@ namespace UserInterface
         DebugLog _debugLog;
         System.Windows.Forms.Timer _loopTimer;
         System.Windows.Forms.Timer _cameraTimer;
+        RouteCreationForm _routeCreationForm;
         public RSmartServer()
         {
             _debugLog = new DebugLog();
@@ -33,7 +34,7 @@ namespace UserInterface
             serverThread.Start();
             InitializeComponent();
 
-            labelIp.Text = _ip;
+            labelIp.Text = _ip + " - " + _server.Status;
 
             _loopTimer = new System.Windows.Forms.Timer();
             _loopTimer.Interval = 10;
@@ -48,6 +49,27 @@ namespace UserInterface
             webBrowser.Url = new Uri("http://" + _ip + ":80/");
 
             _debugLog.Write("App started");
+
+            UpdateRoutesTextBox();
+        }
+
+        public void UpdateRoutesTextBox()
+        {
+            string txt = "";
+            for(int i = 0; i < _server.Routes.Count; i++)
+            {
+                if(i > 0)
+                {
+                    txt += "\nRoute n° " + i + "\n" + "Key : " + _server.Routes[i].Key + "\nValue : " + _server.Routes[i].Value + "\nResponse : " + _server.Routes[i].Response + "\n";
+                }
+                else
+                {
+                    txt += "Route n° " + i + "\n" + "Key : " + _server.Routes[i].Key + "\nValue : " + _server.Routes[i].Value + "\nResponse : " + _server.Routes[i].Response + "\n";
+                }
+                
+            }
+            routesTextBox.Text = txt;
+
         }
 
         private void T_Camera_Update(object sender, EventArgs e)
@@ -57,6 +79,7 @@ namespace UserInterface
 
         private void T_Loop(object sender, EventArgs e)
         {
+            labelIp.Text = _ip + " - " + _server.Status;
             UpdateLog();
         }
 
@@ -129,6 +152,12 @@ namespace UserInterface
         private void resumeServerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _server.Resume();
+        }
+
+        private void addARouteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _routeCreationForm = new RouteCreationForm(_server);
+            _routeCreationForm.ShowDialog(this);
         }
 
 

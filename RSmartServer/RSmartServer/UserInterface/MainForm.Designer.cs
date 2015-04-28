@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.logTextBox = new System.Windows.Forms.RichTextBox();
-            this.queryTextBox = new System.Windows.Forms.RichTextBox();
+            this.routesTextBox = new System.Windows.Forms.RichTextBox();
             this.panelCamera = new System.Windows.Forms.Panel();
             this.pictureWebcam = new System.Windows.Forms.PictureBox();
             this.panelTop = new System.Windows.Forms.Panel();
@@ -46,6 +46,8 @@
             this.buttonGo = new System.Windows.Forms.Button();
             this.pauseServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resumeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.synchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addARouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -63,31 +65,32 @@
             this.logTextBox.TabIndex = 0;
             this.logTextBox.Text = "";
             // 
-            // queryTextBox
+            // routesTextBox
             // 
-            this.queryTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(195)))), ((int)(((byte)(199)))));
-            this.queryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.queryTextBox.Location = new System.Drawing.Point(700, 72);
-            this.queryTextBox.Name = "queryTextBox";
-            this.queryTextBox.Size = new System.Drawing.Size(296, 260);
-            this.queryTextBox.TabIndex = 2;
-            this.queryTextBox.Text = "";
+            this.routesTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(195)))), ((int)(((byte)(199)))));
+            this.routesTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.routesTextBox.Location = new System.Drawing.Point(700, 100);
+            this.routesTextBox.Name = "routesTextBox";
+            this.routesTextBox.ReadOnly = true;
+            this.routesTextBox.Size = new System.Drawing.Size(290, 250);
+            this.routesTextBox.TabIndex = 2;
+            this.routesTextBox.Text = "";
             // 
             // panelCamera
             // 
             this.panelCamera.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(195)))), ((int)(((byte)(199)))));
             this.panelCamera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelCamera.Controls.Add(this.pictureWebcam);
-            this.panelCamera.Location = new System.Drawing.Point(700, 358);
+            this.panelCamera.Location = new System.Drawing.Point(700, 368);
             this.panelCamera.Name = "panelCamera";
-            this.panelCamera.Size = new System.Drawing.Size(296, 260);
+            this.panelCamera.Size = new System.Drawing.Size(290, 250);
             this.panelCamera.TabIndex = 3;
             // 
             // pictureWebcam
             // 
-            this.pictureWebcam.Location = new System.Drawing.Point(3, 3);
+            this.pictureWebcam.Location = new System.Drawing.Point(-1, -1);
             this.pictureWebcam.Name = "pictureWebcam";
-            this.pictureWebcam.Size = new System.Drawing.Size(288, 252);
+            this.pictureWebcam.Size = new System.Drawing.Size(290, 250);
             this.pictureWebcam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureWebcam.TabIndex = 0;
             this.pictureWebcam.TabStop = false;
@@ -146,15 +149,18 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem,
+            this.synchronizeToolStripMenuItem,
             this.pauseServerToolStripMenuItem,
-            this.resumeServerToolStripMenuItem});
+            this.resumeServerToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // optionsToolStripMenuItem
             // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addARouteToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -176,12 +182,14 @@
             // 
             this.textBoxUrl.Location = new System.Drawing.Point(53, 74);
             this.textBoxUrl.Name = "textBoxUrl";
-            this.textBoxUrl.Size = new System.Drawing.Size(100, 20);
+            this.textBoxUrl.Size = new System.Drawing.Size(180, 20);
             this.textBoxUrl.TabIndex = 7;
             // 
             // labelUrl
             // 
             this.labelUrl.AutoSize = true;
+            this.labelUrl.BackColor = System.Drawing.Color.Transparent;
+            this.labelUrl.ForeColor = System.Drawing.Color.White;
             this.labelUrl.Location = new System.Drawing.Point(12, 77);
             this.labelUrl.Name = "labelUrl";
             this.labelUrl.Size = new System.Drawing.Size(26, 13);
@@ -190,12 +198,15 @@
             // 
             // buttonGo
             // 
-            this.buttonGo.Location = new System.Drawing.Point(159, 74);
+            this.buttonGo.BackColor = System.Drawing.Color.White;
+            this.buttonGo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGo.Location = new System.Drawing.Point(239, 74);
             this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(36, 23);
+            this.buttonGo.Size = new System.Drawing.Size(36, 20);
             this.buttonGo.TabIndex = 9;
             this.buttonGo.Text = "Go";
-            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.UseVisualStyleBackColor = false;
             this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
             // pauseServerToolStripMenuItem
@@ -212,6 +223,19 @@
             this.resumeServerToolStripMenuItem.Text = "Resume Server";
             this.resumeServerToolStripMenuItem.Click += new System.EventHandler(this.resumeServerToolStripMenuItem_Click);
             // 
+            // synchronizeToolStripMenuItem
+            // 
+            this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
+            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.synchronizeToolStripMenuItem.Text = "Synchronize";
+            // 
+            // addARouteToolStripMenuItem
+            // 
+            this.addARouteToolStripMenuItem.Name = "addARouteToolStripMenuItem";
+            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addARouteToolStripMenuItem.Text = "Add a route";
+            this.addARouteToolStripMenuItem.Click += new System.EventHandler(this.addARouteToolStripMenuItem_Click);
+            // 
             // RSmartServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,7 +248,7 @@
             this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.panelCamera);
-            this.Controls.Add(this.queryTextBox);
+            this.Controls.Add(this.routesTextBox);
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -245,7 +269,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox logTextBox;
-        private System.Windows.Forms.RichTextBox queryTextBox;
+        private System.Windows.Forms.RichTextBox routesTextBox;
         private System.Windows.Forms.Panel panelCamera;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelIpTitle;
@@ -262,6 +286,8 @@
         private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.ToolStripMenuItem pauseServerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resumeServerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem synchronizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addARouteToolStripMenuItem;
     }
 }
 

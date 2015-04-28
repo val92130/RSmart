@@ -6,6 +6,8 @@ using System.Net;
 using System.Threading;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace UserInterface
 {
@@ -15,10 +17,13 @@ namespace UserInterface
         private List<string> _requestList;
         DebugLog _debugLog;
         bool _pause = false;
+        List<Route> _routes;
 
         public WebServer( string prefixes, DebugLog debugLog )
         {
+            _routes = new List<Route>();
             _debugLog = debugLog;
+            InitRoutesConfiguration();
             _requestList = new List<string>();
             if( !HttpListener.IsSupported )
                 throw new NotSupportedException(
@@ -32,6 +37,87 @@ namespace UserInterface
 
             _listener.Start();
             _debugLog.Write("Server Started");
+        }
+
+        public void InitRoutesConfiguration()
+        {
+            AddRoute(new Route("test", "true", "Helloooo"));
+            AddRoute(new Route("hello", "world", "Hello World"));
+            AddRoute(new Route("hello", "rsmart", "Hello Rsmart"));
+            _debugLog.Write("Routes initialized");
+        }
+
+        public void AddRoute(Route r)
+        {
+            if(r != null)
+            {
+                if (!CheckExistingRoute(r))
+                {
+                    _routes.Add(r);
+                    _debugLog.Write("Route added");
+                }
+                else
+                {
+                    _debugLog.Write("Trying to write an already existing route");
+                }
+                
+            }
+        }
+
+
+
+        public void AddRoute(string key, string value, string response)
+        {
+            Route r = new Route(key, value, response);
+            if(!CheckExistingRoute(r))
+            {
+                _routes.Add(new Route(key, value, response));
+                _debugLog.Write("Route added");
+            }
+            else
+            {
+                _debugLog.Write("Trying to write an already existing route");
+            }
+            
+        }
+
+        public void SerializeRoutes()
+        {
+            lock(_routes)
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(List<Route>));
+                using (StreamWriter wr = new StreamWriter("../../routes/routes.xml"))
+                {
+                    xs.Serialize(wr, _routes);
+                }
+            }
+
+        }
+
+        public bool CheckExistingRoute(Route route)
+        {
+            foreach (Route r in _routes)
+            {
+                if (r.Key == route.Key)
+                {
+                    if (r.Value == route.Value)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public List<Route> Routes
+        {
+            get
+            {
+                lock(_routes)
+                {
+                    return _routes;
+                }
+            }
         }
 
 
@@ -73,7 +159,9 @@ namespace UserInterface
 
                                 }
                             }
-                            catch { }
+                            catch(Exception e ) {
+                                _debugLog.Write("Server Exception : " + e);
+                            }
                             finally
                             {
                                 ctx.Response.OutputStream.Close();
@@ -85,6 +173,21 @@ namespace UserInterface
             } );
         }
 
+        public string Status
+        {
+            get
+            {
+                if(_pause)
+                {
+                    return "Paused";
+                }
+                else
+                {
+                    return "Online";
+                }
+            }
+        }
+
         public void Stop()
         {
             _listener.Stop();
@@ -93,37 +196,47 @@ namespace UserInterface
 
         public string SendResponse( HttpListenerRequest request )
         {
-            AnalyzeQuery( request.QueryString );
-            string resp = "";
-            for( int i = 0; i < request.QueryString.AllKeys.Length; i++ )
-            {
-                resp = resp + request.QueryString.AllKeys[i] + "<br/>";
-            }
+            
             _requestList.Add(request.RawUrl);
-            string response = string.Format( "<HTML><BODY>My web page.<br>{0}</BODY></HTML>", request.RawUrl );
+            string response = AnalyzeQuery(request.QueryString);
+            //string response = ReadFile("../../../../../WebInterface/index.html");
             _debugLog.Write("Response sent to : " + request.RemoteEndPoint + " : " + response);
             return response;
         }
 
-        public void AnalyzeQuery(NameValueCollection request)
+        public string ReadFile(string path)
+        {
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+
+                _debugLog.Write(e.ToString());
+            }
+            return null;
+        }
+
+        public string AnalyzeQuery(NameValueCollection request)
         {
             foreach( string key in request )
             {
-                switch (key)
+                string value = request[key];
+                foreach(Route r in _routes)
                 {
-                    case "Test" :
-                        switch (request[key])
+                    if(r.Key == key)
+                    {
+                        if(r.Value == value)
                         {
-                            case "true" :
-                                break;
-                            case "false" :
-                                break;
+                            return r.Response;
                         }
-                        break;
-                    default:
-                        break;
+                    }
                 }
+
             }
+            return "Welcome To the RSmart WebServer Interface";
+            
         }
 
         public void Pause()
