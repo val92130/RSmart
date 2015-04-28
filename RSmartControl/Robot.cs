@@ -256,16 +256,16 @@ namespace RSmartControl
                     this.RandomMethod();
                     return;
                 }
-                //if (_frontSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
-                //{
-                //    this.TurnLeft();
-                //    return;
-                //}
-                //if (_frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide)
-                //{
-                //    this.TurnRight();
-                //    return;
-                //}
+                if (_frontSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
+                {
+                    this.TurnLeft();
+                    return;
+                }
+                if (_frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide)
+                {
+                    this.TurnRight();
+                    return;
+                }
                 //if (!_frontSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
                 //{
                 //    _motorLeft.ReverseDirection(0.5);
