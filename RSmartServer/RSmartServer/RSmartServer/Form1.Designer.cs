@@ -30,6 +30,7 @@
         {
             this.textBoxRequest = new System.Windows.Forms.RichTextBox();
             this.startButton = new System.Windows.Forms.Button();
+            this.labelIp = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxRequest
@@ -50,16 +51,27 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
+            // labelIp
+            // 
+            this.labelIp.AutoSize = true;
+            this.labelIp.Location = new System.Drawing.Point(12, 13);
+            this.labelIp.Name = "labelIp";
+            this.labelIp.Size = new System.Drawing.Size(35, 13);
+            this.labelIp.TabIndex = 2;
+            this.labelIp.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(678, 524);
+            this.Controls.Add(this.labelIp);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.textBoxRequest);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -67,6 +79,7 @@
 
         private System.Windows.Forms.RichTextBox textBoxRequest;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Label labelIp;
     }
 }
 

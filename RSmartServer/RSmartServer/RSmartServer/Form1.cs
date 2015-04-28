@@ -30,12 +30,14 @@ namespace RSmartServer
             });
             t.Start();
 
+            
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 10;
             timer.Tick += new EventHandler( T_loop );
             timer.Start();
 
             InitializeComponent();
+            labelIp.Text = "Server IP : " + GetIp();
         }
 
         private void T_loop( object sender, EventArgs e )
@@ -60,6 +62,7 @@ namespace RSmartServer
                     localIP = ip.ToString();
                 }
             }
+            
             return localIP;
         }
 
