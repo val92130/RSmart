@@ -17,8 +17,8 @@ namespace RSmartControl
         Robot _robot;
         public MainLoop(Communication Com)
         {
-            _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
-            _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.BackWard);
+            _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.Forward);
+            _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.BackWard);
             _leftSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.Left);
             _rightSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_2), EDirection.Right);
 
