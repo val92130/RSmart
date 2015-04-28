@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -21,16 +22,19 @@ namespace RSmartServer
         public Form1()
         {
             
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 10;
-            timer.Tick += new EventHandler(T_loop);
-            timer.Start();
+            
             Thread t = new Thread(() =>
             {
-                server = new WebServer( "http://"+ GetIp() + ":8080/test/" );
+                server = new WebServer( "http://"+ GetIp() + ":80/" );
                 server.Run();
             });
             t.Start();
+
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 10;
+            timer.Tick += new EventHandler( T_loop );
+            timer.Start();
+
             InitializeComponent();
         }
 
@@ -57,6 +61,22 @@ namespace RSmartServer
                 }
             }
             return localIP;
+        }
+
+        private void startButton_Click( object sender, EventArgs e )
+        {
+            SendRequest( "10.8.110.204", "Start=true" );
+        }
+
+        public void SendRequest(string ip, string req)
+        {
+            string url = "http://" + ip + "/?" + req + "&robot=true";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Stream resStream = response.GetResponseStream();
         }
     }
 }

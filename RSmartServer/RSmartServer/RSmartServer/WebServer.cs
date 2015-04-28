@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Linq;
@@ -56,6 +58,7 @@ namespace RSmartServer
                             try
                             {
                                 string rstr = SendResponse( ctx.Request );
+                                
                                 byte[] buf = Encoding.UTF8.GetBytes( rstr );
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.OutputStream.Write( buf, 0, buf.Length );
@@ -80,6 +83,7 @@ namespace RSmartServer
 
         public string SendResponse( HttpListenerRequest request )
         {
+            AnalyzeQuery( request.QueryString );
             string resp = "";
             for( int i = 0; i < request.QueryString.AllKeys.Length; i++ )
             {
@@ -87,6 +91,28 @@ namespace RSmartServer
             }
             _requestList.Add(request.RawUrl);
             return string.Format( "<HTML><BODY>My web page.<br>{0}</BODY></HTML>", request.RawUrl );
+        }
+
+        public void AnalyzeQuery(NameValueCollection request)
+        {
+            foreach( string key in request )
+            {
+                switch (key)
+                {
+                    case "Test" :
+                        switch (request[key])
+                        {
+                            case "true" :
+                                break;
+                            case "false" :
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                //Console.WriteLine( "{0} {1}", key, nvc[key] );
+            }
         }
     }
 }
