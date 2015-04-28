@@ -4,7 +4,7 @@ var keyboard = new THREEx.KeyboardState();
 var clock = new THREE.Clock();
 // custom global variables
 var cube;
-var ip = "10.8.110.204";
+var ip = "10.8.96.100";
 var robot;
 var robotX = 0;
 var robotY = 0;
