@@ -48,6 +48,7 @@
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.labelUrl = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
+            this.pingButton = new System.Windows.Forms.Button();
             this.panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -160,27 +161,27 @@
             // synchronizeToolStripMenuItem
             // 
             this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
-            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.synchronizeToolStripMenuItem.Text = "Synchronize";
             // 
             // pauseServerToolStripMenuItem
             // 
             this.pauseServerToolStripMenuItem.Name = "pauseServerToolStripMenuItem";
-            this.pauseServerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.pauseServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pauseServerToolStripMenuItem.Text = "Pause Server";
             this.pauseServerToolStripMenuItem.Click += new System.EventHandler(this.pauseServerToolStripMenuItem_Click);
             // 
             // resumeServerToolStripMenuItem
             // 
             this.resumeServerToolStripMenuItem.Name = "resumeServerToolStripMenuItem";
-            this.resumeServerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.resumeServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.resumeServerToolStripMenuItem.Text = "Resume Server";
             this.resumeServerToolStripMenuItem.Click += new System.EventHandler(this.resumeServerToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -195,7 +196,7 @@
             // addARouteToolStripMenuItem
             // 
             this.addARouteToolStripMenuItem.Name = "addARouteToolStripMenuItem";
-            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addARouteToolStripMenuItem.Text = "Add a route";
             this.addARouteToolStripMenuItem.Click += new System.EventHandler(this.addARouteToolStripMenuItem_Click);
             // 
@@ -236,12 +237,23 @@
             this.buttonGo.UseVisualStyleBackColor = false;
             this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
+            // pingButton
+            // 
+            this.pingButton.Location = new System.Drawing.Point(915, 71);
+            this.pingButton.Name = "pingButton";
+            this.pingButton.Size = new System.Drawing.Size(75, 23);
+            this.pingButton.TabIndex = 10;
+            this.pingButton.Text = "Ping Robot";
+            this.pingButton.UseVisualStyleBackColor = true;
+            this.pingButton.Click += new System.EventHandler(this.pingButton_Click);
+            // 
             // RSmartServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1008, 730);
+            this.Controls.Add(this.pingButton);
             this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.labelUrl);
             this.Controls.Add(this.textBoxUrl);
@@ -291,6 +303,7 @@
         private System.Windows.Forms.ToolStripMenuItem resumeServerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem synchronizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addARouteToolStripMenuItem;
+        private System.Windows.Forms.Button pingButton;
     }
 }
 

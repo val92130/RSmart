@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -56,8 +57,22 @@ namespace UserInterface
             _debugLog.Write("App started");
 
             UpdateRoutesTextBox();
+            
 
-            SendRequest("10.8.109.101", "test=true");
+        }
+
+        public bool PingRobot()
+        {
+            var ping = new Ping();
+
+            PingReply reply = ping.Send( IPAddress.Parse( _robotIp ), 1500 );
+
+            if (reply.Status == IPStatus.Success)
+            {
+                return true;
+            }
+            return false;
+
         }
 
         public void UpdateRoutesTextBox()
@@ -252,6 +267,18 @@ namespace UserInterface
             }
 
             return null;
+        }
+
+        private void pingButton_Click( object sender, EventArgs e )
+        {
+            if (PingRobot())
+            {
+                MessageBox.Show("Robot is online");
+            }
+            else
+            {
+                MessageBox.Show( "Robot is offline" );
+            }
         }
 
 
