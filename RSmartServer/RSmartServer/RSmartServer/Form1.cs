@@ -19,6 +19,10 @@ namespace RSmartServer
     {
         private System.Windows.Forms.Timer timer;
         WebServer server;
+        bool right;
+        bool left;
+        bool up;
+        bool down;
         public Form1()
         {
             
@@ -65,6 +69,20 @@ namespace RSmartServer
             
             return localIP;
         }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Z) { up = true; SendRequest("10.8.110.204", "Forward=true");}
+            if (e.KeyCode == Keys.Q) { left = true; SendRequest("10.8.110.204", "Left=true"); }
+            if (e.KeyCode == Keys.S) { down = true; SendRequest("10.8.110.204", "Backward=true"); }
+            if (e.KeyCode == Keys.D) { right = true; SendRequest("10.8.110.204", "Right=true"); }
+        }
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Z) { up = false; SendRequest("10.8.110.204", "Stop=true"); }
+            if (e.KeyCode == Keys.Q) { left = false; SendRequest("10.8.110.204", "Stop=true"); }
+            if (e.KeyCode == Keys.S) { down = false; SendRequest("10.8.110.204", "Stop=true"); }
+            if (e.KeyCode == Keys.D) { right = false; SendRequest("10.8.110.204", "Stop=true"); }
+        }
 
         private void startButton_Click( object sender, EventArgs e )
         {
@@ -84,6 +102,11 @@ namespace RSmartServer
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             Stream resStream = response.GetResponseStream();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
 
         

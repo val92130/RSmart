@@ -22,6 +22,7 @@ namespace UserInterface
         System.Windows.Forms.Timer _loopTimer;
         System.Windows.Forms.Timer _cameraTimer;
         RouteCreationForm _routeCreationForm;
+   
         public RSmartServer()
         {
             _debugLog = new DebugLog();
@@ -134,6 +135,7 @@ namespace UserInterface
                 }
             }
         }
+       
 
         private bool RemoteFileExists(string url)
         {
