@@ -8,6 +8,7 @@ using SecretLabs.NETMF.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 using Microsoft.SPOT.Net.NetworkInformation;
 
+
 namespace RSmartControl
 {
     public class Program
@@ -27,7 +28,8 @@ namespace RSmartControl
                 webServer.ListenForRequest();
             } );
             server.Start();
-
+            HTTPRequest _http = new HTTPRequest();
+            _http.Send("http://10.8.111.132/?caca=true");
             MainLoop loop = new MainLoop(_communication );
             loop.Run();
         }
