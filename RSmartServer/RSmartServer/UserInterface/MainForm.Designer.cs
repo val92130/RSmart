@@ -38,16 +38,16 @@
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.synchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resumeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addARouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.labelUrl = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
-            this.pauseServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resumeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.synchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addARouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -157,6 +157,33 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // synchronizeToolStripMenuItem
+            // 
+            this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
+            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.synchronizeToolStripMenuItem.Text = "Synchronize";
+            // 
+            // pauseServerToolStripMenuItem
+            // 
+            this.pauseServerToolStripMenuItem.Name = "pauseServerToolStripMenuItem";
+            this.pauseServerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.pauseServerToolStripMenuItem.Text = "Pause Server";
+            this.pauseServerToolStripMenuItem.Click += new System.EventHandler(this.pauseServerToolStripMenuItem_Click);
+            // 
+            // resumeServerToolStripMenuItem
+            // 
+            this.resumeServerToolStripMenuItem.Name = "resumeServerToolStripMenuItem";
+            this.resumeServerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.resumeServerToolStripMenuItem.Text = "Resume Server";
+            this.resumeServerToolStripMenuItem.Click += new System.EventHandler(this.resumeServerToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -165,18 +192,18 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
+            // addARouteToolStripMenuItem
+            // 
+            this.addARouteToolStripMenuItem.Name = "addARouteToolStripMenuItem";
+            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.addARouteToolStripMenuItem.Text = "Add a route";
+            this.addARouteToolStripMenuItem.Click += new System.EventHandler(this.addARouteToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // textBoxUrl
             // 
@@ -209,33 +236,6 @@
             this.buttonGo.UseVisualStyleBackColor = false;
             this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
-            // pauseServerToolStripMenuItem
-            // 
-            this.pauseServerToolStripMenuItem.Name = "pauseServerToolStripMenuItem";
-            this.pauseServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pauseServerToolStripMenuItem.Text = "Pause Server";
-            this.pauseServerToolStripMenuItem.Click += new System.EventHandler(this.pauseServerToolStripMenuItem_Click);
-            // 
-            // resumeServerToolStripMenuItem
-            // 
-            this.resumeServerToolStripMenuItem.Name = "resumeServerToolStripMenuItem";
-            this.resumeServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.resumeServerToolStripMenuItem.Text = "Resume Server";
-            this.resumeServerToolStripMenuItem.Click += new System.EventHandler(this.resumeServerToolStripMenuItem_Click);
-            // 
-            // synchronizeToolStripMenuItem
-            // 
-            this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
-            this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.synchronizeToolStripMenuItem.Text = "Synchronize";
-            // 
-            // addARouteToolStripMenuItem
-            // 
-            this.addARouteToolStripMenuItem.Name = "addARouteToolStripMenuItem";
-            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addARouteToolStripMenuItem.Text = "Add a route";
-            this.addARouteToolStripMenuItem.Click += new System.EventHandler(this.addARouteToolStripMenuItem_Click);
-            // 
             // RSmartServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,9 +252,12 @@
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "RSmartServer";
             this.Text = "RSmart Server";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RSmartServer_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RSmartServer_KeyUp);
             this.panelCamera.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).EndInit();
             this.panelTop.ResumeLayout(false);

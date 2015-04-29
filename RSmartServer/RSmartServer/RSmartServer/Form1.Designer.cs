@@ -28,19 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxRequest = new System.Windows.Forms.RichTextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.labelIp = new System.Windows.Forms.Label();
             this.stopButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // textBoxRequest
-            // 
-            this.textBoxRequest.Location = new System.Drawing.Point(12, 135);
-            this.textBoxRequest.Name = "textBoxRequest";
-            this.textBoxRequest.Size = new System.Drawing.Size(654, 377);
-            this.textBoxRequest.TabIndex = 0;
-            this.textBoxRequest.Text = "";
             // 
             // startButton
             // 
@@ -79,9 +70,11 @@
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.labelIp);
             this.Controls.Add(this.startButton);
-            this.Controls.Add(this.textBoxRequest);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,7 +82,6 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox textBoxRequest;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Label labelIp;
         private System.Windows.Forms.Button stopButton;

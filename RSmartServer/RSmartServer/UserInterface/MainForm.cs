@@ -22,9 +22,12 @@ namespace UserInterface
         System.Windows.Forms.Timer _loopTimer;
         System.Windows.Forms.Timer _cameraTimer;
         RouteCreationForm _routeCreationForm;
+        private bool _started;
+        private string _robotIp;
    
         public RSmartServer()
         {
+            _robotIp = "10.8.110.204";
             _debugLog = new DebugLog();
             _ip = GetIp();
             Thread serverThread = new Thread(() =>
@@ -32,6 +35,7 @@ namespace UserInterface
                 _server = new WebServer("http://" + _ip + ":80/", _debugLog);
                 _server.Run();
             });
+
             serverThread.Start();
             InitializeComponent();
 
@@ -52,6 +56,8 @@ namespace UserInterface
             _debugLog.Write("App started");
 
             UpdateRoutesTextBox();
+
+            SendRequest("10.8.109.101", "test=true");
         }
 
         public void UpdateRoutesTextBox()
@@ -160,6 +166,92 @@ namespace UserInterface
         {
             _routeCreationForm = new RouteCreationForm(_server);
             _routeCreationForm.ShowDialog(this);
+        }
+
+        private void RSmartServer_KeyDown( object sender, KeyEventArgs e )
+        {
+            switch (e.KeyCode )
+            {
+                case Keys.Z :
+                    if (!_started)
+                    {
+                        _started = true;
+                        SendRequestRobot( "Forward=true" );
+                        SendRequestRobot( "Start=true" );
+
+                    }
+                    break;
+                case Keys.S:
+                    SendRequestRobot( "Backward=true" );
+                    break;
+                case Keys.Q:
+                    SendRequestRobot( "Left=true" );
+                    break;
+                case Keys.D:
+                    SendRequestRobot( "Right=true" );
+                    break;
+
+            }
+        }
+
+        private void RSmartServer_KeyUp( object sender, KeyEventArgs e )
+        {
+            switch( e.KeyCode )
+            {
+                case Keys.Z:
+                    _started = false;
+                    SendRequestRobot( "Stop=true" );
+                    break;
+                case Keys.S:
+                    SendRequestRobot( "Stop=true" );
+                    break;
+                case Keys.Q:
+                    SendRequestRobot( "Stop=true" );
+                    break;
+                case Keys.D:
+                    SendRequestRobot( "Stop=true" );
+                    break;
+
+            }
+        }
+
+        public void SendRequestRobot(  string req )
+        {
+            string url = "http://" + _robotIp + "/?" + req + "&robot=true";
+
+            GET( url );
+
+        }
+
+        public void SendRequest(string ip, string req)
+        {
+            string url = "http://" + ip + "/?" + req;
+            GET(url);
+        }
+
+        public string GET( string url )
+        {
+            try
+            {
+                _debugLog.Write("Sending request : " + url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream stream = response.GetResponseStream();
+                StreamReader reader = new StreamReader( stream );
+
+                string data = reader.ReadToEnd();
+
+                reader.Close();
+                stream.Close();
+
+                return data;
+            }
+            catch( Exception e )
+            {
+                _debugLog.Write(e.ToString());
+            }
+
+            return null;
         }
 
 

@@ -51,7 +51,7 @@ namespace RSmartServer
             {
                 request = request + server.RequestList[i] + "\n";
             }
-            textBoxRequest.Text = request;
+            
         }
 
         public string GetIp()
@@ -71,10 +71,7 @@ namespace RSmartServer
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Z) { up = true; SendRequest("10.8.110.204", "Forward=true");}
-            if (e.KeyCode == Keys.Q) { left = true; SendRequest("10.8.110.204", "Left=true"); }
-            if (e.KeyCode == Keys.S) { down = true; SendRequest("10.8.110.204", "Backward=true"); }
-            if (e.KeyCode == Keys.D) { right = true; SendRequest("10.8.110.204", "Right=true"); }
+            MessageBox.Show("ok");
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -107,6 +104,16 @@ namespace RSmartServer
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
+        }
+
+        private void Form1_Load( object sender, EventArgs e )
+        {
+
+        }
+
+        private void Form1_KeyDown_1( object sender, KeyEventArgs e )
+        {
+            MessageBox.Show("ee");
         }
 
         
