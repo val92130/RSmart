@@ -23,7 +23,7 @@ namespace UserInterface
         System.Windows.Forms.Timer _loopTimer;
         System.Windows.Forms.Timer _cameraTimer;
         RouteCreationForm _routeCreationForm;
-        private bool _started;
+        private bool _started, _startedBack;
         private string _robotIp;
    
         public RSmartServer()
@@ -197,12 +197,20 @@ namespace UserInterface
                     }
                     break;
                 case Keys.S:
-                    SendRequestRobot( "Backward=true" );
+                    if( !_startedBack )
+                    {
+                        _startedBack = true;
+                        SendRequestRobot( "Backward=true" );
+                        SendRequestRobot( "Start=true" );
+                    }
+                    
                     break;
                 case Keys.Q:
+                    SendRequestRobot( "Start=true" );
                     SendRequestRobot( "Left=true" );
                     break;
                 case Keys.D:
+                    SendRequestRobot( "Start=true" );
                     SendRequestRobot( "Right=true" );
                     break;
 
@@ -218,6 +226,7 @@ namespace UserInterface
                     SendRequestRobot( "Stop=true" );
                     break;
                 case Keys.S:
+                    _startedBack = false;
                     SendRequestRobot( "Stop=true" );
                     break;
                 case Keys.Q:
@@ -287,7 +296,12 @@ namespace UserInterface
 
         private void synchronizeToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            SendRequestRobot("ControlIp="+ this.GetIp());
+            SendRequestRobot( "Synchronize=" + this.GetIp() );
+        }
+
+        private void unsynchronizeToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            SendRequestRobot( "Desynchronize=" + this.GetIp() );
         }
 
     }

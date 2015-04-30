@@ -49,6 +49,7 @@
             this.labelUrl = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
             this.pingButton = new System.Windows.Forms.Button();
+            this.unsynchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -151,6 +152,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.synchronizeToolStripMenuItem,
+            this.unsynchronizeToolStripMenuItem,
             this.pauseServerToolStripMenuItem,
             this.resumeServerToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -248,6 +250,13 @@
             this.pingButton.UseVisualStyleBackColor = true;
             this.pingButton.Click += new System.EventHandler(this.pingButton_Click);
             // 
+            // unsynchronizeToolStripMenuItem
+            // 
+            this.unsynchronizeToolStripMenuItem.Name = "unsynchronizeToolStripMenuItem";
+            this.unsynchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unsynchronizeToolStripMenuItem.Text = "Unsynchronize";
+            this.unsynchronizeToolStripMenuItem.Click += new System.EventHandler(this.unsynchronizeToolStripMenuItem_Click);
+            // 
             // RSmartServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,6 +314,7 @@
         private System.Windows.Forms.ToolStripMenuItem synchronizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addARouteToolStripMenuItem;
         private System.Windows.Forms.Button pingButton;
+        private System.Windows.Forms.ToolStripMenuItem unsynchronizeToolStripMenuItem;
     }
 }
 

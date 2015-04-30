@@ -93,6 +93,13 @@ namespace RSmartControl
                 return;
             }
 
+            if (_clientIp != null)
+            {
+                string response = "Someone is already synchronized";
+                SendResponse( clientSocket, response );
+                return;
+            }
+
             foreach (DictionaryEntry entry in nvc)
             {
                 string response;
@@ -122,8 +129,31 @@ namespace RSmartControl
                         SendResponse( clientSocket, response );
                         break;
 
-                    case "SynchronizeIp":
-                        response = _com.MainLoop.Robot.Position.Y.ToString();
+                    case "Synchronize":
+                        IPAddress ip = null;
+                        try
+                        {
+                            ip = IPAddress.Parse((string) entry.Value);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print("Exception in ip synchronization : " + e.ToString());
+                        }
+
+                        if (ip != null)
+                        {
+                            _clientIp = ip;
+                        }
+                        response = "Client synchronized : " + _clientIp.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+
+                    case "Desynchronize" :
+                        if ((string) entry.Value == _clientIp.ToString())
+                        {
+                            _clientIp = null;
+                        }
+                        response = "Client unsynchronized : " + _clientIp.ToString();
                         SendResponse( clientSocket, response );
                         break;
 
