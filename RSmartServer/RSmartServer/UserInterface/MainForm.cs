@@ -230,18 +230,22 @@ namespace UserInterface
             }
         }
 
-        public void SendRequestRobot(  string req )
+        public string SendRequestRobot(  string req )
         {
             string url = "http://" + _robotIp + "/?" + req + "&robot=true";
 
-            GET( url );
+            string rep = GET( url );
+            _debugLog.Write( "Response from " + _robotIp + " : " + rep );
+            return rep;
 
         }
 
-        public void SendRequest(string ip, string req)
+        public string SendRequest(string ip, string req)
         {
             string url = "http://" + ip + "/?" + req;
-            GET(url);
+            string rep = GET(url);
+            _debugLog.Write("Response from " + ip + " : " + rep);
+            return rep;
         }
 
         public string GET( string url )
@@ -279,6 +283,11 @@ namespace UserInterface
             {
                 MessageBox.Show( "Robot is offline" );
             }
+        }
+
+        private void synchronizeToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            SendRequestRobot("ControlIp="+ this.GetIp());
         }
 
     }

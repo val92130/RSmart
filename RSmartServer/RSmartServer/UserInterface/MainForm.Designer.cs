@@ -163,6 +163,7 @@
             this.synchronizeToolStripMenuItem.Name = "synchronizeToolStripMenuItem";
             this.synchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.synchronizeToolStripMenuItem.Text = "Synchronize";
+            this.synchronizeToolStripMenuItem.Click += new System.EventHandler(this.synchronizeToolStripMenuItem_Click);
             // 
             // pauseServerToolStripMenuItem
             // 
@@ -196,7 +197,7 @@
             // addARouteToolStripMenuItem
             // 
             this.addARouteToolStripMenuItem.Name = "addARouteToolStripMenuItem";
-            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addARouteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.addARouteToolStripMenuItem.Text = "Add a route";
             this.addARouteToolStripMenuItem.Click += new System.EventHandler(this.addARouteToolStripMenuItem_Click);
             // 

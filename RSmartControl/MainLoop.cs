@@ -36,6 +36,8 @@ namespace RSmartControl
             _com.MainLoop = this;
             _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensor, _backSensor, _leftSensor, _rightSensor,_com);
 
+            _com.Robot = _robot;
+
         }
        
 

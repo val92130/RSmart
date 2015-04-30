@@ -17,6 +17,7 @@ namespace RSmartControl
         Communication _com;
         private Socket socket = null;
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
+        private IPAddress _clientIp;
         public WebServer(Communication Com)
         {
             IPAddress ip = IPAddress.Parse("192.168.100.3");
@@ -60,9 +61,6 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
                        
-                        //Debug.Print(request);
-                        _com.AddMessage( request );
-                       
                         //Analyze the message then send a response
                         MessageAnalyse(Utility.ParseQueryString(request), clientSocket);
 
@@ -82,6 +80,12 @@ namespace RSmartControl
 
         public void MessageAnalyse(Hashtable nvc, Socket clientSocket)
         {
+            // if the robot is not yet initialized, we go
+            if (_com.Robot == null)
+            {
+                return;
+            }
+
             if (nvc == null)
             {
                 const string response = "Welcome to RSAMART VAL AND RAMI SAY HELLO TO YOU";
@@ -118,6 +122,11 @@ namespace RSmartControl
                         SendResponse( clientSocket, response );
                         break;
 
+                    case "SynchronizeIp":
+                        response = _com.MainLoop.Robot.Position.Y.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+
                     case "GetRobotDirection":
                         response = _com.MainLoop.Robot.Direction.ToString();
                         SendResponse( clientSocket, response );
@@ -139,6 +148,94 @@ namespace RSmartControl
                     case "GetMotorStatusLeft":
                         response = _com.MotorLeft.IsStarted.ToString();
                         SendResponse( clientSocket, response );
+                        break;
+                    case "Start":
+                        if( (string)entry.Value == "true" )
+                        {
+                           _com.MotorLeft.Start();
+                           _com.MotorRight.Start();
+                           response = "Motors started";
+                           SendResponse( clientSocket, response );
+                        }
+                        
+                        break;
+                    case "Stop":
+                        if( (string)entry.Value == "true" )
+                        {
+                            _com.MotorLeft.Stop();
+                            _com.MotorRight.Stop();
+                            response = "Motors stopped";
+                            SendResponse( clientSocket, response );
+                        }
+                        break;
+
+                    case "Rotate":
+                        if( (string)entry.Value == "left" )
+                        {
+                            _com.MotorLeft.Stop( Motor.TimeAngleRotation( _com.MotorLeft.DutyCycle, 90 ) );
+                            response = "Turning left";
+                            SendResponse( clientSocket, response );
+                        }
+
+                        if( (string)entry.Value == "right" )
+                        {
+                            _com.MotorRight.Stop( Motor.TimeAngleRotation( _com.MotorLeft.DutyCycle, 90 ) );
+                            response = "Turning right";
+                            SendResponse( clientSocket, response );
+                        }
+                        break;
+                    case "Speed":
+                        if( entry.Value == null )
+                            return;
+                        int speed;
+                        try
+                        {
+                            speed = Convert.ToInt32( (string)entry.Value );
+                        }
+                        catch( Exception e )
+                        {
+                            Debug.Print( e.ToString() );
+                            return;
+                        }
+
+                        if( speed < 0 || speed > 100 )
+                            return;
+                        _com.MotorLeft.DutyCycle = (double)((double)(speed) / (double)(100));
+                        _com.MotorRight.DutyCycle = (double)((double)(speed) / (double)(100));
+                        response = "Speed changed to : " + speed.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+                    case "Forward":
+                        if( (string)entry.Value == "true" )
+                        {
+                            _com.Robot.GoForward();
+                            response = "Robot going forward";
+                            SendResponse( clientSocket, response );
+                        }
+                        break;
+                    case "Backward":
+                        if( (string)entry.Value == "true" )
+                        {
+                            _com.Robot.GoBackward();
+                            response = "Robot going backward";
+                            SendResponse( clientSocket, response );
+                        }
+                        break;
+                    case "Right":
+                        if( (string)entry.Value == "true" )
+                        {
+                            _com.Robot.TurnRight();
+                            response = "Robot turning right";
+                            SendResponse( clientSocket, response );
+                        }
+                        break;
+                    case "Left":
+                        if( (string)entry.Value == "true" )
+                        {
+                            _com.Robot.TurnLeft();
+                            response = "Robot turning left";
+                            SendResponse( clientSocket, response );
+                        }
                         break;
 
                     default :                                               

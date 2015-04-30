@@ -13,12 +13,26 @@ namespace RSmartControl
         private Motor _motorLeft, _motorRight;
         private MainLoop _mainLoop;
         private ArrayList _obstacles;
+        private Robot _robot;
 
 
         public Communication()
         {
             _queue = new Queue();
             this._obstacles = new  ArrayList();
+        }
+
+        public Robot Robot
+        {
+            get
+            {
+                    return _robot;
+            }
+            set
+            {
+
+                    _robot = value;
+            }
         }
 
         public Motor MotorLeft
@@ -52,25 +66,6 @@ namespace RSmartControl
             set
             {
                 _motorRight = value;
-            }
-        }
-        public void AddMessage(String msgServer)
-        {
-
-            lock (_queue)
-            {
-                // if there are too many messages pending, we leave
-                if( _queue.Count >= MaxMessages )
-                {
-                    return;
-                }
-
-                if(Utility.IsQueryValid(msgServer))
-                {
-                    _queue.Enqueue( msgServer ); 
-                    Debug.Print(msgServer);
-                }
-
             }
         }
         public void AddObstacle(Vector2 Obstacle )
@@ -138,23 +133,6 @@ namespace RSmartControl
                 {
                     return this._obstacles;
                 }
-            }
-        }
-        public Object GetMessage()
-        {
-            object o = null;
-            lock(_queue)
-            {
-                if(_queue.Count != 0)
-                {
-                    o = _queue.Dequeue();
-                    return o;
-                }
-                else
-                {
-                    return null;
-                }
-                              
             }
         }
        

@@ -159,86 +159,6 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.BackWard;
         }
 
-        public void MessageAnalyse(Hashtable nvc)
-        {
-            if (nvc == null)
-                return;
-            foreach (DictionaryEntry entry in nvc)
-            {
-                switch ((string)entry.Key)
-                {
-                    case "Start":
-                        if ((string)entry.Value == "true")
-                        {
-                            _motorLeft.Start();
-                            _motorRight.Start();
-                        }
-                        break;
-                    case "Stop":
-                        if ((string)entry.Value == "true")
-                        {
-                            _motorLeft.Stop();
-                            _motorRight.Stop();
-                        }
-                        break;
-
-                    case "Rotate":
-                        if ((string)entry.Value == "left")
-                        {
-                            _motorLeft.Stop(Motor.TimeAngleRotation(_motorLeft.DutyCycle, 90));
-                        }
-
-                        if ((string)entry.Value == "right")
-                        {
-                            _motorRight.Stop(Motor.TimeAngleRotation(_motorLeft.DutyCycle, 90));
-                        }
-                        break;
-                    case "Speed":
-                        if (entry.Value == null)
-                            return;
-                        int speed;
-                        try
-                        {
-                            speed = Convert.ToInt32((string)entry.Value);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Print(e.ToString());
-                            return;
-                        }
-
-                        if (speed < 0 || speed > 100)
-                            return;
-                        _motorLeft.DutyCycle = (double)((double)(speed) / (double)(100));
-                        _motorRight.DutyCycle = (double)((double)(speed) / (double)(100));
-                        break;
-                    case "Forward":
-                        if ((string)entry.Value == "true")
-                        {
-                            GoForward();
-                        }
-                        break;
-                    case "Backward":
-                        if ((string)entry.Value == "true")
-                        {
-                            GoBackward();
-                        }
-                        break;
-                    case "Right":
-                        if ((string)entry.Value == "true")
-                        {
-                            TurnRight();
-                        }
-                        break;
-                    case "Left":
-                        if ((string)entry.Value == "true")
-                        {
-                            TurnLeft();
-                        }
-                        break;
-                }
-            }
-        }
 
        
         public void Behavior()
@@ -312,8 +232,6 @@ namespace RSmartControl
 
         public void Update()
         {
-            MessageAnalyse(Utility.ParseQueryString(_com.GetMessage()));
-            
             _motorLeft.Update();
             _motorRight.Update();
 
