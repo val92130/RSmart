@@ -66,7 +66,7 @@ namespace RSmartControl
 
                 line += chars[0];
             }
-            return line;
+            return line; 
         }
 
         /**
@@ -114,7 +114,7 @@ namespace RSmartControl
             httpsocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             // builds up the HTTP request
-            string requestheader = "GET " + path + " HTTP/1.1\r\nHost:" + server + "\r\nConnection: Close\r\nAccept-Charset: utf-8;\r\nPragma:    no-cache\r\nCache-Control: no-cache\r\n\r\n";
+            string requestheader = "GET " + path + " HTTP/1.1\r\nHost:" + server + "\r\nConnection: keep-alive\r\nAccept-Charset: utf-8;\r\nPragma:    no-cache\r\nCache-Control: no-cache\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n\r\n";
 
             httpsocket.Connect(new IPEndPoint(host.AddressList[0], port));
 
@@ -139,15 +139,16 @@ namespace RSmartControl
             while (line.Length != 0)
             {
                 line = ReadLine();
+                if (line.StartsWith("Value: "))
+                {
+                    line = line.Substring(7, line.Length - 7);
+                    break;
+                }
 
                 //searches content lenght header
-                if (line.IndexOf("Content-Length:") == 0)
-                {
-                    string lengthstring = line.Substring(15).Trim();
-
-                    size = Int32.Parse(lengthstring);
-                }
             }
+
+            Debug.Print("Response : " + line);
 
             // position starts to count from here
             position = 0;

@@ -32,6 +32,17 @@ namespace RSmartControl
             ListenForRequest();
         }
 
+        public Socket Socket
+        {
+            get
+            {
+                lock (socket)
+                {
+                    return socket;
+                }
+            }
+        }
+
         public void ListenForRequest()
         {
             while (true)

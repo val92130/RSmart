@@ -36,6 +36,7 @@
     <Compile Include="Communication.cs" />
     <Compile Include="HTTPRequestNet.cs" />
     <Compile Include="StartTimer.cs" />
+    <Compile Include="SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="EDirection.cs" />
     <Compile Include="Utilities\JsonParser.cs" />

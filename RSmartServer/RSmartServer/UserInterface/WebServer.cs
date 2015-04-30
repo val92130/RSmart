@@ -155,6 +155,7 @@ namespace UserInterface
                                 
                                 byte[] buf = Encoding.UTF8.GetBytes( rstr );
                                 ctx.Response.ContentLength64 = buf.Length;
+                                ctx.Response.AppendHeader( "Value", rstr );
                                 ctx.Response.OutputStream.Write( buf, 0, buf.Length );
 
                                 }

@@ -15,7 +15,6 @@ namespace RSmartControl
         Sensor _frontSensor, _backSensor, _leftSensor, _rightSensor;
 
          Vector2 _pos, _dir;
-
          Box _box;
 
          MainLoop _mainLoop;
