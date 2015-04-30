@@ -15,8 +15,10 @@ namespace RSmartControl
 
        private PWM p;
         Robot _robot;
-        public MainLoop(Communication Com)
+       private SyncModule _syncModule;
+        public MainLoop(Communication Com, SyncModule syncModule)
         {
+            _syncModule = syncModule;
             _frontSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.Forward);
             _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.BackWard);
             _leftSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.Left);
@@ -46,6 +48,14 @@ namespace RSmartControl
            get
            {
                return _robot;
+           }
+       }
+
+       public SyncModule SyncModule
+       {
+           get
+           {
+               return _syncModule;
            }
        }
 

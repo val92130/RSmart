@@ -6,43 +6,36 @@ namespace RSmartControl
 {
     public class SyncModule
     {
-        private MainLoop _mainLoop;
         private IPAddress _client;
-        private HTTPRequest _request;
-        private WebServer _server;
-        public SyncModule(MainLoop mainloop, WebServer server)
+        public SyncModule()
         {
-            _request = new HTTPRequest();
-            _mainLoop = mainloop;
-            _server = server;
+
         }
 
-        public void Run()
-        {
-            
-        }
 
         public IPAddress Client
         {
             get
             {
-                lock (_client)
-                {
-                    return _client;
-                }
+                return _client;
             }
             set
             {
-                lock (_client)
-                {
-                    _client = value;
-                }
+                _client = value;
             }
         }
 
-        public string SendRequest(string url)
+        public void SendRequest(string query)
         {
-            return null;
-        }
+                if( _client != null )
+                {
+                    lock (_client)
+                    {
+                        HTTPRequest http = new HTTPRequest();
+                        http.Send( "http://" + _client.ToString() + "/?" + query );
+                    }
+                    
+                }
+            }
     }
 }

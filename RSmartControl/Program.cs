@@ -15,6 +15,9 @@ namespace RSmartControl
     {
         public static void Main()
         {
+
+            SyncModule syncModule = new SyncModule();
+
             // Initializing the communication module
             Communication _communication = new Communication();
 
@@ -24,11 +27,13 @@ namespace RSmartControl
             // Starting the Server
             Thread server = new Thread( () =>
             {
-                WebServer webServer = new WebServer( _communication );
+                WebServer webServer = new WebServer( _communication, syncModule );
                 webServer.ListenForRequest();
             } );
+            
             server.Start();
-            MainLoop loop = new MainLoop(_communication );
+
+            MainLoop loop = new MainLoop(_communication, syncModule );
             loop.Run();
         }
 

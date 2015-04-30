@@ -18,8 +18,10 @@ namespace RSmartControl
         private Socket socket = null;
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         private IPAddress _clientIp;
-        public WebServer(Communication Com)
+        private SyncModule _syncModule;
+        public WebServer(Communication Com, SyncModule syncModule)
         {
+            _syncModule = syncModule;
             IPAddress ip = IPAddress.Parse("192.168.100.3");
             _com = Com;
             //Initialize Socket class
@@ -154,6 +156,7 @@ namespace RSmartControl
 
                         if (ip != null)
                         {
+                            _syncModule.Client = ip;
                             _clientIp = ip;
                         }
                         response = "Client synchronized : " + _clientIp.ToString();
@@ -164,6 +167,7 @@ namespace RSmartControl
                         string tmp = _clientIp.ToString();
                         if ((string) entry.Value == _clientIp.ToString())
                         {
+                            _syncModule.Client = null;
                             _clientIp = null;
                         }
                         response = "Client unsynchronized : " + tmp;
