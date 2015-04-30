@@ -60,13 +60,25 @@ namespace RSmartControl
                         byte[] buffer = new byte[bytesReceived];
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
-                       
-                        //Analyze the message then send a response
-                        MessageAnalyse(Utility.ParseQueryString(request), clientSocket);
+
+                        if (_clientIp != null && clientIP.Address.ToString() == _clientIp.ToString())
+                        {
+                            //Analyze the message then send a response
+                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIP );                           
+                        } else if (_clientIp == null)
+                        {
+                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIP );    
+                        }
+                        else
+                        {
+                            const string response = "Someone is already synchronized";
+                            SendResponse( clientSocket, response );
+                        }
+                        
 
                         //Blink the onboard LED                  
                         led.Write(true);
-                        Thread.Sleep(80);
+                        Thread.Sleep(30);
                         led.Write(false);                    
                     }
                 }
@@ -78,7 +90,7 @@ namespace RSmartControl
             Dispose();
         }
 
-        public void MessageAnalyse(Hashtable nvc, Socket clientSocket)
+        public void MessageAnalyse( Hashtable nvc, Socket clientSocket, IPEndPoint clientIp )
         {
             // if the robot is not yet initialized, we go
             if (_com.Robot == null)
@@ -93,7 +105,7 @@ namespace RSmartControl
                 return;
             }
 
-            if (_clientIp != null)
+            if (_clientIp != null && _clientIp.ToString() != clientIp.Address.ToString() )
             {
                 string response = "Someone is already synchronized";
                 SendResponse( clientSocket, response );
@@ -149,11 +161,12 @@ namespace RSmartControl
                         break;
 
                     case "Desynchronize" :
+                        string tmp = _clientIp.ToString();
                         if ((string) entry.Value == _clientIp.ToString())
                         {
                             _clientIp = null;
                         }
-                        response = "Client unsynchronized : " + _clientIp.ToString();
+                        response = "Client unsynchronized : " + tmp;
                         SendResponse( clientSocket, response );
                         break;
 

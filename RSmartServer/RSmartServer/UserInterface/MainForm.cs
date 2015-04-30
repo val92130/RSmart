@@ -39,6 +39,7 @@ namespace UserInterface
 
             serverThread.Start();
             InitializeComponent();
+            Application.ApplicationExit += new EventHandler( this.OnApplicationExit ); 
 
             labelIp.Text = _ip + " - " + _server.Status;
 
@@ -59,6 +60,11 @@ namespace UserInterface
             UpdateRoutesTextBox();
             
 
+        }
+
+        private void OnApplicationExit( object sender, EventArgs e )
+        {
+            SendRequestRobot( "Desynchronize=" + this.GetIp() );
         }
 
         public bool PingRobot()
