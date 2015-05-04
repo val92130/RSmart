@@ -36,7 +36,7 @@ namespace UserInterfaceWPF
         }
         public void Initialize()
         {
-            _robotControl.WebCamManager.Start();
+            //_robotControl.WebCamManager.Start();
             labelIpTitle.Content = "Server IP : " + Util.GetIp();
             this.InitializeTimers();
             _routeCount = _robotControl.WebServer.Routes.Count;
