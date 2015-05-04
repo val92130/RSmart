@@ -39,6 +39,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.synchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unsynchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resumeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,8 @@
             this.labelUrl = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
             this.pingButton = new System.Windows.Forms.Button();
-            this.unsynchronizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startButton = new System.Windows.Forms.Button();
+            this.buttonStopMotor = new System.Windows.Forms.Button();
             this.panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureWebcam)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -167,6 +169,13 @@
             this.synchronizeToolStripMenuItem.Text = "Synchronize";
             this.synchronizeToolStripMenuItem.Click += new System.EventHandler(this.synchronizeToolStripMenuItem_Click);
             // 
+            // unsynchronizeToolStripMenuItem
+            // 
+            this.unsynchronizeToolStripMenuItem.Name = "unsynchronizeToolStripMenuItem";
+            this.unsynchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unsynchronizeToolStripMenuItem.Text = "Unsynchronize";
+            this.unsynchronizeToolStripMenuItem.Click += new System.EventHandler(this.unsynchronizeToolStripMenuItem_Click);
+            // 
             // pauseServerToolStripMenuItem
             // 
             this.pauseServerToolStripMenuItem.Name = "pauseServerToolStripMenuItem";
@@ -250,12 +259,25 @@
             this.pingButton.UseVisualStyleBackColor = true;
             this.pingButton.Click += new System.EventHandler(this.pingButton_Click);
             // 
-            // unsynchronizeToolStripMenuItem
+            // startButton
             // 
-            this.unsynchronizeToolStripMenuItem.Name = "unsynchronizeToolStripMenuItem";
-            this.unsynchronizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.unsynchronizeToolStripMenuItem.Text = "Unsynchronize";
-            this.unsynchronizeToolStripMenuItem.Click += new System.EventHandler(this.unsynchronizeToolStripMenuItem_Click);
+            this.startButton.Location = new System.Drawing.Point(834, 71);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 11;
+            this.startButton.Text = "Start Motor";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // buttonStopMotor
+            // 
+            this.buttonStopMotor.Location = new System.Drawing.Point(753, 71);
+            this.buttonStopMotor.Name = "buttonStopMotor";
+            this.buttonStopMotor.Size = new System.Drawing.Size(75, 23);
+            this.buttonStopMotor.TabIndex = 12;
+            this.buttonStopMotor.Text = "Stop Motor";
+            this.buttonStopMotor.UseVisualStyleBackColor = true;
+            this.buttonStopMotor.Click += new System.EventHandler(this.buttonStopMotor_Click);
             // 
             // RSmartServer
             // 
@@ -263,6 +285,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1008, 730);
+            this.Controls.Add(this.buttonStopMotor);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.pingButton);
             this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.labelUrl);
@@ -315,6 +339,8 @@
         private System.Windows.Forms.ToolStripMenuItem addARouteToolStripMenuItem;
         private System.Windows.Forms.Button pingButton;
         private System.Windows.Forms.ToolStripMenuItem unsynchronizeToolStripMenuItem;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button buttonStopMotor;
     }
 }
 

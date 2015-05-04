@@ -22,45 +22,98 @@ namespace UserInterface
         DebugLog _debugLog;
         System.Windows.Forms.Timer _loopTimer;
         System.Windows.Forms.Timer _cameraTimer;
+        System.Windows.Forms.Timer _routineTimer;
         RouteCreationForm _routeCreationForm;
         private bool _started, _startedBack;
         private string _robotIp;
+        int _routeCount = 0;
+        private bool _isRobotOnline = false;
    
         public RSmartServer()
         {
+            if( !System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable() )
+            {
+                MessageBox.Show( "Error : No network available" );
+                Application.Exit();
+                try
+                {
+                    this.Close();
+                }
+                catch
+                { }
+                return;
+            }
+
             _robotIp = "10.8.110.204";
             _debugLog = new DebugLog();
             _ip = GetIp();
-            Thread serverThread = new Thread(() =>
-            {
-                _server = new WebServer("http://" + _ip + ":80/", _debugLog);
-                _server.Run();
-            });
 
-            serverThread.Start();
+
+            InitializeThreads();
+
+            
             InitializeComponent();
             Application.ApplicationExit += new EventHandler( this.OnApplicationExit ); 
 
             labelIp.Text = _ip + " - " + _server.Status;
 
-            _loopTimer = new System.Windows.Forms.Timer();
-            _loopTimer.Interval = 10;
-            _loopTimer.Tick += new EventHandler(T_Loop);
-            _loopTimer.Start();
-
-            _cameraTimer = new System.Windows.Forms.Timer();
-            _cameraTimer.Interval = 1000;
-            _cameraTimer.Tick += new EventHandler(T_Camera_Update);
-            _cameraTimer.Start();
+            InitializeTimer();
 
             webBrowser.Url = new Uri("http://" + _ip + ":80/");
 
             _debugLog.Write("App started");
 
+            _routeCount = _server.Routes.Count;
             UpdateRoutesTextBox();
             
 
         }
+
+        private void InitializeTimer()
+        {
+            _loopTimer = new System.Windows.Forms.Timer();
+            _loopTimer.Interval = 10;
+            _loopTimer.Tick += new EventHandler( T_Loop );
+            _loopTimer.Start();
+
+            _cameraTimer = new System.Windows.Forms.Timer();
+            _cameraTimer.Interval = 1000;
+            _cameraTimer.Tick += new EventHandler( T_Camera_Update );
+            _cameraTimer.Start();
+
+            _routineTimer = new System.Windows.Forms.Timer();
+            _routineTimer.Interval = 1000;
+            _routineTimer.Tick += new EventHandler( Routine );
+            _routineTimer.Start();
+        }
+
+        private void Routine( object sender, EventArgs e )
+        {
+            if( _routeCount != null )
+            {
+                if( _routeCount != _server.Routes.Count )
+                {
+                    _debugLog.Write( "changeeed" );
+                    _routeCount = _server.Routes.Count;
+                    UpdateRoutesTextBox();
+                }
+            }
+
+            _isRobotOnline = PingRobot();
+        }
+
+        private void InitializeThreads()
+        {
+            Thread serverThread = new Thread( () =>
+            {
+                _server = new WebServer( "http://" + _ip + ":80/", _debugLog );
+                _server.Run();
+            } );
+
+            serverThread.Start();
+
+        }
+
 
         private void OnApplicationExit( object sender, EventArgs e )
         {
@@ -71,7 +124,7 @@ namespace UserInterface
         {
             var ping = new Ping();
 
-            PingReply reply = ping.Send( IPAddress.Parse( _robotIp ), 1500 );
+            PingReply reply = ping.Send( IPAddress.Parse( _robotIp ), 50 );
 
             if (reply.Status == IPStatus.Success)
             {
@@ -102,7 +155,20 @@ namespace UserInterface
 
         private void T_Camera_Update(object sender, EventArgs e)
         {
-            pictureWebcam.Load("https://www.tradeit.fr/Webcam/image_upload/img.jpg");
+            if( !System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable() )
+            {
+                return;
+            }
+            try
+            {
+                pictureWebcam.Load( "https://www.tradeit.fr/Webcam/image_upload/img.jpg" );
+
+            }
+            catch( Exception ex )
+            {
+
+                _debugLog.Write( ex.ToString() );
+            }
         }
 
         private void T_Loop(object sender, EventArgs e)
@@ -247,16 +313,18 @@ namespace UserInterface
 
         public string SendRequestRobot(  string req )
         {
-            string url = "http://" + _robotIp + "/?" + req + "&robot=true";
+            if(_isRobotOnline)
+            {
+                return SendRequest( _robotIp, req + "&robot=true" );
+            }
+            return null;
 
-            string rep = GET( url );
-            _debugLog.Write( "Response from " + _robotIp + " : " + rep );
-            return rep;
 
         }
 
         public string SendRequest(string ip, string req)
         {
+            
             string url = "http://" + ip + "/?" + req;
             string rep = GET(url);
             _debugLog.Write("Response from " + ip + " : " + rep);
@@ -288,6 +356,8 @@ namespace UserInterface
             return null;
         }
 
+
+
         private void pingButton_Click( object sender, EventArgs e )
         {
             if (PingRobot())
@@ -308,6 +378,16 @@ namespace UserInterface
         private void unsynchronizeToolStripMenuItem_Click( object sender, EventArgs e )
         {
             SendRequestRobot( "Desynchronize=" + this.GetIp() );
+        }
+
+        private void startButton_Click( object sender, EventArgs e )
+        {
+            this.SendRequestRobot( "Start=true" );
+        }
+
+        private void buttonStopMotor_Click( object sender, EventArgs e )
+        {
+            this.SendRequestRobot( "Stop=true" );
         }
 
     }

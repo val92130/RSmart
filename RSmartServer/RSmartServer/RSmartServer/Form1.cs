@@ -111,10 +111,6 @@ namespace RSmartServer
 
         }
 
-        private void Form1_KeyDown_1( object sender, KeyEventArgs e )
-        {
-            MessageBox.Show("ee");
-        }
 
         
 
