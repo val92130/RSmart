@@ -32,6 +32,12 @@ namespace ServerLibrary
             serverThread.Start();
         }
 
+        public RobotControl()
+        {
+            _debugLog = new DebugLog();
+            _ip = Util.GetIp();
+        }
+
         public DebugLog DebugLog
         {
             get
