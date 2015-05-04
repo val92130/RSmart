@@ -9,8 +9,9 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using ServerLibrary;
 
-namespace UserInterface
+namespace ServerLibrary
 {
     public class WebServer
     {
@@ -85,7 +86,7 @@ namespace UserInterface
             {
                 try
                 {
-                    using( Stream stream = File.Open( "../../routes/routes.bin", FileMode.Create ) )
+                    using( Stream stream = File.Open( "../../../Routes/routes.bin", FileMode.Create ) )
                     {
                         BinaryFormatter bin = new BinaryFormatter();
                         bin.Serialize( stream, _routes );
@@ -103,7 +104,7 @@ namespace UserInterface
         {
             try
             {
-                using( Stream stream = File.Open( "../../routes/routes.bin", FileMode.Open ) )
+                using (Stream stream = File.Open("../../../Routes/routes.bin", FileMode.Open))
                 {
                     BinaryFormatter bin = new BinaryFormatter();
 
@@ -262,7 +263,13 @@ namespace UserInterface
                 }
 
             }
-            return "Welcome To the RSmart WebServer Interface";
+            string resp = "<html>Welcome To the RSmart WebServer Interface";
+            foreach (Route r in _routes)
+            {
+                resp += "<br/> <a href=\"" + Util.GetIp() + "?" + r.Key + "=" + r.Value + "\">" + r.Key + "<a/>";
+            }
+            resp += "</html>";
+            return resp;
             
         }
 
