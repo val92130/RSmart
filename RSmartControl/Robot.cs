@@ -12,7 +12,7 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        Sensor _frontSensor, _backSensor, _leftSensor, _rightSensor;
+        Sensor _frontSensorLeft, _frontSensorRight;
 
          Vector2 _pos, _dir;
          Box _box;
@@ -23,7 +23,7 @@ namespace RSmartControl
 
         private Communication _com;
 
-         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensor, Sensor BackSensor, Sensor LeftSensor, Sensor RightSensor, Communication Com)
+         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
@@ -33,10 +33,8 @@ namespace RSmartControl
              _motorLeft = MotorLeft;
              _motorRight = MotorRight;
 
-             _frontSensor = frontSensor;
-             _backSensor = BackSensor;
-             _leftSensor = LeftSensor;
-             _rightSensor = RightSensor;
+             _frontSensorLeft = frontSensorLeft;
+             _frontSensorRight = frontSensorRight;
 
              _com = Com;
 
@@ -163,51 +161,26 @@ namespace RSmartControl
        
         public void Behavior()
         {
-            _frontSensor.sensorBehaviour();
-            //_backSensor.sensorBehaviour();
-            _rightSensor.sensorBehaviour();
-            _leftSensor.sensorBehaviour();
+            _frontSensorLeft.sensorBehaviour();
+            _frontSensorRight.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                if (_frontSensor.Collide  && !_leftSensor.Collide && !_rightSensor.Collide)
+                if (_frontSensorLeft.Collide  && _frontSensorRight.Collide)
                 {
                     this.RandomMethod();
                     return;
-                }
-                if (_frontSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
-                {
-                    this.TurnLeft();
-                    return;
-                }
-                if (_frontSensor.Collide && _leftSensor.Collide && _rightSensor.Collide)
+                } 
+                if (_frontSensorLeft.Collide && !_frontSensorRight.Collide)
                 {
                     this.TurnRight();
                     return;
                 }
-                //if (!_frontSensor.Collide && !_leftSensor.Collide && !_rightSensor.Collide)
-                //{
-                //    _motorLeft.ReverseDirection(0.5);
-                //    _motorRight.ReverseDirection(0.5);
-                //    return;
-
-                //}
-                //if (!_frontSensor.Collide && _leftSensor.Collide && !_rightSensor.Collide)
-                //{
-                //    _motorLeft.ReverseDirection(0.2);
-                //    _motorRight.ReverseDirection(0.2);
-                //    this.TurnRight();
-                //    return;
-
-                //}
-                //if (!_frontSensor.Collide && !_leftSensor.Collide && _rightSensor.Collide)
-                //{
-                //    _motorLeft.ReverseDirection(0.2);
-                //    _motorRight.ReverseDirection(0.2);
-                //    this.TurnLeft();
-                //    return;
-
-                //}
+                if (!_frontSensorLeft.Collide && _frontSensorRight.Collide)
+                {
+                    this.TurnRight();
+                    return;
+                }
  
             }
 
