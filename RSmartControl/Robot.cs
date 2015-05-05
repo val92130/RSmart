@@ -12,7 +12,7 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        Sensor _frontSensorLeft, _frontSensorRight;
+        Sensor _frontSensorLeft, _frontSensorRight, _downSensor;
 
          Vector2 _pos, _dir;
          Box _box;
@@ -23,7 +23,7 @@ namespace RSmartControl
 
         private Communication _com;
 
-         public Robot(MainLoop MainLoop,Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Communication Com)
+        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Sensor downSensor, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
@@ -35,6 +35,7 @@ namespace RSmartControl
 
              _frontSensorLeft = frontSensorLeft;
              _frontSensorRight = frontSensorRight;
+             _downSensor = downSensor;
 
              _com = Com;
 
@@ -163,6 +164,7 @@ namespace RSmartControl
         {
             _frontSensorLeft.sensorBehaviour();
             _frontSensorRight.sensorBehaviour();
+            _downSensor.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
@@ -179,6 +181,11 @@ namespace RSmartControl
                 if (!_frontSensorLeft.Collide && _frontSensorRight.Collide)
                 {
                     this.TurnRight();
+                    return;
+                }
+                if (!_downSensor.Collide)
+                {
+                    this.TurnLeft();
                     return;
                 }
  

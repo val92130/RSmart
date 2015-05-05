@@ -36,11 +36,11 @@ namespace VocalCommand
 
             if( Util.PingRobot() )
             {
-                Say( "I'm online" );
+                Say( "je suis en ligne" );
             }
             else
             {
-                Say( "I'm offline" );
+                Say( " je suis hors ligne " );
             }
 
 
@@ -91,6 +91,7 @@ namespace VocalCommand
                     break;
                 case "left":
                     _robotControl.SendRequestRobot("Left=true");
+                    Say(RandomResponse());
                     break;
                 case "right":
                     _robotControl.SendRequestRobot("Right=true");
@@ -108,10 +109,10 @@ namespace VocalCommand
             String[] responses = new String[]
             {
                 "Good",
-                "Perfect",
+                "parfait",
                 "Okay",
-                "No problem",
-                "I'm on my way",
+                "pas de  problème",
+                "je vais le faire ",
                 "Sure !"
             };
             
