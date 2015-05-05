@@ -34,6 +34,7 @@ namespace ServerLibrary
 
         public RobotControl()
         {
+            _robotIp = Util.RobotIp;
             _debugLog = new DebugLog();
             _ip = Util.GetIp();
         }

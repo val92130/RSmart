@@ -100,7 +100,7 @@ namespace RSmartControl
             }
         }
 
-        public void TurnRight()
+        public void  TurnLeft()
         {
             _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.BackWard;
@@ -115,7 +115,7 @@ namespace RSmartControl
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
-        public void TurnLeft()
+        public void TurnRight()
         {
             _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.BackWard;

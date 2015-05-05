@@ -24,7 +24,7 @@ namespace VocalCommand
             SpeechRecognizer recognizer = new SpeechRecognizer();
 
             Choices directions = new Choices();
-            directions.Add(new string[] { "avant", "arriere", "gauche", "droite", "demarre", "stop" });
+            directions.Add(new string[] { "for", "back", "left", "right", "go", "basta" });
 
             GrammarBuilder gb = new GrammarBuilder();
             gb.Append(directions);
@@ -39,24 +39,25 @@ namespace VocalCommand
         {
             switch(e.Result.Text)
             {
-                case "avant":
+                case "for":
                     _robotControl.SendRequestRobot("Forward=true");
                     break;
-                case "demarre":
+                case "go":
                     _robotControl.SendRequestRobot("Start=true");
                     break;
-                case "stop":
+                case "basta":
                     _robotControl.SendRequestRobot("Stop=true");
                     break;
-                case "arriere":
+                case "back":
                     _robotControl.SendRequestRobot("Backward=true");
                     break;
-                case "gauche":
+                case "left":
                     _robotControl.SendRequestRobot("Left=true");
                     break;
-                case "droite":
+                case "right":
                     _robotControl.SendRequestRobot("Right=true");
                     break;
+                
             }
         }
     }
