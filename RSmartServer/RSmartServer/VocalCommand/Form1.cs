@@ -30,6 +30,7 @@ namespace VocalCommand
             gb.Append(directions);
 
             Grammar g = new Grammar(gb);
+            g.Priority = 127;
             recognizer.LoadGrammar(g);
 
             recognizer.SpeechRecognized +=
