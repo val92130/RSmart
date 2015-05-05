@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using ServerLibrary;
 
-namespace UserInterface
+namespace ServerLibrary
 {
     public class WebServer
     {
@@ -41,10 +43,13 @@ namespace UserInterface
 
         public void InitRoutesConfiguration()
         {
+            this.DeserializeRoutes();
             AddRoute(new Route("test", "true", "Helloooo"));
             AddRoute(new Route("hello", "world", "Hello World"));
             AddRoute(new Route("hello", "rsmart", "Hello Rsmart"));
             _debugLog.Write("Routes initialized");
+            //this.SerializeRoutes();
+            
         }
 
         public void AddRoute(Route r)
@@ -55,12 +60,14 @@ namespace UserInterface
                 {
                     _routes.Add(r);
                     _debugLog.Write("Route added");
+                    this.SerializeRoutes();
+                    
                 }
                 else
                 {
                     _debugLog.Write("Trying to write an already existing route");
                 }
-                
+                            
             }
         }
 
@@ -69,15 +76,7 @@ namespace UserInterface
         public void AddRoute(string key, string value, string response)
         {
             Route r = new Route(key, value, response);
-            if(!CheckExistingRoute(r))
-            {
-                _routes.Add(new Route(key, value, response));
-                _debugLog.Write("Route added");
-            }
-            else
-            {
-                _debugLog.Write("Trying to write an already existing route");
-            }
+            this.AddRoute( r );
             
         }
 
@@ -85,13 +84,37 @@ namespace UserInterface
         {
             lock(_routes)
             {
-                XmlSerializer xs = new XmlSerializer(typeof(List<Route>));
-                using (StreamWriter wr = new StreamWriter("../../routes/routes.xml"))
+                try
                 {
-                    xs.Serialize(wr, _routes);
+                    using( Stream stream = File.Open( "../../../Routes/routes.bin", FileMode.Create ) )
+                    {
+                        BinaryFormatter bin = new BinaryFormatter();
+                        bin.Serialize( stream, _routes );
+                    }
+                }
+                catch( IOException ex )
+                {
+                    _debugLog.Write( ex.ToString() );
                 }
             }
 
+        }
+
+        public void DeserializeRoutes()
+        {
+            try
+            {
+                using (Stream stream = File.Open("../../../Routes/routes.bin", FileMode.Open))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+
+                    this._routes =  (List<Route>)bin.Deserialize( stream );
+                }
+            }
+            catch( IOException ex )
+            {
+                _debugLog.Write( ex.ToString() );
+            }
         }
 
         public bool CheckExistingRoute(Route route)
@@ -143,6 +166,10 @@ namespace UserInterface
                 {
                     while( _listener.IsListening )
                     {
+                        if( !System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable() )
+                        {
+                            return;
+                        }
                         ThreadPool.QueueUserWorkItem( ( c ) =>
                         {
                             var ctx = c as HttpListenerContext;
@@ -236,7 +263,13 @@ namespace UserInterface
                 }
 
             }
-            return "Welcome To the RSmart WebServer Interface";
+            string resp = "<html>Welcome To the RSmart WebServer Interface";
+            foreach (Route r in _routes)
+            {
+                resp += "<br/> <a href=\"" + Util.GetIp() + "?" + r.Key + "=" + r.Value + "\">" + r.Key + "<a/>";
+            }
+            resp += "</html>";
+            return resp;
             
         }
 
