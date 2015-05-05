@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ServerLibrary
 {
@@ -12,6 +13,7 @@ namespace ServerLibrary
         string _key, _value, _response;
         public Route(string key, string value, string response)
         {
+            
             _key = key;
             _value = value;
             _response = response;
@@ -21,29 +23,29 @@ namespace ServerLibrary
         {
 
         }
-
         public string Key
         {
             get
             {
                 return _key;
             }
+            set { }
         }
-
         public string Value
         {
             get
             {
                 return _value;
             }
+            set { }
         }
-
         public string Response
         {
             get
             {
                 return _response;
             }
+            set { }
         }
     }
 }

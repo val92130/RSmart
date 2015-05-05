@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,19 @@ namespace ServerLibrary
             {
                 return "10.8.110.204";
             }
+        }
+
+        public static bool PingRobot()
+        {
+            var ping = new Ping();
+
+            PingReply reply = ping.Send( IPAddress.Parse( RobotIp ), 50 );
+
+            if( reply.Status == IPStatus.Success )
+            {
+                return true;
+            }
+            return false;
         }
         public static bool RemoteFileExists(string url)
         {

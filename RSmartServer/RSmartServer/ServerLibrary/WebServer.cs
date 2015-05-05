@@ -10,6 +10,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ServerLibrary;
+using System.Xml.Linq;
 
 namespace ServerLibrary
 {
@@ -48,7 +49,7 @@ namespace ServerLibrary
             AddRoute(new Route("hello", "world", "Hello World"));
             AddRoute(new Route("hello", "rsmart", "Hello Rsmart"));
             _debugLog.Write("Routes initialized");
-            //this.SerializeRoutes();
+            this.SerializeRoutes();
             
         }
 
@@ -72,12 +73,10 @@ namespace ServerLibrary
         }
 
 
-
         public void AddRoute(string key, string value, string response)
         {
             Route r = new Route(key, value, response);
-            this.AddRoute( r );
-            
+            this.AddRoute( r );           
         }
 
         public void SerializeRoutes()
@@ -99,6 +98,7 @@ namespace ServerLibrary
             }
 
         }
+       
 
         public void DeserializeRoutes()
         {
