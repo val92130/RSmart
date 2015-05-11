@@ -15,11 +15,8 @@ namespace RSmartControl
     {
         public static void Main()
         {
-
-            SyncModule syncModule = new SyncModule();
-
-            // Initializing the communication module
-            Communication _communication = new Communication();
+            // Plugins initialization
+            PluginManager pluginManager = new PluginManager();
 
             // Enabling DHCP
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
@@ -27,13 +24,13 @@ namespace RSmartControl
             // Starting the Server
             Thread server = new Thread( () =>
             {
-                WebServer webServer = new WebServer( _communication, syncModule );
+                WebServer webServer = new WebServer( pluginManager );
                 webServer.ListenForRequest();
             } );
             
             server.Start();
 
-            MainLoop loop = new MainLoop(_communication, syncModule );
+            MainLoop loop = new MainLoop( pluginManager );
             loop.Run();
         }
 

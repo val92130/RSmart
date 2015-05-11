@@ -35,6 +35,8 @@
     <Compile Include="Box.cs" />
     <Compile Include="Communication.cs" />
     <Compile Include="HTTPRequestNet.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="SensorsManager.cs" />
     <Compile Include="StartTimer.cs" />
     <Compile Include="SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />

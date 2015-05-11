@@ -12,7 +12,7 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
+        SensorsManager _sensorsManager;
         bool _collideUnder = false;
         Vector2 _pos, _dir;
         Box _box;
@@ -23,7 +23,7 @@ namespace RSmartControl
 
         private Communication _com;
 
-        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Sensor downSensor, Sensor backSensor, Communication Com)
+        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, SensorsManager SensorsManager, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
@@ -33,10 +33,7 @@ namespace RSmartControl
             _motorLeft = MotorLeft;
             _motorRight = MotorRight;
 
-            _frontSensorLeft = frontSensorLeft;
-            _frontSensorRight = frontSensorRight;
-             _downSensor = downSensor;
-             _backSensor = backSensor;
+            _sensorsManager = SensorsManager;
 
             _com = Com;
 
@@ -185,14 +182,14 @@ namespace RSmartControl
        
         public void Behavior()
         {
-            _frontSensorLeft.sensorBehaviour();
-            _frontSensorRight.sensorBehaviour();
-            _downSensor.sensorBehaviour();
-            _backSensor.sensorBehaviour();
+            _sensorsManager.FrontSensorLeft.sensorBehaviour();
+            _sensorsManager.FrontSensorRight.sensorBehaviour();
+            _sensorsManager.DownSensor.sensorBehaviour();
+            _sensorsManager.BackSensor.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                if (_frontSensorLeft.Collide  && _frontSensorRight.Collide)
+                if (_sensorsManager.FrontSensorLeft.Collide  && _sensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     _motorLeft.Direction = EDirection.Forward;
@@ -201,29 +198,29 @@ namespace RSmartControl
                     this.TurnLeftDirect();
                     return;
                 } 
-                if (_frontSensorLeft.Collide && !_frontSensorRight.Collide)
+                if (_sensorsManager.FrontSensorLeft.Collide && !_sensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     return;
                 }
-                if (!_frontSensorLeft.Collide && _frontSensorRight.Collide)
+                if (!_sensorsManager.FrontSensorLeft.Collide && _sensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     return;
                 }
-                if (_backSensor.Collide)
+                if (_sensorsManager.BackSensor.Collide)
                 {
                     _motorLeft.Direction = EDirection.Forward;
                     _motorRight.Direction = EDirection.Forward;
                     return;
                 }
-                if (!_downSensor.Collide && _collideUnder)
+                if (!_sensorsManager.DownSensor.Collide && _collideUnder)
                 {
                     _collideUnder = false;
                     this.TurnLeft();
                     return;
                 }
-                else if(!_downSensor.Collide)
+                else if(!_sensorsManager.DownSensor.Collide)
                 {
                     _collideUnder = true;
                 }

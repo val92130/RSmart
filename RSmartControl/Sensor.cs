@@ -10,13 +10,10 @@ namespace RSmartControl
         AnalogInput _sanalog;
         int counter = 0;
         private bool _collide;
-
-        private EDirection _direction;
-        public Sensor(MainLoop mainLoop, AnalogInput Sanalog, EDirection direction)
+        public Sensor(MainLoop mainLoop, AnalogInput Sanalog)
         {
             _mainloop = mainLoop;
             _sanalog = Sanalog;
-            _direction = direction;
         }
 
         public AnalogInput AnalogInput

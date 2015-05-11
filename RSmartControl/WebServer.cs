@@ -19,11 +19,13 @@ namespace RSmartControl
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         private IPAddress _clientIp;
         private SyncModule _syncModule;
-        public WebServer(Communication Com, SyncModule syncModule)
+        private PluginManager _pluginManager;
+        public WebServer(PluginManager pluginManager)
         {
-            _syncModule = syncModule;
+            _pluginManager = pluginManager;
+            _syncModule = pluginManager.SyncModule;
             IPAddress ip = IPAddress.Parse("192.168.100.3");
-            _com = Com;
+            _com = pluginManager.CommunicationModule;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
