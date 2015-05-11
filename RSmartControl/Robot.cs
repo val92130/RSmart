@@ -12,8 +12,8 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        Sensor _frontSensorLeft, _frontSensorRight, _downSensor;
-
+        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
+        bool _collideUnder = false;
          Vector2 _pos, _dir;
          Box _box;
 
@@ -23,7 +23,7 @@ namespace RSmartControl
 
         private Communication _com;
 
-        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Sensor downSensor, Communication Com)
+        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Sensor downSensor, Sensor backSensor, Communication Com)
         {
             _pos = new Vector2();
             _dir = new Vector2();
@@ -36,6 +36,7 @@ namespace RSmartControl
              _frontSensorLeft = frontSensorLeft;
              _frontSensorRight = frontSensorRight;
              _downSensor = downSensor;
+             _backSensor = backSensor;
 
              _com = Com;
 
@@ -116,6 +117,17 @@ namespace RSmartControl
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
+        public void TurnLeftDirect()
+        {
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+
+            _motorRight.ReverseDirection(0.6);
+
+            this._dir.X = this._dir.X * System.Math.Cos(this.RotationSpeed) - this._dir.Y * System.Math.Sin(this.RotationSpeed);
+            this._dir.Y = this._dir.X * System.Math.Sin(this.RotationSpeed) + this._dir.Y * System.Math.Cos(this.RotationSpeed);
+
+        }
         public void TurnRight()
         {
             _motorRight.Direction = EDirection.BackWard;
@@ -131,6 +143,7 @@ namespace RSmartControl
             this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
 
         }
+      
 
         public Vector2 Position
         {
@@ -165,12 +178,17 @@ namespace RSmartControl
             _frontSensorLeft.sensorBehaviour();
             _frontSensorRight.sensorBehaviour();
             _downSensor.sensorBehaviour();
+            _backSensor.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
                 if (_frontSensorLeft.Collide  && _frontSensorRight.Collide)
                 {
-                    this.RandomMethod();
+                    this.TurnRight();
+                    _motorLeft.Direction = EDirection.Forward;
+                    _motorRight.Direction = EDirection.Forward;
+                    Thread.Sleep(1000);
+                    this.TurnLeftDirect();
                     return;
                 } 
                 if (_frontSensorLeft.Collide && !_frontSensorRight.Collide)
@@ -183,10 +201,21 @@ namespace RSmartControl
                     this.TurnRight();
                     return;
                 }
-                if (!_downSensor.Collide)
+                if (_backSensor.Collide)
                 {
+                    _motorLeft.Direction = EDirection.Forward;
+                    _motorRight.Direction = EDirection.Forward;
+                    return;
+                }
+                if (!_downSensor.Collide && _collideUnder)
+                {
+                    _collideUnder = false;
                     this.TurnLeft();
                     return;
+                }
+                else if(!_downSensor.Collide)
+                {
+                    _collideUnder = true;
                 }
  
             }
