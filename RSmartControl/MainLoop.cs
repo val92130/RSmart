@@ -11,9 +11,7 @@ namespace RSmartControl
     {
         Motor _motorLeft, _motorRight;
         Communication _com;
-        Sensor _frontSensorLeft, _frontSensorRight;
-
-       private PWM p;
+        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
         Robot _robot;
        private SyncModule _syncModule;
         public MainLoop(Communication Com, SyncModule syncModule)
@@ -21,7 +19,8 @@ namespace RSmartControl
             _syncModule = syncModule;
             _frontSensorLeft = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_0), EDirection.Forward);
             _frontSensorRight = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_1), EDirection.Forward);
-
+            _downSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_2), EDirection.Forward);
+            _backSensor = new Sensor(this, new AnalogInput(Cpu.AnalogChannel.ANALOG_3), EDirection.Forward);
             _com = Com;
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
             _motorRight = new Motor(PWMChannels.PWM_PIN_D10, Pins.GPIO_PIN_D0);
@@ -33,11 +32,12 @@ namespace RSmartControl
             _com.MotorRight = _motorRight;
 
             _com.MainLoop = this;
-            _robot = new Robot( this,_motorLeft, _motorRight,  _frontSensorLeft, _frontSensorRight,_com);
+            _robot = new Robot(this, _motorLeft, _motorRight, _frontSensorLeft, _frontSensorRight, _downSensor,_backSensor, _com);
 
             _com.Robot = _robot;
 
         }
+
        
 
        public Robot Robot
@@ -62,6 +62,7 @@ namespace RSmartControl
 
             while (true)
             {
+                
                 _robot.Update();
   
             }

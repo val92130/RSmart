@@ -91,7 +91,11 @@ namespace VocalCommand
                     break;
                 case "left":
                     _robotControl.SendRequestRobot("Left=true");
+<<<<<<< HEAD
                     Say( RandomResponse() + ", i'm turning left" );
+=======
+                    Say(RandomResponse());
+>>>>>>> 20d42810a46b375cd8f55e71f512ec55421a51f2
                     break;
                 case "right":
                     _robotControl.SendRequestRobot("Right=true");

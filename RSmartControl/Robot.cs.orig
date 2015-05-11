@@ -33,17 +33,26 @@ namespace RSmartControl
             _motorLeft = MotorLeft;
             _motorRight = MotorRight;
 
+<<<<<<< HEAD
             _frontSensorLeft = frontSensorLeft;
             _frontSensorRight = frontSensorRight;
+=======
+             _frontSensorLeft = frontSensorLeft;
+             _frontSensorRight = frontSensorRight;
              _downSensor = downSensor;
              _backSensor = backSensor;
+>>>>>>> 20d42810a46b375cd8f55e71f512ec55421a51f2
 
             _com = Com;
 
+<<<<<<< HEAD
             _dir.Y = 1;
+=======
+             _dir.Y = 1;
 
             // We blink to tell the robot has initialized correctly
              this.BlinkLed();
+>>>>>>> 20d42810a46b375cd8f55e71f512ec55421a51f2
         }
         public Motor MotorLeft
         {
