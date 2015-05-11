@@ -28,17 +28,17 @@ namespace RSmartControl
             _pos = new Vector2();
             _dir = new Vector2();
 
-             _mainLoop = MainLoop;
+            _mainLoop = MainLoop;
 
-             _motorLeft = MotorLeft;
-             _motorRight = MotorRight;
+            _motorLeft = MotorLeft;
+            _motorRight = MotorRight;
 
-             _frontSensorLeft = frontSensorLeft;
-             _frontSensorRight = frontSensorRight;
+            _frontSensorLeft = frontSensorLeft;
+            _frontSensorRight = frontSensorRight;
 
-             _com = Com;
+            _com = Com;
 
-             _dir.Y = 1;
+            _dir.Y = 1;
         }
         public Motor MotorLeft
         {
@@ -215,8 +215,17 @@ namespace RSmartControl
 
                 double _step = _motorRight.DutyCycle / 100;
 
-                this._pos.X += _step * this._dir.X;
-                this._pos.Y += _step * this._dir.Y;
+                if(_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
+                {
+                    this._pos.X += _step * this._dir.X;
+                    this._pos.Y += _step * this._dir.Y;
+                }
+                else
+                {
+                    this._pos.X -= _step * this._dir.X;
+                    this._pos.Y -= _step * this._dir.Y;
+                }
+                
 
             }
 
