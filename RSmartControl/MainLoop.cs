@@ -12,8 +12,6 @@ namespace RSmartControl
         Motor _motorLeft, _motorRight;
         Communication _com;
         Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
-
-       private PWM p;
         Robot _robot;
        private SyncModule _syncModule;
         public MainLoop(Communication Com, SyncModule syncModule)
@@ -39,6 +37,7 @@ namespace RSmartControl
             _com.Robot = _robot;
 
         }
+
        
 
        public Robot Robot

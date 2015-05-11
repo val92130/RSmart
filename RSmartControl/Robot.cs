@@ -14,10 +14,10 @@ namespace RSmartControl
         Motor _motorLeft, _motorRight;
         Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
         bool _collideUnder = false;
-         Vector2 _pos, _dir;
-         Box _box;
-
-         MainLoop _mainLoop;
+        Vector2 _pos, _dir;
+        Box _box;
+        OutputPort _led = new OutputPort(Pins.GPIO_PIN_D2, false);
+        MainLoop _mainLoop;
 
         private double RotationSpeed = Utility.DegreeToRadian(30);
 
@@ -41,6 +41,9 @@ namespace RSmartControl
              _com = Com;
 
              _dir.Y = 1;
+
+            // We blink to tell the robot has initialized correctly
+             this.BlinkLed();
         }
         public Motor MotorLeft
         {
@@ -52,6 +55,13 @@ namespace RSmartControl
             {
                 _motorLeft = value;
             }
+        }
+
+        public void BlinkLed()
+        {
+            _led.Write(true);
+            Thread.Sleep(100);
+            _led.Write(false);
         }
 
         public Motor MotorRight
