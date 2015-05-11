@@ -75,26 +75,27 @@ namespace VocalCommand
             {
                 case "for":
                     _robotControl.SendRequestRobot("Forward=true");
-                    Say( RandomResponse() );
+                    Say( RandomResponse() + ", i'm going forward" );
                     break;
                 case "go":
                     _robotControl.SendRequestRobot("Start=true");
-                    Say( RandomResponse() );
+                    Say( RandomResponse() + ", i'm starting" );
                     break;
                 case "basta":
                     _robotControl.SendRequestRobot("Stop=true");
-                    Say( RandomResponse() );
+                    Say( RandomResponse() + ", i'm stopping" );
                     break;
                 case "back":
                     _robotControl.SendRequestRobot("Backward=true");
-                    Say( RandomResponse() );
+                    Say( RandomResponse() + ", i'm going backward" );
                     break;
                 case "left":
                     _robotControl.SendRequestRobot("Left=true");
+                    Say( RandomResponse() + ", i'm turning left" );
                     break;
                 case "right":
                     _robotControl.SendRequestRobot("Right=true");
-                    Say( RandomResponse() );
+                    Say( RandomResponse() + ", i'm turning right" );
                     break;
                 default :
                     _debugLog.Write( "Exception : default reached" );
