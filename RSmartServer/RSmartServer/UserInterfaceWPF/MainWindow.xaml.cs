@@ -197,5 +197,18 @@ namespace UserInterfaceWPF
                 responseTextBox.Document.Blocks.Clear();
             }
         }
+
+
+        private void pingRobotButton_Click( object sender, RoutedEventArgs e )
+        {
+            if( _robotControl.PingRobot() )
+            {
+                MessageBox.Show( "Robot is online" );
+            }
+            else
+            {
+                MessageBox.Show( "Robot is offline" );
+            }
+        }
     }
 }

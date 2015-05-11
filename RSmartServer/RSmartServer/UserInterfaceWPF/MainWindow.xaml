@@ -13,7 +13,10 @@
                 <MenuItem x:Name="unsynchronizeButton" Header="_UnSynchronize" Click="unsynchronizeButton_Click">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Options" />
+            <MenuItem Header="_Options" >
+                <MenuItem x:Name="pingRobotButton" Header="_Ping" Click="pingRobotButton_Click">
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>
 

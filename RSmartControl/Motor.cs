@@ -19,6 +19,13 @@ namespace RSmartControl
         StartTimer _motorTimer;
         private StartTimer _directionTimer;
         private bool _started = false;
+
+        public delegate void StartHandler( Object obj );
+        public event StartHandler StartEvent;
+
+        public delegate void StopHandler( Object obj );
+        public event StopHandler StopEvent;
+
         public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection )
         {
             _direction = EDirection.Forward;
@@ -93,6 +100,8 @@ namespace RSmartControl
         {
             _motor.Stop();
             _started = false;
+            StopEvent( this );
+
         }
 
         public void Stop(double interval)
@@ -100,6 +109,7 @@ namespace RSmartControl
             _motor.Stop();
             _started = false;
             _motorTimer = new StartTimer(interval);
+            StopEvent( this );
         }
 
         public void Start(double interval)
@@ -108,12 +118,14 @@ namespace RSmartControl
             _motor.Start();
             _started = true;
             _motorTimer = new StartTimer(interval);
+            StartEvent( this );
         }
 
         public void Start()
         {
             _motor.Start();
             _started = true;
+            StartEvent( this );
         }
 
         public double DutyCycle
