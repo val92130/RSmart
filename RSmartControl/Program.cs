@@ -7,6 +7,7 @@ using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 using Microsoft.SPOT.Net.NetworkInformation;
+using System.IO;
 
 
 namespace RSmartControl
@@ -15,6 +16,8 @@ namespace RSmartControl
     {
         public static void Main()
         {
+
+
             // Plugins initialization
             PluginManager pluginManager = new PluginManager();
 

@@ -10,9 +10,9 @@ namespace RSmartControl
         public PluginManager()
         {
             _syncModule = new SyncModule();
-            _communication = new Communication();
-            
+            _communication = new Communication();            
         }
+
 
         public SyncModule SyncModule
         {

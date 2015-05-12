@@ -100,7 +100,6 @@ namespace RSmartControl
         {
             _motor.Stop();
             _started = false;
-            StopEvent( this );
 
         }
 
@@ -109,7 +108,6 @@ namespace RSmartControl
             _motor.Stop();
             _started = false;
             _motorTimer = new StartTimer(interval);
-            StopEvent( this );
         }
 
         public void Start(double interval)
@@ -118,14 +116,12 @@ namespace RSmartControl
             _motor.Start();
             _started = true;
             _motorTimer = new StartTimer(interval);
-            StartEvent( this );
         }
 
         public void Start()
         {
             _motor.Start();
             _started = true;
-            StartEvent( this );
         }
 
         public double DutyCycle

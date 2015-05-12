@@ -18,7 +18,10 @@ namespace RSmartControl
         Box _box;
         OutputPort _led = new OutputPort(Pins.GPIO_PIN_D2, false);
         MainLoop _mainLoop;
-
+        static double wheelDiameter = 12.5;
+        int nbrTour = 0;
+        double speed = 0;
+        DateTime now, prev = DateTime.Now;
         private double RotationSpeed = Utility.DegreeToRadian(30);
 
         private Communication _com;
@@ -185,7 +188,10 @@ namespace RSmartControl
             _sensorsManager.FrontSensorLeft.sensorBehaviour();
             _sensorsManager.FrontSensorRight.sensorBehaviour();
             _sensorsManager.DownSensor.sensorBehaviour();
-            _sensorsManager.BackSensor.sensorBehaviour();
+            //_sensorsManager.BackSensor.sensorBehaviour();
+
+            //CalculateSpeed();
+
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
@@ -208,25 +214,48 @@ namespace RSmartControl
                     this.TurnRight();
                     return;
                 }
-                if (_sensorsManager.BackSensor.Collide)
-                {
-                    _motorLeft.Direction = EDirection.Forward;
-                    _motorRight.Direction = EDirection.Forward;
-                    return;
-                }
+                //if (_sensorsManager.BackSensor.Collide)
+                //{
+                //    _motorLeft.Direction = EDirection.Forward;
+                //    _motorRight.Direction = EDirection.Forward;
+                //    return;
+                //}
                 if (!_sensorsManager.DownSensor.Collide && _collideUnder)
                 {
                     _collideUnder = false;
                     this.TurnLeft();
                     return;
                 }
-                else if(!_sensorsManager.DownSensor.Collide)
+                else if (!_sensorsManager.DownSensor.Collide)
                 {
                     _collideUnder = true;
                 }
  
             }
 
+        }
+
+        private void CalculateSpeed()
+        {
+            now = DateTime.Now;
+            double read = (10 * _sensorsManager.SpeedSensor.AnalogInput.Read());
+            Debug.Print("Dist : " + read.ToString());
+            if (read >= 5)
+            {
+                nbrTour++;
+            }
+
+            TimeSpan time = now - prev;
+            int waitTime = 3;
+            // We check the speed every 5 seconds
+            if (time.Seconds >= waitTime)
+            {
+                prev = DateTime.Now;
+                double dist = nbrTour * wheelDiameter;
+                this.speed = dist / waitTime;
+                //Debug.Print("Speed = " + this.speed);
+                nbrTour = 0;
+            }
         }
 
         public void RandomMethod()

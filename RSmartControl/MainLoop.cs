@@ -17,6 +17,8 @@ namespace RSmartControl
         PluginManager _pluginManager;
         public MainLoop(PluginManager pluginManager)
         {
+            
+
             _pluginManager = pluginManager;
             _syncModule = _pluginManager.SyncModule;
             _sensorsManager = new SensorsManager( this );
@@ -59,15 +61,10 @@ namespace RSmartControl
 
         public void Run()
         {
-
             while (true)
             {
-                
                 _robot.Update();
-  
             }
-
         }
-
     }
 }

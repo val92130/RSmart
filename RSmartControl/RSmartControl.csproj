@@ -33,12 +33,14 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="Box.cs" />
-    <Compile Include="Communication.cs" />
-    <Compile Include="HTTPRequestNet.cs" />
-    <Compile Include="PluginManager.cs" />
-    <Compile Include="SensorsManager.cs" />
+    <Compile Include="Plugins\Communication.cs" />
+    <Compile Include="Plugins\HTTPRequestNet.cs" />
+    <Compile Include="Plugins\ISDCardManager.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Plugins\SDCardManager.cs" />
+    <Compile Include="Plugins\SensorsManager.cs" />
     <Compile Include="StartTimer.cs" />
-    <Compile Include="SyncModule.cs" />
+    <Compile Include="Plugins\SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="EDirection.cs" />
     <Compile Include="Utilities\JsonParser.cs" />
@@ -64,5 +66,6 @@
     <Reference Include="SecretLabs.NETMF.Hardware" />
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino" />
     <Reference Include="System" />
+    <Reference Include="System.IO" />
   </ItemGroup>
 </Project>

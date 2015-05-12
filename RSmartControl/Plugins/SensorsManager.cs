@@ -6,7 +6,7 @@ namespace RSmartControl
 {
     public class SensorsManager
     {
-        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
+        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor, _speedSensor;
         MainLoop _mainLoop;
         public SensorsManager(MainLoop mainloop)
         {
@@ -14,7 +14,8 @@ namespace RSmartControl
             _frontSensorLeft = new Sensor( _mainLoop, new AnalogInput( Cpu.AnalogChannel.ANALOG_0 ) );
             _frontSensorRight = new Sensor( _mainLoop, new AnalogInput( Cpu.AnalogChannel.ANALOG_1 ) );
             _downSensor = new Sensor( _mainLoop, new AnalogInput( Cpu.AnalogChannel.ANALOG_2 ) );
-            _backSensor = new Sensor( _mainLoop, new AnalogInput( Cpu.AnalogChannel.ANALOG_3 ) );
+            //_backSensor = new Sensor( _mainLoop, new AnalogInput( Cpu.AnalogChannel.ANALOG_3 ) );
+            _speedSensor = new Sensor(_mainLoop, new AnalogInput(Cpu.AnalogChannel.ANALOG_3));
         }
 
         public Sensor FrontSensorLeft
@@ -38,6 +39,14 @@ namespace RSmartControl
             get
             {
                 return _downSensor;
+            }
+        }
+
+        public Sensor SpeedSensor
+        {
+            get
+            {
+                return _speedSensor;
             }
         }
 
