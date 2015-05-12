@@ -32,7 +32,6 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
-    <Compile Include="Box.cs" />
     <Compile Include="ISpeedDetection.cs" />
     <Compile Include="Plugins\Communication.cs" />
     <Compile Include="Plugins\HTTPRequestNet.cs" />

@@ -17,11 +17,8 @@ namespace RSmartControl
         PluginManager _pluginManager;
         public MainLoop(PluginManager pluginManager)
         {
-            
-
             _pluginManager = pluginManager;
             _syncModule = _pluginManager.SyncModule;
-            _sensorsManager = new SensorsManager( this );
             _com = _pluginManager.CommunicationModule;
 
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
@@ -34,7 +31,7 @@ namespace RSmartControl
             _com.MotorRight = _motorRight;
 
             _com.MainLoop = this;
-            _robot = new Robot(this, _motorLeft, _motorRight, _sensorsManager, _com);
+            _robot = new Robot(this, _motorLeft, _motorRight, _pluginManager);
 
             _com.Robot = _robot;
 

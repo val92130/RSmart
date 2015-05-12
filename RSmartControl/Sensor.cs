@@ -6,13 +6,11 @@ namespace RSmartControl
 {
     public class Sensor
     {
-        MainLoop _mainloop;
         AnalogInput _sanalog;
         int counter = 0;
         private bool _collide;
-        public Sensor(MainLoop mainLoop, AnalogInput Sanalog)
+        public Sensor(AnalogInput Sanalog)
         {
-            _mainloop = mainLoop;
             _sanalog = Sanalog;
         }
 
@@ -36,7 +34,7 @@ namespace RSmartControl
             }
         }
 
-        public void sensorBehaviour()
+        public void sensorBehaviour(Robot robot)
         {
             double distance = _sanalog.Read();
 
@@ -48,7 +46,7 @@ namespace RSmartControl
                 if (counter > 10)
 
                 {
-                    _mainloop.Robot.GetCommunication.AddObstacle(new Vector2(_mainloop.Robot.Position.X + _mainloop.Robot.Direction.X, _mainloop.Robot.Position.Y + _mainloop.Robot.Direction.Y));
+                    robot.GetCommunication.AddObstacle(new Vector2(robot.Position.X + robot.Direction.X, robot.Position.Y + robot.Direction.Y));
                     _collide = true;
                 }
 

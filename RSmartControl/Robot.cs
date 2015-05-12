@@ -12,40 +12,27 @@ namespace RSmartControl
     public class Robot
     {
         Motor _motorLeft, _motorRight;
-        SensorsManager _sensorsManager;
         bool _collideUnder = false;
         Vector2 _pos, _dir;
-        Box _box;
-        OutputPort _led = new OutputPort(Pins.GPIO_PIN_D2, false);
-        MainLoop _mainLoop;
-        static double wheelDiameter = 12.5;
-        int nbrTour = 0;
-        double speed = 0;
-        DateTime now, prev = DateTime.Now;
-        private double RotationSpeed = Utility.DegreeToRadian(30);
-
-        private Communication _com;
-
         
+        MainLoop _mainLoop;
+        private double RotationSpeed = Utility.DegreeToRadian(30);
+        PluginManager _pluginManager;
 
-        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, SensorsManager SensorsManager, Communication Com)
+        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, PluginManager pluginManager)
         {
             _pos = new Vector2();
             _dir = new Vector2();
 
+            _pluginManager = pluginManager;
             _mainLoop = MainLoop;
 
             _motorLeft = MotorLeft;
             _motorRight = MotorRight;
 
-            _sensorsManager = SensorsManager;
-
-            _com = Com;
-
             _dir.Y = 1;
 
-            // We blink to tell the robot has initialized correctly
-             this.BlinkLed();
+            _pluginManager.SensorsManager.BlinkLed();
         }
         public Motor MotorLeft
         {
@@ -59,12 +46,6 @@ namespace RSmartControl
             }
         }
 
-        public void BlinkLed()
-        {
-            _led.Write(true);
-            Thread.Sleep(100);
-            _led.Write(false);
-        }
 
         public Motor MotorRight
         {
@@ -82,14 +63,29 @@ namespace RSmartControl
         {
             get
             {
-                return _com;
+                return _pluginManager.CommunicationModule;
             }
-            set
+        }
+        public Vector2 Position
+        {
+            get
             {
-                _com = value;
+                return _pos;
             }
         }
 
+        public Vector2 Direction
+        {
+            get
+            {
+                return _dir;
+            }
+        }
+
+        /// <summary>
+        /// Reverse the direction of the robot for a given time
+        /// </summary>
+        /// <param name="time"></param>
         public void Reverse(int time)
         {
             if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
@@ -113,7 +109,9 @@ namespace RSmartControl
                 _motorLeft.Direction = EDirection.BackWard;
             }
         }
-
+        /// <summary>
+        /// Go backward for a few milliseconds then turn left
+        /// </summary>
         public void  TurnLeft()
         {
             _motorRight.Direction = EDirection.BackWard;
@@ -129,6 +127,10 @@ namespace RSmartControl
             this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
+
+        /// <summary>
+        /// Turn left without going backward before
+        /// </summary>
         public void TurnLeftDirect()
         {
             _motorRight.Direction = EDirection.Forward;
@@ -140,6 +142,9 @@ namespace RSmartControl
             this._dir.Y = this._dir.X * System.Math.Sin(this.RotationSpeed) + this._dir.Y * System.Math.Cos(this.RotationSpeed);
 
         }
+        /// <summary>
+        /// Go backward for a few milliseconds then turn right
+        /// </summary>
         public void TurnRight()
         {
             _motorRight.Direction = EDirection.BackWard;
@@ -157,45 +162,29 @@ namespace RSmartControl
         }
       
 
-        public Vector2 Position
-        {
-            get
-            {
-                return _pos;                
-            }
-        }
-
-        public Vector2 Direction
-        {
-            get
-            {
-                return _dir;
-            }
-        }
         public void GoForward()
         {
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
         }
+
         public void GoBackward()
         {
             _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.BackWard;
         }
 
-
-       
         public void Behavior()
         {
-            _sensorsManager.FrontSensorLeft.sensorBehaviour();
-            _sensorsManager.FrontSensorRight.sensorBehaviour();
-            _sensorsManager.DownSensor.sensorBehaviour();
-            _sensorsManager.BackSensor.sensorBehaviour();
+            _pluginManager.SensorsManager.FrontSensorLeft.sensorBehaviour(this);
+            _pluginManager.SensorsManager.FrontSensorRight.sensorBehaviour(this);
+            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this);
+            _pluginManager.SensorsManager.BackSensor.sensorBehaviour(this);
 
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                if (_sensorsManager.FrontSensorLeft.Collide  && _sensorsManager.FrontSensorRight.Collide)
+                if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     _motorLeft.Direction = EDirection.Forward;
@@ -204,29 +193,36 @@ namespace RSmartControl
                     this.TurnLeftDirect();
                     return;
                 } 
-                if (_sensorsManager.FrontSensorLeft.Collide && !_sensorsManager.FrontSensorRight.Collide)
+                // If collide front-left but not front-right
+                if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && !_pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     return;
                 }
-                if (!_sensorsManager.FrontSensorLeft.Collide && _sensorsManager.FrontSensorRight.Collide)
+
+                // If collide front-right but not front-left
+                if (!_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
                     return;
                 }
-                //if (_sensorsManager.BackSensor.Collide)
-                //{
-                //    _motorLeft.Direction = EDirection.Forward;
-                //    _motorRight.Direction = EDirection.Forward;
-                //    return;
-                //}
-                if (!_sensorsManager.DownSensor.Collide && _collideUnder)
+
+                // If collide in the back
+                if (_pluginManager.SensorsManager.BackSensor.Collide && _motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
+                {
+                    _motorLeft.Direction = EDirection.Forward;
+                    _motorRight.Direction = EDirection.Forward;
+                    return;
+                }
+
+                // If we don't collide on the down
+                if (!_pluginManager.SensorsManager.DownSensor.Collide && _collideUnder)
                 {
                     _collideUnder = false;
                     this.TurnLeft();
                     return;
                 }
-                else if (!_sensorsManager.DownSensor.Collide)
+                else if (!_pluginManager.SensorsManager.DownSensor.Collide)
                 {
                     _collideUnder = true;
                 }
@@ -235,24 +231,6 @@ namespace RSmartControl
 
         }
 
-        
-
-        public void RandomMethod()
-        {
-            Random r = new Random();
-            int method = r.Next(1);
-            if (method == 0)
-            {
-                this.TurnRight();
-                return;
-            }
-            else
-            {
-                this.TurnLeft();
-                return;
-
-            }
-        }
 
         public void Update()
         {
