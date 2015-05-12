@@ -21,6 +21,9 @@ namespace RSmartControl
             // Plugins initialization
             PluginManager pluginManager = new PluginManager();
 
+            // Start speed detection
+            pluginManager.SpeedDetectionModule.Run();
+
             // Enabling DHCP
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
 
@@ -30,7 +33,7 @@ namespace RSmartControl
                 WebServer webServer = new WebServer( pluginManager );
                 webServer.ListenForRequest();
             } );
-            
+
             server.Start();
 
             MainLoop loop = new MainLoop( pluginManager );

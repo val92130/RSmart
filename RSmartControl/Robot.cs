@@ -26,6 +26,8 @@ namespace RSmartControl
 
         private Communication _com;
 
+        
+
         public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, SensorsManager SensorsManager, Communication Com)
         {
             _pos = new Vector2();
@@ -188,9 +190,7 @@ namespace RSmartControl
             _sensorsManager.FrontSensorLeft.sensorBehaviour();
             _sensorsManager.FrontSensorRight.sensorBehaviour();
             _sensorsManager.DownSensor.sensorBehaviour();
-            //_sensorsManager.BackSensor.sensorBehaviour();
-
-            //CalculateSpeed();
+            _sensorsManager.BackSensor.sensorBehaviour();
 
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
@@ -235,28 +235,7 @@ namespace RSmartControl
 
         }
 
-        private void CalculateSpeed()
-        {
-            now = DateTime.Now;
-            double read = (10 * _sensorsManager.SpeedSensor.AnalogInput.Read());
-            Debug.Print("Dist : " + read.ToString());
-            if (read >= 5)
-            {
-                nbrTour++;
-            }
-
-            TimeSpan time = now - prev;
-            int waitTime = 3;
-            // We check the speed every 5 seconds
-            if (time.Seconds >= waitTime)
-            {
-                prev = DateTime.Now;
-                double dist = nbrTour * wheelDiameter;
-                this.speed = dist / waitTime;
-                //Debug.Print("Speed = " + this.speed);
-                nbrTour = 0;
-            }
-        }
+        
 
         public void RandomMethod()
         {
