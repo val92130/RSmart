@@ -1,18 +1,20 @@
 using System;
 using Microsoft.SPOT;
+using Microsoft.SPOT.Hardware;
 
 namespace RSmartControl
 {
     public class PluginManager
     {
-        private SyncModule _syncModule;
-        private Communication _communication;
-        private SpeedDetection _speedDetection;
-        private SensorsManager _sensorsManager;
+        private readonly SyncModule _syncModule;
+        private readonly Communication _communication;
+        private readonly SpeedDetectionModule _speedDetectionModule;
+        private readonly SensorsManager _sensorsManager;
+
         public PluginManager()
         {
             _sensorsManager = new SensorsManager();
-            _speedDetection = new SpeedDetection();
+            _speedDetectionModule = new SpeedDetectionModule(this);
             _syncModule = new SyncModule();
             _communication = new Communication();            
         }
@@ -25,11 +27,11 @@ namespace RSmartControl
             }
         }
 
-        public SpeedDetection SpeedDetectionModule
+        public SpeedDetectionModule SpeedDetectionModuleModule
         {
             get
             {
-                return _speedDetection;
+                return _speedDetectionModule;
             }
         }
         public SyncModule SyncModule

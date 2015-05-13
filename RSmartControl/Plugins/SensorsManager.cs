@@ -8,10 +8,12 @@ namespace RSmartControl
 {
     public class SensorsManager
     {
-        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
-        OutputPort _led;
+        private readonly Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
+        private readonly OutputPort _led;
+        private readonly AnalogInput _magneticSensor;
         public SensorsManager()
         {
+            _magneticSensor = new AnalogInput( Cpu.AnalogChannel.ANALOG_4 );
             _led = new OutputPort(Pins.GPIO_PIN_D2, false);
             _frontSensorLeft = new Sensor( new AnalogInput( Cpu.AnalogChannel.ANALOG_0 ) );
             _frontSensorRight = new Sensor( new AnalogInput( Cpu.AnalogChannel.ANALOG_1 ) );
@@ -28,6 +30,14 @@ namespace RSmartControl
             _led.Write(true);
             Thread.Sleep(100);
             _led.Write(false);
+        }
+
+        public AnalogInput MagneticSensor
+        {
+            get
+            {
+                return _magneticSensor;
+            }
         }
 
 

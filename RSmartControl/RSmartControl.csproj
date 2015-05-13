@@ -39,7 +39,7 @@
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Plugins\SDCardManager.cs" />
     <Compile Include="Plugins\SensorsManager.cs" />
-    <Compile Include="Plugins\SpeedDetection.cs" />
+    <Compile Include="Plugins\SpeedDetectionModule.cs" />
     <Compile Include="StartTimer.cs" />
     <Compile Include="Plugins\SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />

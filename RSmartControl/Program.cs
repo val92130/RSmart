@@ -17,12 +17,11 @@ namespace RSmartControl
         public static void Main()
         {
 
-
             // Plugins initialization
             PluginManager pluginManager = new PluginManager();
 
             // Start speed detection
-            pluginManager.SpeedDetectionModule.Run();
+            pluginManager.SpeedDetectionModuleModule.Run();
 
             // Enabling DHCP
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();

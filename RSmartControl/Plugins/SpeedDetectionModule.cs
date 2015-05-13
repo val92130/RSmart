@@ -6,13 +6,16 @@ namespace RSmartControl
 {
     using System.Threading;
 
-   public class SpeedDetection : ISpeedDetection
+   public class SpeedDetectionModule : ISpeedDetection
     {
-        private Thread _mainThread;
-        public SpeedDetection()
+        private readonly Thread _mainThread;
+        private readonly PluginManager _pluginManager;
+        const double WheelDiameter = 12.5;
+        double _speed = 0;
+        public SpeedDetectionModule(PluginManager pluginManager)
         {
-            _mainThread = new Thread(new ThreadStart(this.Detect));
-           
+            _pluginManager = pluginManager;
+            _mainThread = new Thread(new ThreadStart(this.Detect));         
         }
         public void Run()
         {
@@ -21,11 +24,10 @@ namespace RSmartControl
 
         public void Detect()
         {
-            AnalogInput _magneticSensor = new AnalogInput(Cpu.AnalogChannel.ANALOG_4);
+            
             DateTime now, prev = DateTime.Now;
             int nbrTour = 0;
-            double wheelDiameter = 12.5;
-            double speed = 0;
+            
             bool flag = false;
             DateTime lastRecord = DateTime.Now;
             TimeSpan gap;
@@ -34,7 +36,7 @@ namespace RSmartControl
                 {
                     now = DateTime.Now;
 
-                    double read = _magneticSensor.Read();
+                    double read = _pluginManager.SensorsManager.MagneticSensor.Read();
                     gap = DateTime.Now - lastRecord;
                     if (read != 1 && !flag && gap.Milliseconds >= 100)
                     {
@@ -50,13 +52,12 @@ namespace RSmartControl
 
                     TimeSpan time = now - prev;
                     int waitTime = 3;
-                    // We check the speed every 3 seconds
                     if (time.Seconds >= waitTime)
                     {
                         prev = DateTime.Now;
-                        double dist = nbrTour * wheelDiameter;
-                        speed = dist / waitTime;
-                        Debug.Print("Speed : " + speed.ToString());
+                        double dist = nbrTour * WheelDiameter;
+                        _speed = dist / waitTime;
+                        Debug.Print("Speed : " + _speed.ToString());
                         nbrTour = 0;
                     }
                 }

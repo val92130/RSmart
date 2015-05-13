@@ -9,7 +9,8 @@ namespace RSmartControl
 {
    public class MainLoop
     {
-        Motor _motorLeft, _motorRight;
+        readonly Motor _motorLeft;
+        readonly Motor _motorRight;
         Communication _com;
         Robot _robot;
         private SyncModule _syncModule;
