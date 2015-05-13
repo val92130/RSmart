@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Cache;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,12 +38,10 @@ namespace UserInterfaceWPF
         }
         public void Initialize()
         {
-            //_robotControl.WebCamManager.Start();
             labelIpTitle.Content = "Server IP : " + Util.GetIp();
             this.InitializeTimers();
             _routeCount = _robotControl.WebServer.Routes.Count;
             UpdateRoutesTextBox();
-
             
         }
 
@@ -55,7 +54,7 @@ namespace UserInterfaceWPF
             _loopTimer.Start();
 
             _cameraTimer = new DispatcherTimer();
-            _cameraTimer.Interval = new TimeSpan(0, 0, 0, 0, 6000); 
+            _cameraTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000); 
             _cameraTimer.Tick += new EventHandler(T_Camera_Update);
             _cameraTimer.Start();
 
@@ -98,7 +97,15 @@ namespace UserInterfaceWPF
 
         private void T_Camera_Update(object sender, EventArgs e)
         {
-            pictureWebcam.Source = (ImageSource)new ImageSourceConverter().ConvertFrom(WebcamManager.Path);
+            BitmapImage _image = new BitmapImage();
+            _image.BeginInit();
+            _image.CacheOption = BitmapCacheOption.None;
+            _image.UriCachePolicy = new RequestCachePolicy( RequestCacheLevel.BypassCache );
+            _image.CacheOption = BitmapCacheOption.OnLoad;
+            _image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            _image.UriSource = new Uri( @"http://www.tradeit.fr/Webcam/image_upload/img.jpg", UriKind.RelativeOrAbsolute );
+            _image.EndInit();
+            pictureWebcam.Source = _image;
         }
 
         public void UpdateLog()

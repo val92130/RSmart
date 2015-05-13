@@ -20,7 +20,7 @@
             <MenuItem Header="_Help" />
         </Menu>
 
-        <Image x:Name="pictureWebcam" Height="237" Margin="0,0,0,400" Width="280" Source="back2.jpg" Stretch="Fill">
+        <Image x:Name="pictureWebcam" Height="237" Margin="0,0,0,400" Width="280" Source="http://www.tradeit.fr/Webcam/img_upload/img.jpg" Stretch="Fill">
             <Image.Effect>
                 <DropShadowEffect BlurRadius="6" ShadowDepth="15" Opacity="0.5"/>
             </Image.Effect>

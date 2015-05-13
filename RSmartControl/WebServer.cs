@@ -17,7 +17,7 @@ namespace RSmartControl
         Communication _com;
         private Socket socket = null;
         private OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
-        private IPAddress _clientIp;
+        private IPAddress _synchronizedClientIp;
         private SyncModule _syncModule;
         private PluginManager _pluginManager;
         public WebServer(PluginManager pluginManager)
@@ -55,7 +55,7 @@ namespace RSmartControl
                 using (Socket clientSocket = socket.Accept())
                 {
                     //Get clients IP
-                    IPEndPoint clientIP = clientSocket.RemoteEndPoint as IPEndPoint;
+                    IPEndPoint clientIp = clientSocket.RemoteEndPoint as IPEndPoint;
                     EndPoint clientEndPoint = clientSocket.RemoteEndPoint;
                     int bytesReceived = clientSocket.Available;
                     if (bytesReceived > 0)
@@ -65,13 +65,13 @@ namespace RSmartControl
                         int byteCount = clientSocket.Receive(buffer, bytesReceived, SocketFlags.None);
                         string request = new string(Encoding.UTF8.GetChars(buffer));
 
-                        if (_clientIp != null && clientIP.Address.ToString() == _clientIp.ToString())
+                        if (clientIp != null && (_synchronizedClientIp != null && clientIp.Address.ToString() == _synchronizedClientIp.ToString()))
                         {
                             //Analyze the message then send a response
-                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIP );                           
-                        } else if (_clientIp == null)
+                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIp );                           
+                        } else if (_synchronizedClientIp == null)
                         {
-                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIP );    
+                            MessageAnalyse( Utility.ParseQueryString( request ), clientSocket, clientIp );    
                         }
                         else
                         {
@@ -79,7 +79,6 @@ namespace RSmartControl
                             SendResponse( clientSocket, response );
                         }
                         
-
                         //Blink the onboard LED                  
                         led.Write(true);
                         Thread.Sleep(30);
@@ -109,7 +108,7 @@ namespace RSmartControl
                 return;
             }
 
-            if (_clientIp != null && _clientIp.ToString() != clientIp.Address.ToString() )
+            if (_synchronizedClientIp != null && _synchronizedClientIp.ToString() != clientIp.Address.ToString() )
             {
                 string response = "Someone is already synchronized";
                 SendResponse( clientSocket, response );
@@ -159,18 +158,18 @@ namespace RSmartControl
                         if (ip != null)
                         {
                             _syncModule.Client = ip;
-                            _clientIp = ip;
+                            _synchronizedClientIp = ip;
                         }
-                        response = "Client synchronized : " + _clientIp.ToString();
+                        response = "Client synchronized : " + _synchronizedClientIp.ToString();
                         SendResponse( clientSocket, response );
                         break;
 
                     case "Desynchronize" :
-                        string tmp = _clientIp.ToString();
-                        if ((string) entry.Value == _clientIp.ToString())
+                        string tmp = _synchronizedClientIp.ToString();
+                        if ((string) entry.Value == _synchronizedClientIp.ToString())
                         {
                             _syncModule.Client = null;
-                            _clientIp = null;
+                            _synchronizedClientIp = null;
                         }
                         response = "Client unsynchronized : " + tmp;
                         SendResponse( clientSocket, response );

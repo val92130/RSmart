@@ -51,13 +51,13 @@ namespace RSmartControl
                     }
 
                     TimeSpan time = now - prev;
-                    int waitTime = 3;
+                    const int waitTime = 3;
                     if (time.Seconds >= waitTime)
                     {
                         prev = DateTime.Now;
                         double dist = nbrTour * WheelDiameter;
                         _speed = dist / waitTime;
-                        Debug.Print("Speed : " + _speed.ToString());
+                        Debug.Print("Speed : " + _speed);
                         nbrTour = 0;
                     }
                 }
