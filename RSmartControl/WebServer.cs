@@ -253,6 +253,10 @@ namespace RSmartControl
                         response = "Speed changed to : " + speed.ToString();
                         SendResponse( clientSocket, response );
                         break;
+                    case "GetSpeed":
+                        response = "Speed : " + _pluginManager.SpeedDetectionModuleModule.Speed.ToString();
+                        SendResponse(clientSocket, response);
+                        break;
                     case "Forward":
                         if( (string)entry.Value == "true" )
                         {

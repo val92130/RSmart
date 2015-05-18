@@ -22,6 +22,14 @@ namespace RSmartControl
             _mainThread.Start();
         }
 
+       public double Speed
+       {
+           get
+           {
+                return _speed;
+           }
+       }
+
         public void Detect()
         {
             
@@ -57,7 +65,9 @@ namespace RSmartControl
                         prev = DateTime.Now;
                         double dist = nbrTour * WheelDiameter;
                         _speed = dist / waitTime;
-                        Debug.Print("Speed : " + _speed);
+                        _speed /= 100000;
+                        _speed *= 3600;
+                        Debug.Print("Speed : " + _speed +"km/h");
                         nbrTour = 0;
                     }
                 }
