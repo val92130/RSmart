@@ -131,7 +131,7 @@ namespace UserInterface
             }
             try
             {
-                pictureWebcam.Load( "https://www.tradeit.fr/Webcam/image_upload/img.jpg" );
+                pictureWebcam.Load( WebcamManager.ImagePath );
             }
             catch( Exception ex )
             {
