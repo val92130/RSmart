@@ -20,9 +20,7 @@ using System.Windows.Threading;
 
 namespace UserInterfaceWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         RobotControl _robotControl;
@@ -54,7 +52,7 @@ namespace UserInterfaceWPF
             _loopTimer.Start();
 
             _cameraTimer = new DispatcherTimer();
-            _cameraTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000); 
+            _cameraTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000); 
             _cameraTimer.Tick += new EventHandler(T_Camera_Update);
             _cameraTimer.Start();
 
@@ -97,15 +95,15 @@ namespace UserInterfaceWPF
 
         private void T_Camera_Update(object sender, EventArgs e)
         {
-            BitmapImage _image = new BitmapImage();
-            _image.BeginInit();
-            _image.CacheOption = BitmapCacheOption.None;
-            _image.UriCachePolicy = new RequestCachePolicy( RequestCacheLevel.BypassCache );
-            _image.CacheOption = BitmapCacheOption.OnLoad;
-            _image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            _image.UriSource = new Uri( @"http://www.tradeit.fr/Webcam/image_upload/img.jpg", UriKind.RelativeOrAbsolute );
-            _image.EndInit();
-            pictureWebcam.Source = _image;
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.None;
+            image.UriCachePolicy = new RequestCachePolicy( RequestCacheLevel.BypassCache );
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            image.UriSource = new Uri( WebcamManager.ImagePath, UriKind.RelativeOrAbsolute );
+            image.EndInit();
+            pictureWebcam.Source = image;
         }
 
         public void UpdateLog()

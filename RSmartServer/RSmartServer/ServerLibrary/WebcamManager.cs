@@ -31,6 +31,11 @@ namespace ServerLibrary
             });
         }
 
+        public static string ImagePath
+        {
+            get { return "http://10.8.96.153/img.jpg"; }
+        }
+
         public void Start()
         {
             downloader.Start();
