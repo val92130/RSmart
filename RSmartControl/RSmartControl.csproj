@@ -40,6 +40,9 @@
     <Compile Include="Plugins\SDCardManager.cs" />
     <Compile Include="Plugins\SensorsManager.cs" />
     <Compile Include="Plugins\SpeedDetectionModule.cs" />
+    <Compile Include="Robot Behaviours\BehaviourControl.cs" />
+    <Compile Include="Robot Behaviours\IRobotBehaviour.cs" />
+    <Compile Include="Robot Behaviours\RobotBehaviourPlugin.cs" />
     <Compile Include="StartTimer.cs" />
     <Compile Include="Plugins\SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
