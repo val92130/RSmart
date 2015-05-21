@@ -19,6 +19,7 @@ namespace RSmartControl
         private double RotationSpeed = Utility.DegreeToRadian(30);
         PluginManager _pluginManager;
 
+        private Communication _com;
         public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, PluginManager pluginManager)
         {
             _pos = new Vector2();
@@ -26,7 +27,7 @@ namespace RSmartControl
 
             _pluginManager = pluginManager;
             _mainLoop = MainLoop;
-
+            _com = pluginManager.CommunicationModule;
             _motorLeft = MotorLeft;
             _motorRight = MotorRight;
 
@@ -151,10 +152,12 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.BackWard;
 
             Thread.Sleep(700);
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
+            _com.MotorLeft.Stop(Motor.TimeAngleRotation(_pluginManager.SpeedDetectionModuleModule.Speed, 50));
 
-            _motorLeft.ReverseDirection( 0.6 );
+            //_motorRight.Direction = EDirection.Forward;
+            //_motorLeft.Direction = EDirection.Forward;
+
+            //_motorLeft.ReverseDirection( 0.6 );
             
             this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
             this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
@@ -187,10 +190,10 @@ namespace RSmartControl
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
                     this.TurnRight();
-                    _motorLeft.Direction = EDirection.Forward;
-                    _motorRight.Direction = EDirection.Forward;
-                    Thread.Sleep(1000);
-                    this.TurnLeftDirect();
+                    //_motorLeft.Direction = EDirection.Forward;
+                    //_motorRight.Direction = EDirection.Forward;
+                    //Thread.Sleep(1000);
+                    //this.TurnLeftDirect();
                     return;
                 } 
                 // If collide front-left but not front-right

@@ -11,7 +11,7 @@ namespace RSmartControl
 {
     public class Motor
     {
-        const double RobotHeight = 24.5;
+        const double RobotHeight = 30;
         const int MaxSpeed = 1;
         readonly PWM _motor;
         EDirection _direction;
@@ -165,16 +165,15 @@ namespace RSmartControl
             }
         }
 
-        public static double TimeAngleRotation(double speed, double angle)
+        public static double TimeAngleRotation(double speedKmH,double angle)
         {
-            if (speed < 0 || speed > 1)
-                throw new ArgumentException("Invalid speed");
+
             if(angle <= 0 || angle > 360)
                 throw new ArgumentException("Invalid angle ");
 
             double p = (double)(2 * RobotHeight * System.Math.PI);
             double distanceToDo = (double)((double)(angle/(double)360) * p);
-            double speedCm = (double)(1 * speed * 27.777);
+            double speedCm = (double)((speedKmH * 27.777) );
             double time = ((double)(distanceToDo / speedCm) );
             return time; 
         }

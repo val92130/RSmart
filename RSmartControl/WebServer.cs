@@ -220,14 +220,14 @@ namespace RSmartControl
                     case "Rotate":
                         if( (string)entry.Value == "left" )
                         {
-                            _com.MotorLeft.Stop( Motor.TimeAngleRotation( _com.MotorLeft.DutyCycle, 90 ) );
+                            _com.MotorLeft.Stop( Motor.TimeAngleRotation( _pluginManager.SpeedDetectionModuleModule.Speed, 90 ) );
                             response = "Turning left";
                             SendResponse( clientSocket, response );
                         }
 
                         if( (string)entry.Value == "right" )
                         {
-                            _com.MotorRight.Stop( Motor.TimeAngleRotation( _com.MotorLeft.DutyCycle, 90 ) );
+                            _com.MotorRight.Stop(Motor.TimeAngleRotation(_pluginManager.SpeedDetectionModuleModule.Speed, 90));
                             response = "Turning right";
                             SendResponse( clientSocket, response );
                         }
