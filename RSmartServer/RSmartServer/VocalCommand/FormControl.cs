@@ -1,5 +1,4 @@
-﻿using ServerLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,20 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
+using Server.Lib;
 
 namespace VocalCommand
 {
     public partial class audioControlForm : Form
     {
-        RobotControl _robotControl;
-        SpeechSynthesizer parole;
-        Timer timerLoop;
-        DebugLog _debugLog;
+        readonly RobotControl _robotControl;
+        readonly SpeechSynthesizer parole;
+        readonly DebugLog _debugLog;
         public audioControlForm()
         {
             InitializeComponent();
 
-            timerLoop = new Timer();
+            var timerLoop = new Timer();
             timerLoop.Interval = 10;
             timerLoop.Tick += new EventHandler( T_loop );
             timerLoop.Start();
@@ -34,14 +33,7 @@ namespace VocalCommand
             _robotControl = new RobotControl();
             Say( "Hi " + Environment.UserName + ", welcome to the RSmart audio control interface" );
 
-            if( Util.PingRobot() )
-            {
-                Say( "je suis en ligne" );
-            }
-            else
-            {
-                Say( " je suis hors ligne " );
-            }
+            Say(Util.PingRobot() ? "je suis en ligne" : " je suis hors ligne ");
 
 
             SpeechRecognizer recognizer = new SpeechRecognizer();
@@ -52,8 +44,7 @@ namespace VocalCommand
             GrammarBuilder gb = new GrammarBuilder();
             gb.Append(directions);
 
-            Grammar g = new Grammar(gb);
-            g.Priority = 127;
+            Grammar g = new Grammar(gb) {Priority = 127};
             recognizer.LoadGrammar(g);
 
             recognizer.SpeechRecognized +=

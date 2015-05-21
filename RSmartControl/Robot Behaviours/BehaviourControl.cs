@@ -7,11 +7,9 @@ namespace RSmartControl.Robot_Behaviours
 {
     public class BehaviourControl
     {
-        private PluginManager _pluginManager;
+        private readonly PluginManager _pluginManager;
         private static String ConfigurationName = "config.bin";
         private static String _frontMethod, _backMethod, _frontLeftMethod, _frontRightMethod;
-
-        
 
         public BehaviourControl(PluginManager plugins)
         {
@@ -25,7 +23,7 @@ namespace RSmartControl.Robot_Behaviours
             
         }
 
-        public ArrayList GetAllMethods()
+        public static ArrayList GetAllMethods()
         {
             ArrayList methodList = new ArrayList();
 
@@ -54,28 +52,37 @@ namespace RSmartControl.Robot_Behaviours
             _pluginManager.SdCardManager.Write(str, ConfigurationName);
         }
 
+        public static bool ValidateMethod(string input)
+        {
+            if (GetAllMethods().Contains((string) input))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static string FrontMethod
         {
             get { return _frontMethod; }
-            set { _frontMethod = value; }
+            set { if( ValidateMethod(value)) _frontMethod = value; }
         }
 
         public static string BackMethod
         {
             get { return _backMethod; }
-            set { _backMethod = value; }
+            set { if (ValidateMethod(value))_backMethod = value; }
         }
 
         public static string FrontLeftMethod
         {
             get { return _frontLeftMethod; }
-            set { _frontLeftMethod = value; }
+            set { if (ValidateMethod(value))_frontLeftMethod = value; }
         }
 
         public static string FrontRightMethod
         {
             get { return _frontRightMethod; }
-            set { _frontRightMethod = value; }
+            set { if (ValidateMethod(value))_frontRightMethod = value; }
         }
 
         public void OnObstacleFront(Robot robot)

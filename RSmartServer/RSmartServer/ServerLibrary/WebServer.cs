@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Net;
-using System.Threading;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Xml.Serialization;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
-using ServerLibrary;
-using System.Xml.Linq;
+using System.Text;
+using System.Threading;
 
-namespace ServerLibrary
+namespace Server.Lib
 {
     public class WebServer
     {

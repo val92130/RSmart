@@ -1,29 +1,18 @@
-﻿using ServerLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Cache;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using Server.Lib;
 
-namespace UserInterfaceWPF
+namespace Server.App
 {
 
     public partial class MainWindow : Window
     {
-        RobotControl _robotControl;
+        readonly RobotControl _robotControl;
         DispatcherTimer _loopTimer, _cameraTimer, _routineTimer;
         int _routeCount = 0;
         private bool _isRobotOnline = false;
@@ -46,18 +35,18 @@ namespace UserInterfaceWPF
 
         public void InitializeTimers()
         {
-            _loopTimer = new DispatcherTimer();
-            _loopTimer.Interval = new TimeSpan(0, 0, 0, 0, 50); 
+            _loopTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 50)};
+
             _loopTimer.Tick += new EventHandler(T_Loop);
             _loopTimer.Start();
 
-            _cameraTimer = new DispatcherTimer();
-            _cameraTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000); 
+            _cameraTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 1000)};
+
             _cameraTimer.Tick += new EventHandler(T_Camera_Update);
             _cameraTimer.Start();
 
-            _routineTimer = new DispatcherTimer();
-            _routineTimer.Interval = new TimeSpan(0, 0, 0, 0, 4000); 
+            _routineTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 4000)};
+
             _routineTimer.Tick += new EventHandler(Routine);
             _routineTimer.Start();
         }
@@ -110,7 +99,7 @@ namespace UserInterfaceWPF
         {
             if (_robotControl.DebugLog.Count > 0)
             {
-                textBoxLog.AppendText(DateTime.Now.ToString() + " : " + _robotControl.DebugLog.Get + "\n");
+                textBoxLog.AppendText(DateTime.Now + " : " + _robotControl.DebugLog.Get + "\n");
                 textBoxLog.ScrollToEnd();
             }
         }
@@ -190,11 +179,12 @@ namespace UserInterfaceWPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TextRange textRange = new TextRange(
-        responseTextBox.Document.ContentStart,
-        responseTextBox.Document.ContentEnd
-    );
+                responseTextBox.Document.ContentStart,
+                responseTextBox.Document.ContentEnd
+                );
 
-            if (!string.IsNullOrWhiteSpace(keyTextBox.Text) || !string.IsNullOrWhiteSpace(valueTextBox.Text) || !string.IsNullOrWhiteSpace(textRange.Text))
+            if (!string.IsNullOrWhiteSpace(keyTextBox.Text) || !string.IsNullOrWhiteSpace(valueTextBox.Text) ||
+                !string.IsNullOrWhiteSpace(textRange.Text))
             {
                 _robotControl.WebServer.AddRoute(keyTextBox.Text, valueTextBox.Text, textRange.Text);
                 valueTextBox.Text = "";
@@ -206,14 +196,7 @@ namespace UserInterfaceWPF
 
         private void pingRobotButton_Click( object sender, RoutedEventArgs e )
         {
-            if( _robotControl.PingRobot() )
-            {
-                MessageBox.Show( "Robot is online" );
-            }
-            else
-            {
-                MessageBox.Show( "Robot is offline" );
-            }
+            MessageBox.Show(_robotControl.PingRobot() ? "Robot is online" : "Robot is offline");
         }
     }
 }
