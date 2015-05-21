@@ -99,7 +99,7 @@
                 <DropShadowEffect Opacity="0.5"/>
             </Button.Effect>
         </Button>
-        
+
 
     </Grid>
 </Window>

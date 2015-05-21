@@ -6,7 +6,7 @@ namespace RSmartControl.Plugins
     public interface ISDCardManager
     {
         void Close();
-        void Write(String msg);
-        void Read();
+        void Write(String msg, String fileName);
+        string Read(String filename);
     }
 }
