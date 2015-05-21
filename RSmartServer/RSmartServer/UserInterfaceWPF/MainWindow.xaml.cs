@@ -198,5 +198,11 @@ namespace Server.App
         {
             MessageBox.Show(_robotControl.PingRobot() ? "Robot is online" : "Robot is offline");
         }
+
+        private void EditBehaviourButton_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            BehaviourControl b = new BehaviourControl(_robotControl) {Owner = this};
+            b.ShowDialog();
+        }
     }
 }

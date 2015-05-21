@@ -20,7 +20,6 @@ namespace RSmartControl.Robot_Behaviours
             _frontLeftMethod = (string)lst[1];
             _frontRightMethod = (string)lst[0];
             WriteConfigurationFile();
-            
         }
 
         public static ArrayList GetAllMethods()
@@ -61,25 +60,30 @@ namespace RSmartControl.Robot_Behaviours
             return false;
         }
 
-        public static string FrontMethod
+        public static string Behaviours
+        {
+            get { return "FrontMethod-FrontLeftMethod-FrontRightMethod-BackMethod"; }
+        }
+
+        public string FrontMethod
         {
             get { return _frontMethod; }
             set { if( ValidateMethod(value)) _frontMethod = value; }
         }
 
-        public static string BackMethod
+        public string BackMethod
         {
             get { return _backMethod; }
             set { if (ValidateMethod(value))_backMethod = value; }
         }
 
-        public static string FrontLeftMethod
+        public string FrontLeftMethod
         {
             get { return _frontLeftMethod; }
             set { if (ValidateMethod(value))_frontLeftMethod = value; }
         }
 
-        public static string FrontRightMethod
+        public string FrontRightMethod
         {
             get { return _frontRightMethod; }
             set { if (ValidateMethod(value))_frontRightMethod = value; }

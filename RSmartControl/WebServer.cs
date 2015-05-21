@@ -5,6 +5,7 @@ using Microsoft.SPOT.Hardware;
 using System.Net;
 using System.Text;
 using System.Threading;
+using RSmartControl.Robot_Behaviours;
 using SecretLabs.NETMF.Hardware.Netduino;
 
 
@@ -120,6 +121,31 @@ namespace RSmartControl
                 string response;
                 switch ((string)entry.Key)
                 {
+                    case "FrontMethod" :
+                        _pluginManager.BehaviourControl.FrontMethod = (string) entry.Value;
+                        break;
+                    case "FrontLeftMethod":
+                        _pluginManager.BehaviourControl.FrontLeftMethod = (string)entry.Value;
+                        break;
+                    case "FrontRightMethod":
+                        _pluginManager.BehaviourControl.FrontRightMethod = (string)entry.Value;
+                        break;
+                    case "BackMethod":
+                        _pluginManager.BehaviourControl.BackMethod = (string)entry.Value;
+                        break;
+                    case "GetBehaviours" :
+                        response = BehaviourControl.Behaviours;
+                        SendResponse(clientSocket, response);
+                        break;
+                    case "GetMethods" :
+                        response = "";
+                        foreach (string s in BehaviourControl.GetAllMethods())
+                        {
+                            response += s + "-";
+                        }
+                        response = response.Substring(0, response.Length - 1);
+                        SendResponse(clientSocket, response);
+                        break;
                     case "GetDirection":
                         response = _com.MotorLeft.DirectionString;
                         SendResponse(clientSocket, response);
