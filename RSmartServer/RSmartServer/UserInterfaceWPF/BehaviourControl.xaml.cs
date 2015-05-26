@@ -23,18 +23,18 @@ namespace Server.App
     /// </summary>
     public partial class BehaviourControl : Window
     {
-        string behaviours = @"FrontMethod-FrontLeftMethod-FrontRightMethod-BackMethod";
-        string methods = @"TurnLeft-TurnRight-Stop-Start-GoBackward-GoForward";
+        string behaviours = @"";
+        string methods = @"";
         Dictionary<ComboBox, String> _values = new Dictionary<ComboBox, string>();
         private RobotControl _robotControl;
         public BehaviourControl(RobotControl robotControl)
         {
 
             _robotControl = robotControl;
-            //GetDataRobot();
+            GetDataRobot();
             InitializeComponent();
             Initialize();
-            SendDataRobot();
+            
         }
 
         public void GetDataRobot()
@@ -59,6 +59,8 @@ namespace Server.App
 
         public List<String> JsonToList(string json)
         {
+            if (json == null)
+                return null;
             string s;
             s = json;
             s = s.Replace(@"""", "");
@@ -115,7 +117,9 @@ namespace Server.App
                     str += entry.Value + " : " + entry.Key.SelectedValue.ToString() + "\n";
                 }
             }
-            MessageBox.Show(str);
+            MessageBox.Show( str );
+            SendDataRobot();
+            
         }
     }
 }

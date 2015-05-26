@@ -11,6 +11,11 @@ namespace RSmartControl.Robot_Behaviours
         private static String ConfigurationName = "config.bin";
         private static String _frontMethod, _backMethod, _frontLeftMethod, _frontRightMethod;
 
+        public delegate void FrontMethodDel();
+        public delegate void FrontLeftMethodDel();
+        public delegate void FrontRightMethodDel();
+        public delegate void BackMethodDel();
+
         public BehaviourControl(PluginManager plugins)
         {
             ArrayList lst = GetAllMethods();

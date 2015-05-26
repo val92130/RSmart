@@ -105,6 +105,11 @@
         </Button>
         <Button Content="Start Motors" HorizontalAlignment="Left" Margin="422,293,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.101,0.389" Click="Button_Click_1"/>
         <Button Content="Stop Motors" HorizontalAlignment="Left" Margin="517,293,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
+        <Label x:Name="labelSpeed" Content="Robot speed : " Margin="11,0,764,625" RenderTransformOrigin="0.382,-0.173" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="243" Height="38" FontFamily="Verdana" FontSize="14">
+            <Label.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.65" ShadowDepth="10"/>
+            </Label.Effect>
+        </Label>
 
 
     </Grid>

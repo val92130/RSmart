@@ -59,7 +59,13 @@ namespace Server.App
                 _routeCount = _robotControl.WebServer.Routes.Count;
                 UpdateRoutesTextBox();
             }
+            
             _isRobotOnline = _robotControl.PingRobot();
+            if( _isRobotOnline )
+            {
+                //labelSpeed.Content = "Robot speed : " + _robotControl.SendRequestRobot( "GetSpeed=true" );
+            }
+            
         }
 
         public void UpdateRoutesTextBox()

@@ -38,17 +38,6 @@ namespace RSmartControl
             ListenForRequest();
         }
 
-        public Socket Socket
-        {
-            get
-            {
-                lock (socket)
-                {
-                    return socket;
-                }
-            }
-        }
-
         public void ListenForRequest()
         {
             while (true)
@@ -122,15 +111,23 @@ namespace RSmartControl
                 switch ((string)entry.Key)
                 {
                     case "FrontMethod" :
+                        response = "Front Method ok";
+                        SendResponse( clientSocket, response );
                         _pluginManager.BehaviourControl.FrontMethod = (string) entry.Value;
                         break;
                     case "FrontLeftMethod":
+                        response = "Front Left Method ok";
+                        SendResponse( clientSocket, response );
                         _pluginManager.BehaviourControl.FrontLeftMethod = (string)entry.Value;
                         break;
                     case "FrontRightMethod":
+                        response = "Front Right Method ok";
+                        SendResponse( clientSocket, response );
                         _pluginManager.BehaviourControl.FrontRightMethod = (string)entry.Value;
                         break;
                     case "BackMethod":
+                        response = "Back Method ok";
+                        SendResponse( clientSocket, response );
                         _pluginManager.BehaviourControl.BackMethod = (string)entry.Value;
                         break;
                     case "GetBehaviours" :

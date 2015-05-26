@@ -27,7 +27,7 @@ namespace Server.Lib
 
         public static string ImagePath
         {
-            get { return "http://10.8.96.153/img.jpg"; }
+            get { return "http://192.168.1.137/rsmart/image_upload/img.jpg"; }
         }
 
         public void Start()
