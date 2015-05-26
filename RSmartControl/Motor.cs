@@ -174,6 +174,8 @@ namespace RSmartControl
             double p = (double)(2 * RobotHeight * System.Math.PI);
             double distanceToDo = (double)((double)(angle/(double)360) * p);
             double speedCm = (double)((speedKmH * 27.777) );
+            if (speedCm <= 0)
+                return 0;
             double time = ((double)(distanceToDo / speedCm) );
             return time; 
         }
