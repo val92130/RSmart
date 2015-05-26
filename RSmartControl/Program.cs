@@ -38,6 +38,9 @@ namespace RSmartControl
             server.Start();
 
             MainLoop loop = new MainLoop( pluginManager );
+
+            pluginManager.RobotBehaviourPlugin.Run(loop.Robot);
+
             loop.Run();
         }
 

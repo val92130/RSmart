@@ -11,10 +11,12 @@ namespace RSmartControl.Robot_Behaviours
         private static String ConfigurationName = "config.bin";
         private static String _frontMethod, _backMethod, _frontLeftMethod, _frontRightMethod;
 
-        public delegate void FrontMethodDel();
-        public delegate void FrontLeftMethodDel();
-        public delegate void FrontRightMethodDel();
-        public delegate void BackMethodDel();
+        public delegate void RobotBehaviourDel();
+
+        private RobotBehaviourDel _fMethodDel;
+        private RobotBehaviourDel _fLeftMethodDel;
+        private RobotBehaviourDel _fRightMethodDel;
+        private RobotBehaviourDel _bMethodDel;
 
         public BehaviourControl(PluginManager plugins)
         {
@@ -25,6 +27,31 @@ namespace RSmartControl.Robot_Behaviours
             _frontLeftMethod = (string)lst[1];
             _frontRightMethod = (string)lst[0];
             WriteConfigurationFile();
+            this.Init();
+        }
+
+        public void Refresh()
+        {
+            this.Init();
+        }
+
+        private void Init()
+        {
+            // Init front method
+            MethodInfo mFrontMethodInfo = typeof(RobotBehaviourPlugin).GetMethod(this.FrontMethod);
+            _fMethodDel = (RobotBehaviourDel)mFrontMethodInfo.Invoke(_pluginManager.RobotBehaviourPlugin, null);
+
+            // Init front left method
+            MethodInfo mFrontLeftMethodInfo = typeof(IRobotBehaviour).GetMethod(this.FrontLeftMethod);
+            _fLeftMethodDel = (RobotBehaviourDel)mFrontLeftMethodInfo.Invoke(_pluginManager.RobotBehaviourPlugin, null);
+
+            // Init front right method
+            MethodInfo mFrontRightMethodInfo = typeof(IRobotBehaviour).GetMethod(this.FrontRightMethod);
+            _fRightMethodDel = (RobotBehaviourDel)mFrontRightMethodInfo.Invoke(_pluginManager.RobotBehaviourPlugin, null);
+            
+            // Init back method
+            MethodInfo mBackMethodInfo = typeof(IRobotBehaviour).GetMethod(this.BackMethod);
+            _bMethodDel = (RobotBehaviourDel)mBackMethodInfo.Invoke(_pluginManager.RobotBehaviourPlugin, null);
         }
 
         public static ArrayList GetAllMethods()
@@ -56,9 +83,29 @@ namespace RSmartControl.Robot_Behaviours
             _pluginManager.SdCardManager.Write(str, ConfigurationName);
         }
 
+        public void OnObstacleFront()
+        {
+            _fMethodDel();
+        }
+
+        public void OnObstacleBack()
+        {
+            _bMethodDel();
+        }
+
+        public void OnObstacleFrontLeft()
+        {
+            _fLeftMethodDel();
+        }
+
+        public void OnObstacleFrontRight()
+        {
+            _fRightMethodDel();
+        }
+
         public static bool ValidateMethod(string input)
         {
-            if (GetAllMethods().Contains((string) input))
+            if (GetAllMethods().Contains((string)input))
             {
                 return true;
             }
@@ -73,7 +120,7 @@ namespace RSmartControl.Robot_Behaviours
         public string FrontMethod
         {
             get { return _frontMethod; }
-            set { if( ValidateMethod(value)) _frontMethod = value; }
+            set { if (ValidateMethod(value)) _frontMethod = value; }
         }
 
         public string BackMethod
@@ -93,31 +140,5 @@ namespace RSmartControl.Robot_Behaviours
             get { return _frontRightMethod; }
             set { if (ValidateMethod(value))_frontRightMethod = value; }
         }
-
-        public void OnObstacleFront(Robot robot)
-        {
-            MethodInfo m = typeof (IRobotBehaviour).GetMethod(FrontMethod);
-            m.Invoke(_pluginManager.RobotBehaviourPlugin, new object[] {robot});
-        }
-
-        public void OnObstacleBack(Robot robot)
-        {
-            MethodInfo m = typeof( IRobotBehaviour ).GetMethod( BackMethod );
-            m.Invoke( _pluginManager.RobotBehaviourPlugin, new object[] { robot } );
-        }
-
-        public void OnObstacleFrontLeft(Robot robot)
-        {
-            MethodInfo m = typeof( IRobotBehaviour ).GetMethod( FrontLeftMethod );
-            m.Invoke( _pluginManager.RobotBehaviourPlugin, new object[] { robot } );
-        }
-
-        public void OnObstacleFrontRight(Robot robot)
-        {
-            MethodInfo m = typeof( IRobotBehaviour ).GetMethod( FrontRightMethod );
-            m.Invoke( _pluginManager.RobotBehaviourPlugin, new object[] { robot } );
-        }
-
-        
     }
 }

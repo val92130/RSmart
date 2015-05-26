@@ -14,6 +14,9 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Options" >
+                <MenuItem x:Name="showMapButton" Header="_Display Map" Click="ShowMapButton_OnClickButton_Click">
+
+                </MenuItem>
                 <MenuItem x:Name="pingRobotButton" Header="_Ping" Click="pingRobotButton_Click">
 
                 </MenuItem>

@@ -30,9 +30,7 @@ namespace RSmartControl
         {
             _direction = EDirection.Forward;
             _motor = new PWM( motor, 500, 0.8, false );
-
             _frontDirection = new OutputPort( motorFrontDirection, true );
-
         }
 
         public string DirectionString
@@ -91,7 +89,6 @@ namespace RSmartControl
             {
                 return;
             }
-
             this.Direction = EDirection.BackWard;
             _directionTimer = new StartTimer(interval);
         }

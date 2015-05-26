@@ -5,37 +5,83 @@ namespace RSmartControl.Robot_Behaviours
 {
     public class RobotBehaviourPlugin : IRobotBehaviour
     {
+        private Robot _robot;
 
-        public void TurnLeft(Robot r)
+        public void Run(Robot r)
         {
-            r.TurnLeft();
+            _robot = r;
+        }
+        private void Left()
+        {
+            if (_robot == null)
+                return;
+            _robot.TurnLeft(); 
         }
 
-        public void TurnRight( Robot r )
+        private void Right()
         {
-            r.TurnRight();
+            if (_robot == null)
+                return;
+            _robot.TurnRight();
         }
 
-        public void GoBack( Robot r )
+        private void Back()
         {
-            r.GoBackward();
+            if (_robot == null)
+                return;
+            _robot.GoBackward();
         }
 
-        public void GoForward( Robot r )
+        private void Forward()
         {
-            r.GoForward();
+            if (_robot == null)
+                return;
+            _robot.GoForward();
         }
 
-        public void Stop( Robot r )
+        private void DoStop()
         {
-            r.MotorLeft.Stop();
-            r.MotorRight.Stop();
+            if (_robot == null)
+                return;
+            _robot.MotorLeft.Stop();
+            _robot.MotorRight.Stop();
         }
 
-        public void Start( Robot r )
+        private void DoStart()
         {
-            r.MotorLeft.Start();
-            r.MotorRight.Start();
+            if (_robot == null)
+                return;
+            _robot.MotorLeft.Start();
+            _robot.MotorRight.Start();
+        }
+        public BehaviourControl.RobotBehaviourDel TurnLeft()
+        {
+            return new BehaviourControl.RobotBehaviourDel(Left);
+        }
+
+        public BehaviourControl.RobotBehaviourDel TurnRight()
+        {
+            return new BehaviourControl.RobotBehaviourDel(Right);
+        }
+
+        public BehaviourControl.RobotBehaviourDel GoBack()
+        {
+            return new BehaviourControl.RobotBehaviourDel(Back);
+        }
+
+        public BehaviourControl.RobotBehaviourDel GoForward()
+        {
+            return new BehaviourControl.RobotBehaviourDel(Forward);
+        }
+
+        public BehaviourControl.RobotBehaviourDel Stop()
+        {
+            return new BehaviourControl.RobotBehaviourDel(DoStop);
+        }
+
+        public BehaviourControl.RobotBehaviourDel Start()
+        {
+            return new BehaviourControl.RobotBehaviourDel(DoStart);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace RSmartControl
 
         public void MessageAnalyse( Hashtable nvc, Socket clientSocket, IPEndPoint clientIp )
         {
-            // if the robot is not yet initialized, we go
+            // if the robot is not yet initialized, we leave
             if (_com.Robot == null)
             {
                 return;
@@ -203,15 +203,14 @@ namespace RSmartControl
                         SendResponse( clientSocket, response );
                         break;
 
-                    case "GetSpeedLeft":
+                    case "GetDutyCycleLeft":
                         response = _com.MotorLeft.DutyCycle.ToString();
                         SendResponse( clientSocket, response );
                         break;
-                    case "GetSpeedRight":
+                    case "GetDutyCycleRight":
                         response = _com.MotorRight.DutyCycle.ToString();
                         SendResponse( clientSocket, response );
                         break;
-
                     case "GetMotorStatusRight":
                         response = _com.MotorRight.IsStarted.ToString();
                         SendResponse( clientSocket, response );

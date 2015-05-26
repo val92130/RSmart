@@ -28,8 +28,7 @@ namespace Server.App
             labelIpTitle.Content = "Server IP : " + Util.GetIp();
             this.InitializeTimers();
             _routeCount = _robotControl.WebServer.Routes.Count;
-            UpdateRoutesTextBox();
-            
+            UpdateRoutesTextBox();        
         }
 
 
@@ -219,6 +218,12 @@ namespace Server.App
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             _robotControl.SendRequestRobot("Stop=true");
+        }
+
+        private void ShowMapButton_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            Map m= new Map(_robotControl) { Owner = this };
+            m.ShowDialog();
         }
     }
 }

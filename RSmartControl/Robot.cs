@@ -16,20 +16,20 @@ namespace RSmartControl
         Vector2 _pos, _dir;
         
         MainLoop _mainLoop;
-        private double RotationSpeed = Utility.DegreeToRadian(30);
-        PluginManager _pluginManager;
+        private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
+        readonly PluginManager _pluginManager;
 
         private Communication _com;
-        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, PluginManager pluginManager)
+        public Robot(MainLoop mainLoop, Motor motorLeft, Motor motorRight, PluginManager pluginManager)
         {
             _pos = new Vector2();
             _dir = new Vector2();
 
             _pluginManager = pluginManager;
-            _mainLoop = MainLoop;
+            _mainLoop = mainLoop;
             _com = pluginManager.CommunicationModule;
-            _motorLeft = MotorLeft;
-            _motorRight = MotorRight;
+            _motorLeft = motorLeft;
+            _motorRight = motorRight;
 
             _dir.Y = 1;
 
@@ -124,8 +124,8 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
+            this._dir.X = this._dir.X * System.Math.Cos( this._rotationSpeed ) - this._dir.Y * System.Math.Sin( this._rotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( this._rotationSpeed ) + this._dir.Y * System.Math.Cos( this._rotationSpeed );
 
         }
 
@@ -139,8 +139,8 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._dir.X = this._dir.X * System.Math.Cos(this.RotationSpeed) - this._dir.Y * System.Math.Sin(this.RotationSpeed);
-            this._dir.Y = this._dir.X * System.Math.Sin(this.RotationSpeed) + this._dir.Y * System.Math.Cos(this.RotationSpeed);
+            this._dir.X = this._dir.X * System.Math.Cos(this._rotationSpeed) - this._dir.Y * System.Math.Sin(this._rotationSpeed);
+            this._dir.Y = this._dir.X * System.Math.Sin(this._rotationSpeed) + this._dir.Y * System.Math.Cos(this._rotationSpeed);
 
         }
         /// <summary>
@@ -158,8 +158,8 @@ namespace RSmartControl
 
             _motorLeft.ReverseDirection( 0.6 );
             
-            this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
+            this._dir.X = this._dir.X * System.Math.Cos( -this._rotationSpeed ) - this._dir.Y * System.Math.Sin( -this._rotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( -this._rotationSpeed ) + this._dir.Y * System.Math.Cos( -this._rotationSpeed );
 
         }
       
@@ -240,17 +240,17 @@ namespace RSmartControl
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
 
-                double _step = _motorRight.DutyCycle / 100;
+                double step = _motorRight.DutyCycle / 100;
 
                 if(_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
                 {
-                    this._pos.X += _step * this._dir.X;
-                    this._pos.Y += _step * this._dir.Y;
+                    this._pos.X += step * this._dir.X;
+                    this._pos.Y += step * this._dir.Y;
                 }
                 else
                 {
-                    this._pos.X -= _step * this._dir.X;
-                    this._pos.Y -= _step * this._dir.Y;
+                    this._pos.X -= step * this._dir.X;
+                    this._pos.Y -= step * this._dir.Y;
                 }
                 
 

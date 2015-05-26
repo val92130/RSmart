@@ -43,7 +43,7 @@
     <Compile Include="Robot Behaviours\BehaviourControl.cs" />
     <Compile Include="Robot Behaviours\IRobotBehaviour.cs" />
     <Compile Include="Robot Behaviours\RobotBehaviourPlugin.cs" />
-    <Compile Include="StartTimer.cs" />
+    <Compile Include="Utilities\StartTimer.cs" />
     <Compile Include="Plugins\SyncModule.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="EDirection.cs" />
@@ -57,8 +57,8 @@
     <Compile Include="Robot.cs" />
     <Compile Include="Sensor.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
-    <Compile Include="Utility.cs" />
-    <Compile Include="Vector2.cs" />
+    <Compile Include="Utilities\Utility.cs" />
+    <Compile Include="Utilities\Vector2.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
