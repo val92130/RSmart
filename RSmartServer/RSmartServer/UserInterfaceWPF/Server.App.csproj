@@ -112,13 +112,13 @@
     <Resource Include="back2.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ServerLibrary\Server.Lib.csproj">
       <Project>{06cf789a-5a12-4d7c-bf25-01591e8c2f0b}</Project>
       <Name>Server.Lib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

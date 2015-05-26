@@ -204,5 +204,15 @@ namespace Server.App
             BehaviourControl b = new BehaviourControl(_robotControl) {Owner = this};
             b.ShowDialog();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _robotControl.SendRequestRobot("Start=true");
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            _robotControl.SendRequestRobot("Stop=true");
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Server.Lib
         {
             get
             {
-                return "10.8.110.204";
+                return "192.168.1.131";
             }
         }
 
