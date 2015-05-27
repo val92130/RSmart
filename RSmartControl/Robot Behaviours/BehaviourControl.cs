@@ -8,7 +8,7 @@ namespace RSmartControl.Robot_Behaviours
     public class BehaviourControl
     {
         private readonly PluginManager _pluginManager;
-        private static String ConfigurationName = "config.bin";
+        private static readonly String ConfigurationName = "config.bin";
         private static String _frontMethod, _backMethod, _frontLeftMethod, _frontRightMethod;
 
         public delegate void RobotBehaviourDel();
