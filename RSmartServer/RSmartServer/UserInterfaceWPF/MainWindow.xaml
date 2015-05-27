@@ -17,6 +17,9 @@
                 <MenuItem x:Name="showMapButton" Header="_Display Map" Click="ShowMapButton_OnClickButton_Click">
 
                 </MenuItem>
+                <MenuItem x:Name="clearLogButton" Header="_Clear Log" Click="ClearLogButton_OnClick">
+
+                </MenuItem>
                 <MenuItem x:Name="pingRobotButton" Header="_Ping" Click="pingRobotButton_Click">
 
                 </MenuItem>
@@ -36,7 +39,7 @@
                 <ImageBrush ImageSource="back2.jpg"/>
             </Image.OpacityMask>
         </Image>
-        <RichTextBox x:Name="textBoxRoutes" HorizontalAlignment="Left" Height="213" Margin="37,339,0,0" VerticalAlignment="Top" Width="942" Opacity="0.5" Background="Black" Foreground="White" FontSize="10" VerticalScrollBarVisibility="Visible">
+        <RichTextBox x:Name="textBoxRoutes" IsReadOnly="True" HorizontalAlignment="Left" Height="213" Margin="37,339,0,0" VerticalAlignment="Top" Width="942" Opacity="0.5" Background="Black" Foreground="White" FontSize="10" VerticalScrollBarVisibility="Visible">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -49,7 +52,7 @@
             </Label.Effect>
         </Label>
 
-        <RichTextBox x:Name="textBoxLog" HorizontalAlignment="Left" Height="132" Margin="37,576,0,0" VerticalAlignment="Top" Width="942" Opacity="0.5" Background="Black" Foreground="White" VerticalScrollBarVisibility="Visible" FontSize="10">
+        <RichTextBox x:Name="textBoxLog" IsReadOnly="True" HorizontalAlignment="Left" Height="132" Margin="37,576,0,0" VerticalAlignment="Top" Width="942" Opacity="0.5" Background="Black" Foreground="White" VerticalScrollBarVisibility="Visible" FontSize="10">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -106,9 +109,17 @@
                 <DropShadowEffect Opacity="0.5"/>
             </Button.Effect>
         </Button>
-        <Button Content="Start Motors" HorizontalAlignment="Left" Margin="422,293,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.101,0.389" Click="Button_Click_1"/>
-        <Button Content="Stop Motors" HorizontalAlignment="Left" Margin="517,293,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
-        <Label x:Name="labelSpeed" Content="Robot speed : " Margin="11,0,764,625" RenderTransformOrigin="0.382,-0.173" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="243" Height="38" FontFamily="Verdana" FontSize="14">
+        <Button Content="Start Motors" HorizontalAlignment="Left" Margin="422,293,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.101,0.389" Click="Button_Click_1" Opacity="0.8">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="Stop Motors" HorizontalAlignment="Left" Margin="517,293,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" Opacity="0.8">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Label x:Name="labelSpeed" Content="Robot speed : " Margin="11,0,764,639" RenderTransformOrigin="0.382,-0.173" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="243" Height="38" FontFamily="Verdana" FontSize="14">
             <Label.Effect>
                 <DropShadowEffect BlurRadius="10" Opacity="0.65" ShadowDepth="10"/>
             </Label.Effect>

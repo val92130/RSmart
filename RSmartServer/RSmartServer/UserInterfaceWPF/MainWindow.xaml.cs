@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Cache;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Server.Lib;
 using MjpegProcessor;
+using System.Windows.Media;
 
 namespace Server.App
 {
@@ -44,7 +46,7 @@ namespace Server.App
 
         void _mjpeg_Error(object sender, ErrorEventArgs e)
         {
-            MessageBox.Show(e.Message);
+            _robotControl.DebugLog.Write(e.Message, EMessageCategory.Error);
         }
         public void InitializeTimers()
         {
@@ -99,9 +101,18 @@ namespace Server.App
         {
             if (_robotControl.DebugLog.Count > 0)
             {
-                textBoxLog.AppendText(DateTime.Now + " : " + _robotControl.DebugLog.Get + "\n");
+                LogMessage log = _robotControl.DebugLog.Get;
+                DrawTextColor(textBoxLog, DateTime.Now.ToString(), Colors.Coral);
+                DrawTextColor(textBoxLog, " : " + log + "\n", log.Color);
                 textBoxLog.ScrollToEnd();
             }
+        }
+
+        public void DrawTextColor(RichTextBox textBox, string text, Color color)
+        {
+            TextRange rangeOfText1 = new TextRange(textBox.Document.ContentEnd, textBox.Document.ContentEnd);
+            rangeOfText1.Text = text;
+            rangeOfText1.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(color));
         }
 
         private void T_Loop(object sender, EventArgs e)
@@ -219,6 +230,11 @@ namespace Server.App
         {
             Map m= new Map(_robotControl) { Owner = this };
             m.ShowDialog();
+        }
+
+        private void ClearLogButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            textBoxLog.Document.Blocks.Clear();
         }
     }
 }
