@@ -190,26 +190,30 @@ namespace RSmartControl
             {
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    this.TurnRight();
+                    //this.TurnRight();
+                    _pluginManager.BehaviourControl.OnObstacleFront();
                     return;
                 } 
                 // If collide front-left but not front-right
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && !_pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    this.TurnRight();
+                    _pluginManager.BehaviourControl.OnObstacleFrontLeft();
+                    //this.TurnRight();
                     return;
                 }
 
                 // If collide front-right but not front-left
                 if (!_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    this.TurnRight();
+                    _pluginManager.BehaviourControl.OnObstacleFrontRight();
+                    //this.TurnRight();
                     return;
                 }
 
                 // If collide in the back
                 if (_pluginManager.SensorsManager.BackSensor.Collide && _motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
                 {
+                    _pluginManager.BehaviourControl.OnObstacleBack();
                     _motorLeft.Direction = EDirection.Forward;
                     _motorRight.Direction = EDirection.Forward;
                     return;

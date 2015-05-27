@@ -120,25 +120,25 @@ namespace RSmartControl.Robot_Behaviours
         public string FrontMethod
         {
             get { return _frontMethod; }
-            set { if (ValidateMethod(value)) _frontMethod = value; }
+            set { if (ValidateMethod(value)) _frontMethod = value; Refresh(); }
         }
 
         public string BackMethod
         {
             get { return _backMethod; }
-            set { if (ValidateMethod(value))_backMethod = value; }
+            set { if( ValidateMethod( value ) )_backMethod = value; Refresh(); }
         }
 
         public string FrontLeftMethod
         {
             get { return _frontLeftMethod; }
-            set { if (ValidateMethod(value))_frontLeftMethod = value; }
+            set { if( ValidateMethod( value ) )_frontLeftMethod = value; Refresh(); }
         }
 
         public string FrontRightMethod
         {
             get { return _frontRightMethod; }
-            set { if (ValidateMethod(value))_frontRightMethod = value; }
+            set { if( ValidateMethod( value ) )_frontRightMethod = value; Refresh(); }
         }
     }
 }

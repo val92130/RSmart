@@ -14,7 +14,6 @@ namespace RSmartControl
         Communication _com;
         Robot _robot;
         private SyncModule _syncModule;
-        SensorsManager _sensorsManager;
         PluginManager _pluginManager;
         public MainLoop(PluginManager pluginManager)
         {
