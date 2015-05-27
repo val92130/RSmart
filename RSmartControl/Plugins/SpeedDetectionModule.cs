@@ -11,7 +11,8 @@ namespace RSmartControl
         private readonly Thread _mainThread;
         private readonly PluginManager _pluginManager;
         const double WheelDiameter = 12.5;
-        double _speed = 0;
+        double _speed, _speedCm = 0;
+       
         public SpeedDetectionModule(PluginManager pluginManager)
         {
             _pluginManager = pluginManager;
@@ -28,6 +29,12 @@ namespace RSmartControl
            {
                 return _speed;
            }
+       }
+
+
+       public double SpeedCm
+       {
+           get { return _speedCm; }
        }
 
         public void Detect()
@@ -65,6 +72,7 @@ namespace RSmartControl
                         prev = DateTime.Now;
                         double dist = nbrTour * WheelDiameter;
                         _speed = dist / waitTime;
+                        _speedCm = dist/waitTime;
                         _speed /= 100000;
                         _speed *= 3600;
                         Debug.Print("Speed : " + _speed +"km/h");

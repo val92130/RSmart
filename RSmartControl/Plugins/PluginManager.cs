@@ -18,12 +18,13 @@ namespace RSmartControl
         public PluginManager()
         {
             _sdCardManager = new SDCardManager();
+            _robotBehaviourPlugin = new RobotBehaviourPlugin();
             _behaviourControl = new BehaviourControl(this);          
             _sensorsManager = new SensorsManager();
             _speedDetectionModule = new SpeedDetectionModule(this);
             _syncModule = new SyncModule();
             _communication = new Communication();    
-            _robotBehaviourPlugin = new RobotBehaviourPlugin();
+            
         }
 
         public BehaviourControl BehaviourControl

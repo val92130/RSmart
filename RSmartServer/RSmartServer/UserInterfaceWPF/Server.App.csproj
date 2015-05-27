@@ -92,6 +92,7 @@
       <DependentUpon>Map.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapRendering\Box.cs" />
+    <Compile Include="MapRendering\DrawingMethod.cs" />
     <Compile Include="MapRendering\MapGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

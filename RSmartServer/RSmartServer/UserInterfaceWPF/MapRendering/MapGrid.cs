@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Server.Lib.MapRendering;
 
 namespace Server.Lib
@@ -26,11 +27,19 @@ namespace Server.Lib
             }
         }
 
-        public void Draw()
+        public void Draw(Canvas c)
         {
             foreach (Box b in _boxes)
             {
-                b.Draw();
+                b.Draw(c);
+            }
+        }
+
+        public Box[,] Boxes
+        {
+            get
+            {
+                return _boxes;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Server.App
     {
         readonly MjpegDecoder _mjpeg;
         readonly RobotControl _robotControl;
-        DispatcherTimer _loopTimer, _cameraTimer, _routineTimer;
+        DispatcherTimer _loopTimer, _routineTimer;
         int _routeCount = 0;
         private bool _isRobotOnline = false;
         private bool _started, _startedBack;
@@ -52,11 +52,6 @@ namespace Server.App
 
             _loopTimer.Tick += new EventHandler(T_Loop);
             _loopTimer.Start();
-
-            _cameraTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 1000)};
-
-            _cameraTimer.Tick += new EventHandler(T_Camera_Update);
-            _cameraTimer.Start();
 
             _routineTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 4000)};
 
@@ -100,20 +95,6 @@ namespace Server.App
             textBoxRoutes.Document.Blocks.Add(new Paragraph(new Run(txt)));
 
         }
-
-        private void T_Camera_Update(object sender, EventArgs e)
-        {
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.None;
-            image.UriCachePolicy = new RequestCachePolicy( RequestCacheLevel.BypassCache );
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            image.UriSource = new Uri( WebcamManager.ImagePath, UriKind.RelativeOrAbsolute );
-            image.EndInit();
-            pictureWebcam.Source = image;
-        }
-
         public void UpdateLog()
         {
             if (_robotControl.DebugLog.Count > 0)

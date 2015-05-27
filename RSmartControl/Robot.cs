@@ -19,6 +19,8 @@ namespace RSmartControl
         private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
         readonly PluginManager _pluginManager;
 
+        private DateTime now, prev = DateTime.UtcNow;
+
         private Communication _com;
         public Robot(MainLoop mainLoop, Motor motorLeft, Motor motorRight, PluginManager pluginManager)
         {
@@ -237,23 +239,26 @@ namespace RSmartControl
 
             Behavior();
 
-            if (_motorLeft.IsStarted || _motorRight.IsStarted)
+            now = DateTime.UtcNow;
+
+            TimeSpan t = now - prev;
+
+            if (t.Seconds >= 1)
             {
-
-                double step = _motorRight.DutyCycle / 100;
-
-                if(_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
+                prev = DateTime.UtcNow;
+                if (_motorLeft.IsStarted || _motorRight.IsStarted)
                 {
-                    this._pos.X += step * this._dir.X;
-                    this._pos.Y += step * this._dir.Y;
+                    if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
+                    {
+                        this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.X;
+                        this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.Y;
+                    }
+                    else
+                    {
+                        this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.X;
+                        this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.Y;
+                    }
                 }
-                else
-                {
-                    this._pos.X -= step * this._dir.X;
-                    this._pos.Y -= step * this._dir.Y;
-                }
-                
-
             }
 
         }

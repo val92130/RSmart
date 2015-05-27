@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Server.App.MapRendering;
 using Server.Lib;
+using Server.Lib.MapRendering;
 
 namespace Server.App
 {
@@ -23,69 +25,82 @@ namespace Server.App
     {
         private RobotControl _robotControl;
         DispatcherTimer t;
+        private MapGrid _map;
+        private Rect _mouseRect;
+        private bool add = true;
         public Map(RobotControl r)
-        {
+        {     
             _robotControl = r;
             InitializeComponent();
+            _map = new MapGrid( 20, (int)this.Width, (int)this.Height );
             t = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 10)};
             t.Tick += new EventHandler(T_Tick);
             t.Start();
-            DrawGrid(50, 50, 0.24);
+            
         }
 
         // Draw
         private void T_Tick(object sender, EventArgs e)
         {
-            //grid.Children.Clear();
+
+            grid.Children.Clear();
+            _map.Draw( grid );
+
+            _mouseRect = new Rect( Mouse.GetPosition( this ), new Size( 10, 10 ) );
+            DrawingMethod.DrawRectangle( grid, _mouseRect.X, _mouseRect.Y, _mouseRect.Width, _mouseRect.Height, Colors.Blue );
+            Update();
         }
 
-        private void DrawGrid(double gridWidthMeters, double gridHeightMeters, double boxWidth)
+        public void Update()
         {
-            int ratio = 10;
-            for (double i = 0; i < gridWidthMeters * ratio; i += boxWidth * ratio)
+            foreach (Box b in _map.Boxes)
             {
-                for (double j = 0; j < gridHeightMeters * ratio; j += boxWidth * ratio)
+                if (_mouseRect.IntersectsWith(b.Area))
                 {
-                    DrawRectangle(i, j, boxWidth * ratio, boxWidth * ratio, Colors.Blue);
+                    DrawingMethod.DrawRectangle( grid, b.Area.X, b.Area.Y, b.Area.Width, b.Area.Height, Colors.Black );
+                }
+            } 
+            
+        }
+
+
+        private void Grid_MouseLeftButtonDown( object sender, MouseButtonEventArgs e )
+        {
+            if (add)
+            {
+                foreach (Box b in _map.Boxes)
+                {
+                    if (_mouseRect.IntersectsWith(b.Area))
+                    {
+                        b.IsObstacle = true;
+                    }
                 }
             }
-        }
-
-        public void DrawRectangle(int x, int y, int width, int height, Color color)
-        {
-            DrawRectangle((double)x, (double)y, (double)width, (double)height, color);
-        }
-        public void DrawRectangle(double x, double y, double width, double height, Color color)
-        {
-            Rectangle rect = new Rectangle()
+            else
             {
-                Width = width,
-                Height = height,
-                StrokeThickness = 1
-            };
-            rect.Stroke = new SolidColorBrush(color);
-            grid.Children.Add(rect);
-            Canvas.SetTop(rect, y);
-            Canvas.SetLeft(rect, x);
+                foreach( Box b in _map.Boxes )
+                {
+                    if( _mouseRect.IntersectsWith( b.Area ) )
+                    {
+                        b.IsObstacle = false;
+                    }
+                }
+            }
+            
         }
 
-        public void FillRectangle(int x, int y, int width, int height, Color color)
+        private void addObstacleButton_Click( object sender, RoutedEventArgs e )
         {
-            FillRectangle((double)x, (double)y, (double)width, (double)height, color);
+            add = true;
         }
-        public void FillRectangle(double x, double y, double width, double height, Color color)
-        {
-            Rectangle rect = new Rectangle()
-            {
-                Width = width,
-                Height = height
 
-            };
-            rect.Fill = new SolidColorBrush(color);
-            grid.Children.Add(rect);
-            Canvas.SetTop(rect, y);
-            Canvas.SetLeft(rect, x);
+        private void removeObstacleButton_Click( object sender, RoutedEventArgs e )
+        {
+            add = false;
         }
+
+
+
 
     }
 }
