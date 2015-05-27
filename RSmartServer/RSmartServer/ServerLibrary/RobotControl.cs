@@ -27,6 +27,7 @@ namespace Server.Lib
             serverThread.Start();
         }
 
+
         public RobotControl()
         {
             _robotIp = Util.RobotIp;
@@ -85,7 +86,7 @@ namespace Server.Lib
 
             string url = "http://" + ip + "/?" + req;
             string rep = Util.GET(_debugLog, url);
-            _debugLog.Write("Response from " + ip + " : " + rep);
+            _debugLog.Write("Response from " + ip + " : " + rep, EMessageCategory.Information);
             return rep;
         }
     }

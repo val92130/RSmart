@@ -7,8 +7,7 @@ namespace Server.Lib
     {
         string _key, _value, _response;
         public Route(string key, string value, string response)
-        {
-            
+        { 
             _key = key;
             _value = value;
             _response = response;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
@@ -27,25 +28,23 @@ namespace Server.Lib
                 throw new NotSupportedException(
                     "Needs Windows XP SP2, Server 2003 or later." );
 
-            if( prefixes == null || prefixes.Length == 0 )
-                throw new ArgumentException( "prefixes" );
-
+            if( string.IsNullOrEmpty(prefixes) )
+                throw new ArgumentException( "Prefixes must be specified" );
 
             _listener.Prefixes.Add( prefixes );
 
             _listener.Start();
-            _debugLog.Write("Server Started");
+            _debugLog.Write("Server Started", EMessageCategory.Success);
+
         }
 
         public void InitRoutesConfiguration()
         {
             this.DeserializeRoutes();
-            AddRoute(new Route("test", "true", "Helloooo"));
-            AddRoute(new Route("hello", "world", "Hello World"));
-            AddRoute(new Route("hello", "rsmart", "Hello Rsmart"));
-            _debugLog.Write("Routes initialized");
+            AddRoute(new Route("GetInfo", "true", "This is the RSmart Web Server"));
+            AddRoute(new Route("CalculateAverage", "values", "Returns the average value"));
+            _debugLog.Write("Routes initialized", EMessageCategory.Success);
             this.SerializeRoutes();
-            
         }
 
         public void AddRoute(Route r)
@@ -61,7 +60,7 @@ namespace Server.Lib
                 }
                 else
                 {
-                    _debugLog.Write("Trying to write an already existing route");
+                    _debugLog.Write("Trying to write an already existing route", EMessageCategory.Error);
                 }
                             
             }
@@ -88,7 +87,7 @@ namespace Server.Lib
                 }
                 catch( IOException ex )
                 {
-                    _debugLog.Write( ex.ToString() );
+                    _debugLog.Write( ex.ToString(), EMessageCategory.Error );
                 }
             }
 
@@ -99,6 +98,8 @@ namespace Server.Lib
         {
             try
             {
+                if (!File.Exists("../../../Routes/routes.bin"))
+                    return;
                 using (Stream stream = File.Open("../../../Routes/routes.bin", FileMode.Open))
                 {
                     BinaryFormatter bin = new BinaryFormatter();
@@ -156,43 +157,49 @@ namespace Server.Lib
         {
             ThreadPool.QueueUserWorkItem( ( o ) =>
             {
-                _debugLog.Write("Webserver running...");
+                _debugLog.Write("Webserver running...", EMessageCategory.Information);
                 try
                 {
-                    while( _listener.IsListening )
+                    while (_listener.IsListening)
                     {
-                        if( !System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable() )
+                        if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
                         {
                             return;
                         }
-                        ThreadPool.QueueUserWorkItem( ( c ) =>
+                        ThreadPool.QueueUserWorkItem((c) =>
                         {
                             var ctx = c as HttpListenerContext;
                             try
                             {
-                                if(!_pause)
+                                if (!_pause)
                                 {
-                                string rstr = SendResponse( ctx.Request );
-                                _debugLog.Write("Request from : " + ctx.Request.RemoteEndPoint + " : " + ctx.Request.RawUrl);
-                                
-                                byte[] buf = Encoding.UTF8.GetBytes( rstr );
-                                ctx.Response.ContentLength64 = buf.Length;
-                                ctx.Response.AppendHeader( "Value", rstr );
-                                ctx.Response.OutputStream.Write( buf, 0, buf.Length );
+                                    string rstr = SendResponse(ctx.Request);
+                                    _debugLog.Write(
+                                        "Request from : " + ctx.Request.RemoteEndPoint + " : " + ctx.Request.RawUrl,
+                                        EMessageCategory.Information);
+
+                                    byte[] buf = Encoding.UTF8.GetBytes(rstr);
+                                    ctx.Response.ContentLength64 = buf.Length;
+                                    ctx.Response.AppendHeader("Value", rstr);
+                                    ctx.Response.OutputStream.Write(buf, 0, buf.Length);
 
                                 }
                             }
-                            catch(Exception e ) {
-                                _debugLog.Write("Server Exception : " + e);
+                            catch (Exception e)
+                            {
+                                _debugLog.Write("Server Exception : " + e, EMessageCategory.Error);
                             }
                             finally
                             {
-                                ctx.Response.OutputStream.Close();
+                                if (ctx != null) ctx.Response.OutputStream.Close();
                             }
-                        }, _listener.GetContext() );
+                        }, _listener.GetContext());
                     }
                 }
-                catch { }
+                catch(Exception e)
+                {
+                    _debugLog.Write(e.ToString(), EMessageCategory.Error);
+                }
             } );
         }
 
@@ -223,7 +230,7 @@ namespace Server.Lib
             _requestList.Add(request.RawUrl);
             string response = AnalyzeQuery(request.QueryString);
             //string response = ReadFile("../../../../../WebInterface/index.html");
-            _debugLog.Write("Response sent to : " + request.RemoteEndPoint + " : " + response);
+            _debugLog.Write("Response sent to : " + request.RemoteEndPoint + " : " + response, EMessageCategory.Success);
             return response;
         }
 
@@ -243,6 +250,7 @@ namespace Server.Lib
 
         public string AnalyzeQuery(NameValueCollection request)
         {
+            
             foreach( string key in request )
             {
                 string value = request[key];
@@ -273,7 +281,7 @@ namespace Server.Lib
             if(!_pause)
             {
                 _pause = true;
-                _debugLog.Write("Server Paused");
+                _debugLog.Write("Server Paused", EMessageCategory.Success);
             }       
 
         }
@@ -283,7 +291,7 @@ namespace Server.Lib
             if(_pause)
             {
                 _pause = false;
-                _debugLog.Write("Server Resumed");
+                _debugLog.Write("Server Resumed", EMessageCategory.Success);
             }
                 
         }

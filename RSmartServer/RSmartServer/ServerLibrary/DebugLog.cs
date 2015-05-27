@@ -1,23 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace Server.Lib
 {
     public class DebugLog
     {
-        Queue<String> _debugQueue;
+        public delegate void MessageArrivedHandler();
+        readonly Queue<LogMessage> _debugQueue;
+        public event MessageArrivedHandler TextArrived;
         public DebugLog()
         {
-            _debugQueue = new Queue<String>();
+            _debugQueue = new Queue<LogMessage>();
         }
 
-        public void Write(string log)
+        public virtual void OnChanged()
+        {
+            if (TextArrived != null)
+            {
+                TextArrived();
+            }
+        }
+        public void Write(LogMessage log)
         {
             lock(_debugQueue)
             {
+                OnChanged();
                 _debugQueue.Enqueue(log);
-                Debug.Print(log);
+                Debug.Print(log.Text);
+            }
+        }
+
+        public void Write(String text)
+        {
+            lock (_debugQueue)
+            {
+                OnChanged();
+                _debugQueue.Enqueue(new LogMessage(text));
+                Debug.Print(text);
+            }
+        }
+
+        public void Write(String text, Color color)
+        {
+            lock (_debugQueue)
+            {
+                OnChanged();
+                _debugQueue.Enqueue(new LogMessage(text, color));
+                Debug.Print(text);
+            }
+        }
+
+        public void Write(String text, Color color, EMessageCategory category)
+        {
+            lock (_debugQueue)
+            {
+                OnChanged();
+                _debugQueue.Enqueue(new LogMessage(text, color, category));
+                Debug.Print(text);
+            }
+        }
+
+        public void Write(String text, EMessageCategory category)
+        {
+            lock (_debugQueue)
+            {
+                OnChanged();
+                _debugQueue.Enqueue(new LogMessage(text, category));
+                Debug.Print(text);
             }
         }
 
@@ -32,7 +83,7 @@ namespace Server.Lib
             }
         }
 
-        public string Get
+        public LogMessage Get
         {
             get
             {
