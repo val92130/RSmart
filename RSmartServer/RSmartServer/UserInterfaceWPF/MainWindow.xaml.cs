@@ -6,12 +6,14 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Server.Lib;
+using MjpegProcessor;
 
 namespace Server.App
 {
 
     public partial class MainWindow : Window
     {
+        readonly MjpegDecoder _mjpeg;
         readonly RobotControl _robotControl;
         DispatcherTimer _loopTimer, _cameraTimer, _routineTimer;
         int _routeCount = 0;
@@ -21,6 +23,9 @@ namespace Server.App
         {
             _robotControl = new RobotControl(Util.RobotIp);       
             InitializeComponent();
+            _mjpeg = new MjpegDecoder();
+            _mjpeg.FrameReady += mjpeg_FrameReady;
+            _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
         }
         public void Initialize()
@@ -28,10 +33,19 @@ namespace Server.App
             labelIpTitle.Content = "Server IP : " + Util.GetIp();
             this.InitializeTimers();
             _routeCount = _robotControl.WebServer.Routes.Count;
-            UpdateRoutesTextBox();        
+            UpdateRoutesTextBox();
+            _mjpeg.ParseStream(new Uri("http://192.168.1.110:8080/video.mjpg"));
         }
 
+        private void mjpeg_FrameReady(object sender, FrameReadyEventArgs e)
+        {
+            pictureWebcam.Source = e.BitmapImage;
+        }
 
+        void _mjpeg_Error(object sender, ErrorEventArgs e)
+        {
+            MessageBox.Show(e.Message);
+        }
         public void InitializeTimers()
         {
             _loopTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 50)};
