@@ -24,19 +24,30 @@ namespace Server.App
     public partial class Map : Window
     {
         private RobotControl _robotControl;
-        DispatcherTimer t;
+        DispatcherTimer t,updateTimer;
         private MapGrid _map;
         private Rect _mouseRect;
         private bool add = true;
+
+        private RobotGrid _robotGrid;
         public Map(RobotControl r)
         {     
             _robotControl = r;
+           _robotGrid = new RobotGrid(r);
             InitializeComponent();
             _map = new MapGrid( 20, (int)this.Width, (int)this.Height );
             t = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 10)};
             t.Tick += new EventHandler(T_Tick);
             t.Start();
+            updateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000) };
+            updateTimer.Tick += new EventHandler(T_UpdateRobot);
+            updateTimer.Start();
             
+        }
+
+        private void T_UpdateRobot(object sender, EventArgs e)
+        {
+            _robotGrid.GetPositionRobot();
         }
 
         // Draw
@@ -48,6 +59,7 @@ namespace Server.App
 
             _mouseRect = new Rect( Mouse.GetPosition( this ), new Size( 10, 10 ) );
             DrawingMethod.DrawRectangle( grid, _mouseRect.X, _mouseRect.Y, _mouseRect.Width, _mouseRect.Height, Colors.Blue );
+           _robotGrid.DrawRobot(grid);
             Update();
         }
 
