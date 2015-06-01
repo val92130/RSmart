@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Server.Lib</name>
+    </assembly>
+    <members>
+        <member name="T:Server.Lib.DebugLog">
+            <summary>
+            Used to create a log of information
+            </summary>
+        </member>
+        <member name="M:Server.Lib.DebugLog.#ctor">
+            <summary>
+            Creates a new instance of DebugLog
+            </summary>
+        </member>
+        <member name="M:Server.Lib.DebugLog.OnChanged">
+            <summary>
+            Event triggered when a new log is arrived
+            </summary>
+        </member>
+        <member name="M:Server.Lib.DebugLog.Write(Server.Lib.LogMessage)">
+            <summary>
+            Add a new message in the queue
+            </summary>
+            <param name="log">Message input</param>
+        </member>
+        <member name="M:Server.Lib.DebugLog.Write(System.String)">
+            <summary>
+            Add a new message in the queue
+            </summary>
+            <param name="text">Message input</param>
+        </member>
+        <member name="M:Server.Lib.DebugLog.Write(System.String,System.Windows.Media.Color)">
+            <summary>
+            Add a new message in the queue with a specified color to display
+            </summary>
+            <param name="text">Message input</param>
+            <param name="color">Color of the text to display in the console</param>
+        </member>
+        <member name="M:Server.Lib.DebugLog.Write(System.String,System.Windows.Media.Color,Server.Lib.EMessageCategory)">
+            <summary>
+            Add a new message in the queue with a specified color to display and a specified message category
+            </summary>
+            <param name="text">Message input</param>
+            <param name="color">Color of the text to display in the console</param>
+            <param name="category">Message category</param>
+        </member>
+        <member name="M:Server.Lib.DebugLog.Write(System.String,Server.Lib.EMessageCategory)">
+            <summary>
+             Add a new message in the queue with a specified message category
+            </summary>
+            <param name="text">Message input</param>
+            <param name="category">Message category</param>
+        </member>
+        <member name="P:Server.Lib.DebugLog.Count">
+            <summary>
+            Returns the number of messages in the log queue
+            </summary>
+        </member>
+        <member name="P:Server.Lib.DebugLog.Get">
+            <summary>
+            Returns the last message of the queue and remove it from the queue
+            </summary>
+        </member>
+        <member name="M:Server.Lib.RobotControl.#ctor(System.String)">
+            <summary>
+            Creates a new instance of a RobotControl
+            </summary>
+            <param name="robotIp"></param>
+        </member>
+        <member name="M:Server.Lib.RobotControl.PingRobot">
+            <summary>
+            Ping the robot, return true if the ping received a response, else returns false
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Server.Lib.RobotControl.SendRequestRobot(System.String)">
+            <summary>
+            Sends a request to the robot and returns the response
+            </summary>
+            <param name="req">Request string</param>
+            <returns></returns>
+        </member>
+        <member name="M:Server.Lib.RobotControl.SendRequest(System.String,System.String)">
+            <summary>
+            Sends a request to the specified IP address
+            </summary>
+            <param name="ip">Destination IP</param>
+            <param name="req">Request string</param>
+            <returns></returns>
+        </member>
+        <member name="P:Server.Lib.RobotControl.DebugLog">
+            <summary>
+            Returns the debug log
+            </summary>
+        </member>
+        <member name="P:Server.Lib.RobotControl.WebServer">
+            <summary>
+            Returns the WebServer object
+            </summary>
+        </member>
+        <member name="M:Server.Lib.Route.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates a new route
+            </summary>
+            <param name="key">Route Key</param>
+            <param name="value">Route Value</param>
+            <param name="response">Response to return when someone access the route</param>
+        </member>
+        <member name="M:Server.Lib.Util.RemoteFileExists(System.String)">
+            <summary>
+            Check if a url exists
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Server.Lib.Util.GetIp">
+            <summary>
+            Returns the local IP of the server
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Server.Lib.Util.GET(Server.Lib.DebugLog,System.String)">
+            <summary>
+            Sends a GET request and returns the response
+            </summary>
+            <param name="debugLog">DebugLog object</param>
+            <param name="url">Destination url</param>
+            <returns></returns>
+        </member>
+        <member name="P:Server.Lib.Util.RobotIp">
+            <summary>
+            Returns the robot IP
+            </summary>
+        </member>
+    </members>
+</doc>

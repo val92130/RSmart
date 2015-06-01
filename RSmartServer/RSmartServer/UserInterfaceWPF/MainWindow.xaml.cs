@@ -179,11 +179,17 @@ namespace Server.App
 
         private void synchronizeButton_Click(object sender, RoutedEventArgs e)
         {
-            _robotControl.SendRequestRobot("Synchronize=" + Util.GetIp());
+            _robotControl.DebugLog.Write( "Trying to link with the robot...", EMessageCategory.Information );
+
+            if( _robotControl.SendRequestRobot( "Synchronize=" + Util.GetIp() ) == null )
+            {
+                _robotControl.DebugLog.Write( "Error : cannot link with the robot", EMessageCategory.Error );
+            }
         }
 
         private void unsynchronizeButton_Click(object sender, RoutedEventArgs e)
         {
+            _robotControl.DebugLog.Write( "Trying to unlink with the robot...", EMessageCategory.Information );
             _robotControl.SendRequestRobot("Desynchronize=" + Util.GetIp());
         }
 
@@ -212,8 +218,17 @@ namespace Server.App
 
         private void EditBehaviourButton_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            BehaviourControl b = new BehaviourControl(_robotControl) {Owner = this};
-            b.ShowDialog();
+            if(_isRobotOnline)
+            {
+                BehaviourControl b = new BehaviourControl( _robotControl ) { Owner = this };
+                b.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show( "The robot seems to be offline, cannot open behavior control" );
+                _robotControl.DebugLog.Write( "The robot seems to be offline, cannot open behavior control", EMessageCategory.Error );
+            }
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

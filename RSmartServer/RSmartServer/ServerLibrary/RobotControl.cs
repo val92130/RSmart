@@ -10,10 +10,12 @@ namespace Server.Lib
         WebServer _server;
         string _ip;
         DebugLog _debugLog;
-        WebcamManager _webCamManager;
+        /// <summary>
+        /// Creates a new instance of a RobotControl
+        /// </summary>
+        /// <param name="robotIp"></param>
         public RobotControl(string robotIp)
         {
-            _webCamManager = new WebcamManager();
             _robotIp = robotIp;
             _debugLog = new DebugLog();
             _ip = Util.GetIp();
@@ -35,6 +37,9 @@ namespace Server.Lib
             _ip = Util.GetIp();
         }
 
+        /// <summary>
+        /// Returns the debug log
+        /// </summary>
         public DebugLog DebugLog
         {
             get
@@ -43,6 +48,9 @@ namespace Server.Lib
             }
         }
 
+        /// <summary>
+        /// Returns the WebServer object
+        /// </summary>
         public WebServer WebServer
         {
             get
@@ -51,14 +59,11 @@ namespace Server.Lib
             }
         }
 
-        public WebcamManager WebCamManager
-        {
-            get
-            {
-                return _webCamManager;
-            }
-        }
 
+        /// <summary>
+        /// Ping the robot, return true if the ping received a response, else returns false
+        /// </summary>
+        /// <returns></returns>
         public bool PingRobot()
         {
             var ping = new Ping();
@@ -72,6 +77,12 @@ namespace Server.Lib
             return false;
         }
 
+        /// <summary>
+        /// Sends a request to the robot and returns the response
+        /// </summary>
+        /// <param name="req">Request string</param>
+        /// <returns></returns>
+
         public string SendRequestRobot(string req)
         {
             if (PingRobot())
@@ -81,6 +92,12 @@ namespace Server.Lib
             return null;
         }
 
+        /// <summary>
+        /// Sends a request to the specified IP address
+        /// </summary>
+        /// <param name="ip">Destination IP</param>
+        /// <param name="req">Request string</param>
+        /// <returns></returns>
         public string SendRequest(string ip, string req)
         {
 

@@ -8,9 +8,9 @@
     <Grid >
         <Menu IsMainMenu="True" Margin="0,0,0,705" Opacity="0.7">
             <MenuItem Header="_File" >
-                <MenuItem x:Name="synchronizeButton" Header="_Synchronize" Click="synchronizeButton_Click">
+                <MenuItem x:Name="synchronizeButton" Header="_Link" Click="synchronizeButton_Click">
                 </MenuItem>
-                <MenuItem x:Name="unsynchronizeButton" Header="_UnSynchronize" Click="unsynchronizeButton_Click">
+                <MenuItem x:Name="unsynchronizeButton" Header="_Unlink" Click="unsynchronizeButton_Click">
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Options" >

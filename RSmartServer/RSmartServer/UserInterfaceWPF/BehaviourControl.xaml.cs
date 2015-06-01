@@ -39,10 +39,9 @@ namespace Server.App
         {
             if (!_robotControl.PingRobot())
             {
-                MessageBox.Show("Robot is offline");
+                MessageBox.Show("Robot seems to be offline");
                 return;
-            }
-                
+            }               
             behaviours = _robotControl.SendRequestRobot("GetBehaviours=true");
             methods = _robotControl.SendRequestRobot("GetMethods=true");
         }

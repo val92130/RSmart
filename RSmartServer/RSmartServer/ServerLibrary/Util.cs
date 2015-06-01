@@ -8,6 +8,9 @@ namespace Server.Lib
 {
     public class Util
     {
+        /// <summary>
+        /// Returns the robot IP
+        /// </summary>
         public static string RobotIp
         {
             get
@@ -16,18 +19,11 @@ namespace Server.Lib
             }
         }
 
-        public static bool PingRobot()
-        {
-            var ping = new Ping();
-
-            PingReply reply = ping.Send( IPAddress.Parse( RobotIp ), 50 );
-
-            if( reply.Status == IPStatus.Success )
-            {
-                return true;
-            }
-            return false;
-        }
+        /// <summary>
+        /// Check if a url exists
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static bool RemoteFileExists(string url)
         {
             Uri uriResult;
@@ -37,6 +33,10 @@ namespace Server.Lib
             return result;
         }
 
+        /// <summary>
+        /// Returns the local IP of the server
+        /// </summary>
+        /// <returns></returns>
         public static string GetIp()
         {
             IPHostEntry host;
@@ -53,6 +53,13 @@ namespace Server.Lib
             return localIP;
         }
 
+
+        /// <summary>
+        /// Sends a GET request and returns the response
+        /// </summary>
+        /// <param name="debugLog">DebugLog object</param>
+        /// <param name="url">Destination url</param>
+        /// <returns></returns>
         public static string GET(DebugLog debugLog, string url)
         {
             try

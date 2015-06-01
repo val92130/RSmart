@@ -23,8 +23,7 @@ namespace Server.App
         public RobotGrid(RobotControl r)
         {
             _robotControl = r;
-            _robotPos = new Rect(0,0,24,40);
-            
+            _robotPos = new Rect(0,0,24,40);          
         }
 
         public void DrawRobot(Canvas grid)
@@ -40,20 +39,20 @@ namespace Server.App
             string y = null;
             try
             {
-                 x = _robotControl.SendRequestRobot("GetPositionX=true");
-                y = _robotControl.SendRequestRobot("GetPositionY=true");
+                x = _robotControl.SendRequestRobot( "GetPositionX=true" );
+                y = _robotControl.SendRequestRobot( "GetPositionY=true" );
             }
             catch (Exception e)
             {
-                
+                _robotControl.DebugLog.Write( "Error getting the position of the robot : " + e.ToString() );
             }
 
             if (x == null || y == null)
             {
                 return;
             }
-            _robotPos.X = double.Parse(x,CultureInfo.InvariantCulture) /10;
-            _robotPos.Y = double.Parse(y, CultureInfo.InvariantCulture)/10;
+            _robotPos.X = double.Parse( x, CultureInfo.InvariantCulture ) / 10;
+            _robotPos.Y = double.Parse( y, CultureInfo.InvariantCulture ) / 10;
         } 
     }
 }
