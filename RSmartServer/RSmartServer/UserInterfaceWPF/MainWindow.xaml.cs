@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Cache;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Server.Lib;
 using MjpegProcessor;
+using System.Windows.Media;
 
 namespace Server.App
 {
@@ -44,7 +46,7 @@ namespace Server.App
 
         void _mjpeg_Error(object sender, ErrorEventArgs e)
         {
-            MessageBox.Show(e.Message);
+            _robotControl.DebugLog.Write(e.Message, EMessageCategory.Error);
         }
         public void InitializeTimers()
         {
@@ -99,9 +101,18 @@ namespace Server.App
         {
             if (_robotControl.DebugLog.Count > 0)
             {
-                textBoxLog.AppendText(DateTime.Now + " : " + _robotControl.DebugLog.Get + "\n");
+                LogMessage log = _robotControl.DebugLog.Get;
+                DrawTextColor(textBoxLog, DateTime.Now.ToString(), Colors.Coral);
+                DrawTextColor(textBoxLog, " : " + log + "\n", log.Color);
                 textBoxLog.ScrollToEnd();
             }
+        }
+
+        public void DrawTextColor(RichTextBox textBox, string text, Color color)
+        {
+            TextRange rangeOfText1 = new TextRange(textBox.Document.ContentEnd, textBox.Document.ContentEnd);
+            rangeOfText1.Text = text;
+            rangeOfText1.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(color));
         }
 
         private void T_Loop(object sender, EventArgs e)
@@ -168,11 +179,17 @@ namespace Server.App
 
         private void synchronizeButton_Click(object sender, RoutedEventArgs e)
         {
-            _robotControl.SendRequestRobot("Synchronize=" + Util.GetIp());
+            _robotControl.DebugLog.Write( "Trying to link with the robot...", EMessageCategory.Information );
+
+            if( _robotControl.SendRequestRobot( "Synchronize=" + Util.GetIp() ) == null )
+            {
+                _robotControl.DebugLog.Write( "Error : cannot link with the robot", EMessageCategory.Error );
+            }
         }
 
         private void unsynchronizeButton_Click(object sender, RoutedEventArgs e)
         {
+            _robotControl.DebugLog.Write( "Trying to unlink with the robot...", EMessageCategory.Information );
             _robotControl.SendRequestRobot("Desynchronize=" + Util.GetIp());
         }
 
@@ -201,8 +218,17 @@ namespace Server.App
 
         private void EditBehaviourButton_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            BehaviourControl b = new BehaviourControl(_robotControl) {Owner = this};
-            b.ShowDialog();
+            if(_isRobotOnline)
+            {
+                BehaviourControl b = new BehaviourControl( _robotControl ) { Owner = this };
+                b.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show( "The robot seems to be offline, cannot open behavior control" );
+                _robotControl.DebugLog.Write( "The robot seems to be offline, cannot open behavior control", EMessageCategory.Error );
+            }
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -219,6 +245,11 @@ namespace Server.App
         {
             Map m= new Map(_robotControl) { Owner = this };
             m.ShowDialog();
+        }
+
+        private void ClearLogButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            textBoxLog.Document.Blocks.Clear();
         }
     }
 }

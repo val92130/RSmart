@@ -15,6 +15,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print("Delegate Left");
             _robot.TurnLeft(); 
         }
 
@@ -22,6 +23,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print( "Delegate Right" );
             _robot.TurnRight();
         }
 
@@ -29,6 +31,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print( "Delegate Back" );
             _robot.GoBackward();
         }
 
@@ -36,6 +39,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print( "Delegate Forward" );
             _robot.GoForward();
         }
 
@@ -43,6 +47,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print( "Delegate Stop" );
             _robot.MotorLeft.Stop();
             _robot.MotorRight.Stop();
         }
@@ -51,6 +56,7 @@ namespace RSmartControl.Robot_Behaviours
         {
             if (_robot == null)
                 return;
+            Debug.Print( "Delegate Start" );
             _robot.MotorLeft.Start();
             _robot.MotorRight.Start();
         }

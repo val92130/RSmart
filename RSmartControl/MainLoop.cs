@@ -13,13 +13,10 @@ namespace RSmartControl
         readonly Motor _motorRight;
         Communication _com;
         Robot _robot;
-        private SyncModule _syncModule;
-        SensorsManager _sensorsManager;
         PluginManager _pluginManager;
         public MainLoop(PluginManager pluginManager)
         {
             _pluginManager = pluginManager;
-            _syncModule = _pluginManager.SyncModule;
             _com = _pluginManager.CommunicationModule;
 
             _motorLeft = new Motor(PWMChannels.PWM_PIN_D9, Pins.GPIO_PIN_D1);
@@ -47,15 +44,6 @@ namespace RSmartControl
                return _robot;
            }
        }
-
-       public SyncModule SyncModule
-       {
-           get
-           {
-               return _syncModule;
-           }
-       }
-
 
         public void Run()
         {

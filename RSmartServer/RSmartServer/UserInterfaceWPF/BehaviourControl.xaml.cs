@@ -12,8 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Server.Lib;
 
 namespace Server.App
@@ -41,10 +39,9 @@ namespace Server.App
         {
             if (!_robotControl.PingRobot())
             {
-                MessageBox.Show("Robot is offline");
+                MessageBox.Show("Robot seems to be offline");
                 return;
-            }
-                
+            }               
             behaviours = _robotControl.SendRequestRobot("GetBehaviours=true");
             methods = _robotControl.SendRequestRobot("GetMethods=true");
         }

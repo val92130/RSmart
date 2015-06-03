@@ -33,7 +33,7 @@ namespace VocalCommand
             _robotControl = new RobotControl();
             Say( "Hi " + Environment.UserName + ", welcome to the RSmart audio control interface" );
 
-            Say(Util.PingRobot() ? "je suis en ligne" : " je suis hors ligne ");
+            Say(_robotControl.PingRobot() ? "je suis en ligne" : " je suis hors ligne ");
 
 
             SpeechRecognizer recognizer = new SpeechRecognizer();
