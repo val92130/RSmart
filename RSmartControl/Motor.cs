@@ -26,10 +26,12 @@ namespace RSmartControl
         public delegate void StopHandler( Object obj );
         public event StopHandler StopEvent;
 
+        public static double MaxDutyCycle = 0.6;
+
         public Motor( Cpu.PWMChannel motor,Cpu.Pin motorFrontDirection )
         {
             _direction = EDirection.Forward;
-            _motor = new PWM( motor, 500, 0.8, false );
+            _motor = new PWM( motor, 500, 0.6, false );
             _frontDirection = new OutputPort( motorFrontDirection, true );
         }
 
@@ -129,7 +131,7 @@ namespace RSmartControl
             }
             set
             {
-                if(value >= 0 && value <= 0.8)
+                if( value >= 0 && value <= MaxDutyCycle )
                 {
                     _motor.DutyCycle = value;
                 }

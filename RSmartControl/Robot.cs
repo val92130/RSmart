@@ -13,7 +13,7 @@ namespace RSmartControl
     {
         Motor _motorLeft, _motorRight;
         bool _collideUnder = false;
-        Vector2 _pos, _dir;
+        Vector2 _pos, _orientation;
         
         MainLoop _mainLoop;
         private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
@@ -25,7 +25,7 @@ namespace RSmartControl
         public Robot(MainLoop mainLoop, Motor motorLeft, Motor motorRight, PluginManager pluginManager)
         {
             _pos = new Vector2();
-            _dir = new Vector2();
+            _orientation = new Vector2();
 
             _pluginManager = pluginManager;
             _mainLoop = mainLoop;
@@ -33,7 +33,7 @@ namespace RSmartControl
             _motorLeft = motorLeft;
             _motorRight = motorRight;
 
-            _dir.Y = 1;
+            _orientation.Y = 1;
 
             _pluginManager.SensorsManager.BlinkLed();
         }
@@ -81,7 +81,7 @@ namespace RSmartControl
         {
             get
             {
-                return _dir;
+                return _orientation;
             }
         }
 
@@ -126,8 +126,8 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._dir.X = this._dir.X * System.Math.Cos( this._rotationSpeed ) - this._dir.Y * System.Math.Sin( this._rotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( this._rotationSpeed ) + this._dir.Y * System.Math.Cos( this._rotationSpeed );
+            this._orientation.X = this._orientation.X * System.Math.Cos( this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( this._rotationSpeed );
+            this._orientation.Y = this._orientation.X * System.Math.Sin( this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( this._rotationSpeed );
 
         }
 
@@ -141,8 +141,8 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._dir.X = this._dir.X * System.Math.Cos(this._rotationSpeed) - this._dir.Y * System.Math.Sin(this._rotationSpeed);
-            this._dir.Y = this._dir.X * System.Math.Sin(this._rotationSpeed) + this._dir.Y * System.Math.Cos(this._rotationSpeed);
+            this._orientation.X = this._orientation.X * System.Math.Cos(this._rotationSpeed) - this._orientation.Y * System.Math.Sin(this._rotationSpeed);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(this._rotationSpeed) + this._orientation.Y * System.Math.Cos(this._rotationSpeed);
 
         }
         /// <summary>
@@ -160,8 +160,8 @@ namespace RSmartControl
 
             _motorLeft.ReverseDirection( 0.6 );
             
-            this._dir.X = this._dir.X * System.Math.Cos( -this._rotationSpeed ) - this._dir.Y * System.Math.Sin( -this._rotationSpeed );
-            this._dir.Y = this._dir.X * System.Math.Sin( -this._rotationSpeed ) + this._dir.Y * System.Math.Cos( -this._rotationSpeed );
+            this._orientation.X = this._orientation.X * System.Math.Cos( -this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( -this._rotationSpeed );
+            this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
 
         }
       
@@ -254,13 +254,13 @@ namespace RSmartControl
                 {
                     if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
                     {
-                        this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.X;
-                        this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.Y;
+                        this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
                     }
                     else
                     {
-                        this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.X;
-                        this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._dir.Y;
+                        this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
                     }
                 }
             }

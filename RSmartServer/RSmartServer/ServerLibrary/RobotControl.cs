@@ -10,6 +10,7 @@ namespace Server.Lib
         WebServer _server;
         string _ip;
         DebugLog _debugLog;
+
         /// <summary>
         /// Creates a new instance of a RobotControl
         /// </summary>
