@@ -29,7 +29,7 @@ namespace Server.App
 
         public void DrawRobot(Canvas grid)
         {
-            DrawingMethod.DrawRectangle(grid,_robotPos.X, _robotPos.Y,_robotPos.Width,_robotPos.Height,Colors.Brown);
+            DrawingMethod.FillRectangle(grid,_robotPos.X, _robotPos.Y,_robotPos.Width,_robotPos.Height,Colors.Brown);
         }
 
         public void GetPositionRobot()
