@@ -46,7 +46,7 @@ namespace RSmartControl
                 if (counter > 10)
 
                 {
-                    robot.GetCommunication.AddObstacle(new Vector2(robot.Position.X + robot.Direction.X, robot.Position.Y + robot.Direction.Y));
+                    robot.GetCommunication.AddObstacle(new Vector2(robot.Position.X + robot.Orientation.X, robot.Position.Y + robot.Orientation.Y));
                     _collide = true;
                 }
 

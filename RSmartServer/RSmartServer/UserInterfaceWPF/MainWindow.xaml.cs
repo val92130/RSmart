@@ -193,22 +193,6 @@ namespace Server.App
             _robotControl.SendRequestRobot("Desynchronize=" + Util.GetIp());
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TextRange textRange = new TextRange(
-                responseTextBox.Document.ContentStart,
-                responseTextBox.Document.ContentEnd
-                );
-
-            if (!string.IsNullOrWhiteSpace(keyTextBox.Text) || !string.IsNullOrWhiteSpace(valueTextBox.Text) ||
-                !string.IsNullOrWhiteSpace(textRange.Text))
-            {
-                _robotControl.WebServer.AddRoute(keyTextBox.Text, valueTextBox.Text, textRange.Text);
-                valueTextBox.Text = "";
-                keyTextBox.Text = "";
-                responseTextBox.Document.Blocks.Clear();
-            }
-        }
 
 
         private void pingRobotButton_Click( object sender, RoutedEventArgs e )

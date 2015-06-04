@@ -143,7 +143,7 @@ namespace RSmartControl
                         response = response.Substring(0, response.Length - 1);
                         SendResponse(clientSocket, response);
                         break;
-                    case "GetDirection":
+                    case "GetDirectionString":
                         response = _com.MotorLeft.DirectionString;
                         SendResponse(clientSocket, response);
                         break;
@@ -165,6 +165,29 @@ namespace RSmartControl
                     case "GetPositionY":
                         response = _com.MainLoop.Robot.Position.Y.ToString();
                         SendResponse( clientSocket, response );
+                        break;
+                    case "GoForwardTime" :
+                        try
+                        {
+                            int time = int.Parse( (string)entry.Value );
+                            _com.Robot.GoForward(time);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                        }
+                        break;
+
+                    case "SetDirection" :
+                        try
+                        {
+                            int direction = int.Parse( (string)entry.Value );
+                            _com.Robot.DirectionOffset = direction;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                        }
                         break;
 
                     case "Synchronize":
@@ -198,8 +221,8 @@ namespace RSmartControl
                         SendResponse( clientSocket, response );
                         break;
 
-                    case "GetRobotDirection":
-                        response = _com.MainLoop.Robot.Direction.ToString();
+                    case "GetOrientation":
+                        response = _com.MainLoop.Robot.Orientation.ToString();
                         SendResponse( clientSocket, response );
                         break;
 

@@ -11,9 +11,12 @@ namespace RSmartControl
 
     public class Robot
     {
+        private ERobotMode _robotMode = ERobotMode.Autonomous;
         Motor _motorLeft, _motorRight;
         bool _collideUnder = false;
         Vector2 _pos, _orientation;
+
+        private int _directionOffset = 0;
         
         MainLoop _mainLoop;
         private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
@@ -77,11 +80,34 @@ namespace RSmartControl
             }
         }
 
-        public Vector2 Direction
+        public Vector2 Orientation
         {
             get
             {
                 return _orientation;
+            }
+        }
+
+        public int DirectionOffset
+        {
+            get { return _directionOffset; }
+            set
+            {
+                if (value >= 100 || value <= -100)
+                {
+                    throw new Exception("Direction offset has to be between -100 and 100");
+                }
+
+                if (value >= 0)
+                {
+                    _motorLeft.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)((value / 100)));
+                    _motorRight.DutyCycle = Motor.MaxDutyCycle;
+                }
+                else
+                {
+                    _motorLeft.DutyCycle = Motor.MaxDutyCycle;
+                    _motorRight.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)((value / 100)));
+                }
             }
         }
 
@@ -112,6 +138,8 @@ namespace RSmartControl
                 _motorLeft.Direction = EDirection.BackWard;
             }
         }
+
+
         /// <summary>
         /// Go backward for a few milliseconds then turn left
         /// </summary>
@@ -164,6 +192,17 @@ namespace RSmartControl
             this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
 
         }
+
+        public void GoForward(int timeInSeconds)
+        {
+            _motorLeft.Direction = EDirection.Forward;
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Start();
+            _motorRight.Start();
+            Thread.Sleep(1000 * timeInSeconds);
+            _motorLeft.Stop();
+            _motorRight.Stop();
+        }
       
 
         public void GoForward()
@@ -190,23 +229,46 @@ namespace RSmartControl
             {
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    //this.TurnRight();
-                    _pluginManager.BehaviourControl.OnObstacleFront();
+                    
+                    if (_robotMode == ERobotMode.Manual)
+                    {
+                        _pluginManager.BehaviourControl.OnObstacleFront();
+                    }
+                    else
+                    {
+                        this.TurnRight();
+                    }
+                    
                     return;
                 } 
                 // If collide front-left but not front-right
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && !_pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    _pluginManager.BehaviourControl.OnObstacleFrontLeft();
-                    //this.TurnRight();
+                    if( _robotMode == ERobotMode.Manual )
+                    {
+                        _pluginManager.BehaviourControl.OnObstacleFrontLeft();
+                    }
+                    else
+                    {
+                        this.TurnRight();
+                    }
+
                     return;
                 }
 
                 // If collide front-right but not front-left
                 if (!_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    _pluginManager.BehaviourControl.OnObstacleFrontRight();
-                    //this.TurnRight();
+                    
+                    if( _robotMode == ERobotMode.Manual )
+                    {
+                        _pluginManager.BehaviourControl.OnObstacleFrontRight();
+                    }
+                    else
+                    {
+                        this.TurnRight();
+                    }
+      
                     return;
                 }
 

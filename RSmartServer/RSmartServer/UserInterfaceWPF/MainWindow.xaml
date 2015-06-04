@@ -81,34 +81,6 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Expander>
-        <Label Content="Key : " HorizontalAlignment="Left" Margin="744,56,0,0" VerticalAlignment="Top"/>
-        <Label Content="Value :" HorizontalAlignment="Left" Margin="744,96,0,0" VerticalAlignment="Top"/>
-        <Label Content="Response :&#xD;&#xA;" HorizontalAlignment="Left" Margin="744,146,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="keyTextBox" HorizontalAlignment="Left" Height="24" Margin="839,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Opacity="0.5">
-            <TextBox.Effect>
-                <DropShadowEffect Opacity="0.5"/>
-            </TextBox.Effect>
-        </TextBox>
-        <TextBox x:Name="valueTextBox" HorizontalAlignment="Left" Height="22" Margin="839,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.492,1.826" Opacity="0.5">
-            <TextBox.Effect>
-                <DropShadowEffect Opacity="0.5"/>
-            </TextBox.Effect>
-        </TextBox>
-        <RichTextBox x:Name="responseTextBox" HorizontalAlignment="Left" Height="80" Margin="839,148,0,0" VerticalAlignment="Top" Width="120" Opacity="0.5">
-            <RichTextBox.Effect>
-                <DropShadowEffect Opacity="0.5"/>
-            </RichTextBox.Effect>
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text=""/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <Button x:Name="addRouteButton" Content="Add Route" HorizontalAlignment="Left" Margin="839,245,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click" Opacity="0.8">
-            <Button.Effect>
-                <DropShadowEffect Opacity="0.5"/>
-            </Button.Effect>
-        </Button>
         <Button Content="Start Motors" HorizontalAlignment="Left" Margin="422,293,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.101,0.389" Click="Button_Click_1" Opacity="0.8">
             <Button.Effect>
                 <DropShadowEffect Opacity="0.5"/>
