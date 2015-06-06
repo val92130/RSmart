@@ -100,13 +100,14 @@ namespace RSmartControl
 
                 if (value >= 0)
                 {
-                    _motorLeft.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)((value / 100)));
+                    _motorLeft.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)(((double)value / (double)100)));
                     _motorRight.DutyCycle = Motor.MaxDutyCycle;
                 }
-                else
+                if (value <= 0)
                 {
+                    int v = value * -1;
                     _motorLeft.DutyCycle = Motor.MaxDutyCycle;
-                    _motorRight.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)((value / 100)));
+                    _motorRight.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)(((double)v / (double)100)));
                 }
             }
         }
