@@ -25,12 +25,12 @@ namespace RSmartControl
         {
             _pluginManager = pluginManager;
             _syncModule = pluginManager.SyncModule;
-            IPAddress ip = IPAddress.Parse("192.168.100.3");
+            IPAddress ip = IPAddress.Parse("192.168.1.132");
             _com = pluginManager.CommunicationModule;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
-            socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+            socket.Bind(new IPEndPoint(ip, 80));
             //Debug print our IP address
             Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
             //Start listen for web requests
@@ -262,12 +262,39 @@ namespace RSmartControl
                         }
                         break;
 
+                    case "TurnRightSecond" :
+                        try
+                        {
+                            int time = int.Parse( (string)entry.Value );
+                            _com.Robot.TurnRight(time);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                        }
+                        break;
+
+                    case "TurnLeftSecond":
+                        try
+                        {
+                            int time = int.Parse((string)entry.Value);
+                            _com.Robot.TurnLeft(time);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                        }
+                        break;
+
+
                     case "Rotate":
+
                         if( (string)entry.Value == "left" )
                         {
                             _com.MotorLeft.Stop( Motor.TimeAngleRotation( _pluginManager.SpeedDetectionModuleModule.Speed, 90 ) );
                             response = "Turning left";
                             SendResponse( clientSocket, response );
+                            break;
                         }
 
                         if( (string)entry.Value == "right" )
@@ -275,6 +302,29 @@ namespace RSmartControl
                             _com.MotorRight.Stop(Motor.TimeAngleRotation(_pluginManager.SpeedDetectionModuleModule.Speed, 90));
                             response = "Turning right";
                             SendResponse( clientSocket, response );
+                            break;
+                        }
+                        
+                        //try
+                        //{
+                        //    int t = int.Parse((string)(entry.Value));
+                        //}
+                        //catch(Exception e)
+                        //{
+                        //    Debug.Print(e.ToString());
+                        //}
+
+                        break;
+
+                    case "RotateAngle" :
+                        try
+                        {
+                            int angle = int.Parse((string)entry.Value);
+                            _com.Robot.TurnAngle(angle);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
                         }
                         break;
                     case "Speed":

@@ -17,6 +17,9 @@
                 <MenuItem x:Name="showMapButton" Header="_Display Map" Click="ShowMapButton_OnClickButton_Click">
 
                 </MenuItem>
+                <MenuItem x:Name="controlManagerButton" Header="_Control Manager" Click="ControlManager_OnClickButton">
+
+                </MenuItem>
                 <MenuItem x:Name="clearLogButton" Header="_Clear Log" Click="ClearLogButton_OnClick">
 
                 </MenuItem>

@@ -235,5 +235,11 @@ namespace Server.App
         {
             textBoxLog.Document.Blocks.Clear();
         }
+
+        private void ControlManager_OnClickButton(object sender, RoutedEventArgs e)
+        {
+            ControlManagerWindow m = new ControlManagerWindow(_robotControl) { Owner = this };
+            m.ShowDialog();
+        }
     }
 }

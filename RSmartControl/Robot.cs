@@ -194,6 +194,62 @@ namespace RSmartControl
 
         }
 
+        public void TurnAngle(int angle)
+        {
+            int timeInSec = angle / 75; // In one sec the robot rotates from 75 deg
+
+            if(angle > 0)
+            {
+                TurnRight(timeInSec);
+            }
+            else
+            {
+                TurnLeft(-timeInSec);
+            }
+        }
+
+        public void OrientateTo(Vector2 destination)
+        {
+            double newX = this.Position.X + this.Orientation.X;
+            double newY = this.Position.Y + this.Orientation.Y;
+
+
+            double deltaY = destination.Y - newY;
+            double deltaX = destination.X - newX;
+
+            int angleInDegrees = (int)(System.Math.Atan((deltaY / deltaX) * 180 / System.Math.PI));
+
+            TurnAngle(angleInDegrees);
+        }
+
+        public void TurnRight(int timeInSeconds)
+        {
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+
+            _motorLeft.Start();
+            _motorRight.Stop();
+
+            Thread.Sleep(timeInSeconds * 1000);
+
+            _motorLeft.Stop();
+            _motorRight.Stop();
+        }
+
+        public void TurnLeft(int timeInSeconds)
+        {
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+
+            _motorLeft.Stop();
+            _motorRight.Start();
+
+            Thread.Sleep(timeInSeconds * 1000);
+
+            _motorLeft.Stop();
+            _motorRight.Stop();
+        }
+
         public void GoForward(int timeInSeconds)
         {
             _motorLeft.Direction = EDirection.Forward;
