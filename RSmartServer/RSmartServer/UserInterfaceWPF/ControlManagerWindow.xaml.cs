@@ -36,7 +36,8 @@ namespace Server.App
         {
             if(startRobotCheck.IsChecked.Value)
             {
-                _robotControl.SendRequestRobot("GoForwardTime=" + (int)sliderTime.Value + "&SetDirection=" + (int)slider.Value);
+                _robotControl.SendRequestRobot("SetDirection=" + (int)slider.Value);
+                _robotControl.SendRequestRobot("GoForwardTime=" + (int)sliderTime.Value);
             }
             else
             {
@@ -69,6 +70,11 @@ namespace Server.App
 
 
             speedLabel.Content = "Speed : " + _robotControl.SendRequestRobot("GetSpeed=true");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _robotControl.SendRequestRobot("Stop=true");
         }
     }
 }

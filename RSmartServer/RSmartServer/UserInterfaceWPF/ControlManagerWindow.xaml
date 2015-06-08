@@ -7,7 +7,7 @@
             <ImageBrush ImageSource="back2.jpg"/>
         </Grid.Background>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="384" Opacity="0.7"/>
-        <Slider x:Name="slider" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="111,33,0,0" VerticalAlignment="Top" Width="110" Maximum="100" Minimum="-100" SmallChange="10" ValueChanged="Slider_ValueChanged" TickFrequency="10"/>
+        <Slider x:Name="slider" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="111,33,0,0" VerticalAlignment="Top" Width="110" Maximum="100" Minimum="-100" SmallChange="1" ValueChanged="Slider_ValueChanged"/>
         <Label x:Name="labelOffset" Content="0" HorizontalAlignment="Left" Margin="236,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.125,0.462"/>
         <Button x:Name="startBtn" Content="Start" HorizontalAlignment="Left" Margin="290,23,0,0" VerticalAlignment="Top" Width="75" Height="75" Click="startBtn_Click"/>
         <CheckBox x:Name="startRobotCheck" Content="Start Robot " HorizontalAlignment="Left" Margin="19,76,0,0" VerticalAlignment="Top"/>
@@ -22,6 +22,8 @@
         <Button x:Name="orientateButton" Content="Orientate" HorizontalAlignment="Left" Margin="290,144,0,0" VerticalAlignment="Top" Width="75" Height="78" Click="orientateButton_Click"/>
         <Button Content="Refresh" HorizontalAlignment="Left" Margin="156,319,0,0" VerticalAlignment="Top" Width="75" Height="36" Click="Button_Click"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="55" Margin="10,259,0,0" Stroke="Black" VerticalAlignment="Top" Width="384" Opacity="0.7"/>
-        <Label x:Name="speedLabel" Content="" HorizontalAlignment="Left" Margin="19,274,0,0" VerticalAlignment="Top" Width="175"/>
+        <Label x:Name="speedLabel" HorizontalAlignment="Left" Margin="19,274,0,0" VerticalAlignment="Top" Width="175">
+            <Button Content="Stop Motors" Width="75" RenderTransformOrigin="2.293,0.446" Click="Button_Click_1"/>
+        </Label>
     </Grid>
 </Window>
