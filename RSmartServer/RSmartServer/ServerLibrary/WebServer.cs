@@ -32,7 +32,6 @@ namespace Server.Lib
                 throw new ArgumentException( "Prefixes must be specified" );
 
             _listener.Prefixes.Add( prefixes );
-
             _listener.Start();
             _debugLog.Write("Server Started", EMessageCategory.Success);
 
