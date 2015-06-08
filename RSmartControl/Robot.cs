@@ -196,7 +196,7 @@ namespace RSmartControl
 
         public void TurnAngle(int angle)
         {
-            int timeInSec = angle / 75; // In one sec the robot rotates from 75 deg
+            double timeInSec = (angle / 360) * 5.25; // In one sec the robot rotates from 75 deg
 
             if(angle > 0)
             {
@@ -222,7 +222,7 @@ namespace RSmartControl
             TurnAngle(angleInDegrees);
         }
 
-        public void TurnRight(int timeInSeconds)
+        public void TurnRight(double timeInSeconds)
         {
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
@@ -230,13 +230,13 @@ namespace RSmartControl
             _motorLeft.Start();
             _motorRight.Stop();
 
-            Thread.Sleep(timeInSeconds * 1000);
+            Thread.Sleep((int)(timeInSeconds * 1000));
 
             _motorLeft.Stop();
             _motorRight.Stop();
         }
 
-        public void TurnLeft(int timeInSeconds)
+        public void TurnLeft(double timeInSeconds)
         {
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
@@ -244,7 +244,7 @@ namespace RSmartControl
             _motorLeft.Stop();
             _motorRight.Start();
 
-            Thread.Sleep(timeInSeconds * 1000);
+            Thread.Sleep((int)(timeInSeconds * 1000));
 
             _motorLeft.Stop();
             _motorRight.Stop();
