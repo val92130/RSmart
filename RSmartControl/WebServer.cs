@@ -170,6 +170,7 @@ namespace RSmartControl
                         try
                         {
                             int time = int.Parse( (string)entry.Value );
+                            SendResponse(clientSocket, "Going forward for " + time + " seconds ");
                             _com.Robot.GoForward(time);
                         }
                         catch (Exception e)
