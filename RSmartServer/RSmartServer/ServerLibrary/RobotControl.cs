@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Globalization;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
@@ -12,7 +14,7 @@ namespace Server.Lib
         DebugLog _debugLog;
 
         /// <summary>
-        /// Creates a new instance of a RobotControl
+        /// Creates a new instance of a RobotControl and Starts a webserver
         /// </summary>
         /// <param name="robotIp"></param>
         public RobotControl(string robotIp)
@@ -107,5 +109,7 @@ namespace Server.Lib
             _debugLog.Write("Response from " + ip + " : " + rep, EMessageCategory.Information);
             return rep;
         }
+
+        
     }
 }
