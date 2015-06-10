@@ -23,12 +23,21 @@ namespace Server.App
         private bool _started, _startedBack;
         public MainWindow()
         {
+
+            Vector2 p1 = new Vector2( 0, 100 );
+            Vector2 p2 = new Vector2( 200, 300 );
+
+            float angle = Vector2.GetAngle(p1, p2);
+
+            
+
             _robotControl = new RobotControl(Util.RobotIp);       
             InitializeComponent();
             _mjpeg = new MjpegDecoder();
             _mjpeg.FrameReady += mjpeg_FrameReady;
             _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
+            MessageBox.Show( angle.ToString() );
         }
         public void Initialize()
         {

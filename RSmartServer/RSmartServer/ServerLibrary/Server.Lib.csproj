@@ -52,6 +52,7 @@
     <Compile Include="RobotControl.cs" />
     <Compile Include="Route.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

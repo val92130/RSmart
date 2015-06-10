@@ -58,7 +58,7 @@ namespace RSmartControl
                         nbrTour++;
                         lastRecord = DateTime.Now;
                         flag = true;
-                        Debug.Print("Detected : + Nombre tours : " + nbrTour.ToString());
+                       // Debug.Print("Detected : + Nombre tours : " + nbrTour.ToString());
                     }
                     else
                     {
@@ -75,7 +75,7 @@ namespace RSmartControl
                         _speedCm = dist/waitTime;
                         _speed /= 100000;
                         _speed *= 3600;
-                        Debug.Print("Speed : " + _speed +"km/h");
+                       // Debug.Print("Speed : " + _speed +"km/h");
                         nbrTour = 0;
                     }
                 }

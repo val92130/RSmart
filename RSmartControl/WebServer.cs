@@ -25,7 +25,7 @@ namespace RSmartControl
         {
             _pluginManager = pluginManager;
             _syncModule = pluginManager.SyncModule;
-            IPAddress ip = IPAddress.Parse("192.168.1.132");
+            IPAddress ip = IPAddress.Parse("192.168.1.134");
             _com = pluginManager.CommunicationModule;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
