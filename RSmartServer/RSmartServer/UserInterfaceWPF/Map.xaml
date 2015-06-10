@@ -6,9 +6,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="back2.jpg"/>
         </Grid.Background>
-        <Canvas x:Name="grid" HorizontalAlignment="Left" Height="750" Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
-            
-        </Canvas>
+        <Canvas x:Name="grid" HorizontalAlignment="Left" Height="750" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>
         <Button x:Name="addObstacleButton" Content="Add obstacle" HorizontalAlignment="Left" Margin="279,10,0,0" VerticalAlignment="Top" Width="100" Click="addObstacleButton_Click"/>
         <Button x:Name="removeObstacleButton" Content="Remove obstacle" HorizontalAlignment="Left" Width="100" Margin="413,10,0,0" VerticalAlignment="Top" Click="removeObstacleButton_Click"/>
 

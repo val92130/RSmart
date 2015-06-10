@@ -35,7 +35,7 @@ namespace Server.App
             _robotControl = r;
            _robotGrid = new RobotGrid(r);
             InitializeComponent();
-            _map = new MapGrid( 20, (int)this.Width, (int)this.Height );
+            _map = new MapGrid( 100, (int)this.Width, (int)this.Height );
             t = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 10)};
             t.Tick += new EventHandler(T_Tick);
             t.Start();
@@ -53,7 +53,6 @@ namespace Server.App
         // Draw
         private void T_Tick(object sender, EventArgs e)
         {
-
             grid.Children.Clear();
             _map.Draw( grid );
 
@@ -65,14 +64,7 @@ namespace Server.App
 
         public void Update()
         {
-            foreach (Box b in _map.Boxes)
-            {
-                if (_mouseRect.IntersectsWith(b.Area))
-                {
-                    DrawingMethod.DrawRectangle( grid, b.Area.X, b.Area.Y, b.Area.Width, b.Area.Height, Colors.Black );
-                }
-            } 
-            
+             DrawingMethod.DrawRectangle(grid, _mouseRect.X, _mouseRect.Y, _mouseRect.Width, _mouseRect.Height, Colors.Black);
         }
 
 
@@ -80,22 +72,16 @@ namespace Server.App
         {
             if (add)
             {
-                foreach (Box b in _map.Boxes)
+                foreach (Box b in _map.GetOverlappedBoxes(_mouseRect))
                 {
-                    if (_mouseRect.IntersectsWith(b.Area))
-                    {
-                        b.IsObstacle = true;
-                    }
+                    b.IsObstacle = true;
                 }
             }
             else
             {
-                foreach( Box b in _map.Boxes )
+                foreach (Box b in _map.GetOverlappedBoxes(_mouseRect))
                 {
-                    if( _mouseRect.IntersectsWith( b.Area ) )
-                    {
-                        b.IsObstacle = false;
-                    }
+                    b.IsObstacle = false;
                 }
             }
             
