@@ -196,7 +196,7 @@ namespace RSmartControl
 
         public void TurnAngle(int angle)
         {
-            double timeInSec = (angle / 360) * 5.25; // In one sec the robot rotates from 75 deg
+            double timeInSec = ((double)angle / 360) * 5.20; 
 
             if(angle > 0)
             {
