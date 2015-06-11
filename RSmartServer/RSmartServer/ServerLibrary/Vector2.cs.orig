@@ -43,7 +43,11 @@ namespace Server.Lib
 
             }
 
+<<<<<<< HEAD
+            public static double RadianToDegree(double rad)
+=======
             public double DegreeToRadian(double rad)
+>>>>>>> 654f804a13ae2b7350c6015757bd1b5635d60df8
             {
                 return (Math.PI*rad)/180.0;
             }
