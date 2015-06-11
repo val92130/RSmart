@@ -29,7 +29,9 @@ namespace Server.App
 
             double radius = Vector2.Radius(p1, p2);
 
-            
+            int t = Offset.GetClosestOffset( radius );
+
+            MessageBox.Show("Closest offset : " + t);
 
             _robotControl = new RobotControl(Util.RobotIp);       
             InitializeComponent();

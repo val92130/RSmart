@@ -98,7 +98,7 @@ namespace Map.App
                 _game.RobotControl.DebugLog.Write("Error getting the position of the robot : " + e.ToString());
             }
 
-            if (x == null || y == null)
+            if (x == null || y == null || orientationY == null || orientationX == null)
             {
                 return;
             }

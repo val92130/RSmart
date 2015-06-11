@@ -147,13 +147,11 @@ namespace RSmartControl
                         response = _com.MotorLeft.DirectionString;
                         SendResponse(clientSocket, response);
                         break;
-
                     case "GetObstacles" :
                         response = JsonSerializer.SerializeObject(_com.ObstacleList);
                         if(response.Length > 0)
                         SendResponse( clientSocket, response );
                         break;
-
                     case "GetPosition":
                         response = _com.MainLoop.Robot.Position.ToString();
                         SendResponse( clientSocket, response );
