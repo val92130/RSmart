@@ -226,6 +226,14 @@ namespace RSmartControl
                         response = _com.MainLoop.Robot.Orientation.ToString();
                         SendResponse( clientSocket, response );
                         break;
+                    case "GetOrientationX":
+                        response = _com.MainLoop.Robot.Orientation.X.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
+                    case "GetOrientationY":
+                        response = _com.MainLoop.Robot.Orientation.Y.ToString();
+                        SendResponse( clientSocket, response );
+                        break;
 
                     case "GetDutyCycleLeft":
                         response = _com.MotorLeft.DutyCycle.ToString();

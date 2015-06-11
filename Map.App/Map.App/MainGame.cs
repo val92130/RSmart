@@ -24,13 +24,13 @@ namespace Map.App
         public MainGame(int widthCm, Game1 game)
         {
             _robotControl = new RobotControl(); 
-            _robot = new Robot(this, Vector2.Zero,28,30 );
+            _robot = new Robot(this, Microsoft.Xna.Framework.Vector2.Zero,28,30 );
             _game = game;
             _windowsWidth = _game.Window.ClientBounds.Width;
             _winwowsHeight = _game.Window.ClientBounds.Height;
             _cam = new Camera2d
             {
-                Pos = new Vector2(0.0f, 0.0f),
+                Pos = new Microsoft.Xna.Framework.Vector2( 0.0f, 0.0f ),
                 Zoom = 1f
             };
             mapWidth = widthCm;
@@ -50,8 +50,7 @@ namespace Map.App
 
         public void Update(GameTime gameTime)
         {
-            _robot.X += 1;
-            _robot.Y += 4;
+            _robot.Update(gameTime);
         }
 
 
@@ -112,7 +111,7 @@ namespace Map.App
             get
             {
                 MouseState ms = Mouse.GetState();
-                Vector2 pos = _cam.ScreenToWorld(new Vector2(ms.X, ms.Y));
+                Microsoft.Xna.Framework.Vector2 pos = _cam.ScreenToWorld( new Microsoft.Xna.Framework.Vector2( ms.X, ms.Y ) );
                 return new Rectangle((int)pos.X, (int)pos.Y, 5, 5);
             }
         }

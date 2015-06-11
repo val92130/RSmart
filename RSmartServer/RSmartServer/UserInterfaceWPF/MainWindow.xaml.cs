@@ -27,7 +27,7 @@ namespace Server.App
             Vector2 p1 = new Vector2( 0, 100 );
             Vector2 p2 = new Vector2( 200, 300 );
 
-            float angle = Vector2.GetAngle(p1, p2);
+            double radius = Vector2.Radius(p1, p2);
 
             
 
@@ -37,7 +37,7 @@ namespace Server.App
             _mjpeg.FrameReady += mjpeg_FrameReady;
             _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
-            MessageBox.Show( angle.ToString() );
+            MessageBox.Show( radius.ToString() );
         }
         public void Initialize()
         {

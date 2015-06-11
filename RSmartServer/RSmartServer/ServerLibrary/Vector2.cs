@@ -31,7 +31,7 @@ namespace Server.Lib
                 set { this.y = value; }
             }
 
-            public double Radius(Vector2 a, Vector2 b)
+            public static double Radius(Vector2 a, Vector2 b)
             {
                 double dist = Distance(a, b)/2;
                 double angle = GetAngle(a, b);
@@ -43,12 +43,12 @@ namespace Server.Lib
 
             }
 
-            public double RadianToDegree(double rad)
+            public static double RadianToDegree(double rad)
             {
                 return (Math.PI*rad)/180.0;
             }
 
-            public double Distance(Vector2 a, Vector2 b)
+            public static double Distance(Vector2 a, Vector2 b)
             {
                 return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
             }

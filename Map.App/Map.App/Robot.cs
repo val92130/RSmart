@@ -15,13 +15,13 @@ namespace Map.App
         private MainGame _game;
         private Vector2 _orientation;
         private float _angle;
+        private DateTime now, prev = DateTime.UtcNow;
         public Robot(MainGame game,Vector2 position, int width, int height)
         {
             _orientation = new Vector2(0, -1);
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
-
         }
 
         public Rectangle Area
@@ -55,7 +55,14 @@ namespace Map.App
 
         public void Update(GameTime gameTime)
         {
-            
+            now = DateTime.UtcNow;
+
+            TimeSpan t = now - prev;
+            if (t.TotalMilliseconds >= 3000)
+            {
+                prev = DateTime.UtcNow;
+                GetNewPosition();
+            }
         }
 
         public Vector2 Orientation
@@ -77,8 +84,12 @@ namespace Map.App
             var fmt = new NumberFormatInfo {NegativeSign = "-"};
             string x = null;
             string y = null;
+            string orientationX = null;
+            string orientationY = null;
             try
             {
+                orientationX = _game.RobotControl.SendRequestRobot("GetOrientationX=true");
+                orientationY = _game.RobotControl.SendRequestRobot( "GetOrientationX=true" );
                 x = _game.RobotControl.SendRequestRobot("GetPositionX=true");
                 y = _game.RobotControl.SendRequestRobot("GetPositionY=true");
             }
@@ -91,6 +102,7 @@ namespace Map.App
             {
                 return;
             }
+            this.Orientation = new Vector2(float.Parse(orientationX, CultureInfo.InvariantCulture),float.Parse(orientationY, CultureInfo.InvariantCulture)) ;
             this.X = (int)(double.Parse(x, CultureInfo.InvariantCulture) );
             this.Y = (int)(double.Parse(y, CultureInfo.InvariantCulture) );
         }
