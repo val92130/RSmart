@@ -24,14 +24,6 @@ namespace Server.App
         public MainWindow()
         {
 
-            Vector2 p1 = new Vector2( 0, 100 );
-            Vector2 p2 = new Vector2( 200, 300 );
-
-            double radius = Vector2.Radius(p1, p2);
-
-            int t = Offset.GetClosestOffset( radius );
-
-            MessageBox.Show("Closest offset : " + t);
 
             _robotControl = new RobotControl(Util.RobotIp);       
             InitializeComponent();
@@ -39,7 +31,17 @@ namespace Server.App
             _mjpeg.FrameReady += mjpeg_FrameReady;
             _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
-            MessageBox.Show( radius.ToString() );
+            
+            Vector2 p1 = new Vector2(1,1);
+            Vector2 p2 = new Vector2(1000,1);
+
+            double radius = Vector2.Radius(p1, p2);
+            int offset = Offset.GetClosestOffset(radius);
+
+            _robotControl.SendRequestRobot( "SetDirection=" + offset );
+            _robotControl.SendRequestRobot( "GoForwardTime=" + 5 );
+
+
         }
         public void Initialize()
         {

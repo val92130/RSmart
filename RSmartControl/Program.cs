@@ -26,7 +26,7 @@ namespace RSmartControl
             pluginManager.SpeedDetectionModuleModule.Run();
 
             // Enabling DHCP
-            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
+            //Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
 
             // Starting the Server
             Thread server = new Thread( () =>

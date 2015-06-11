@@ -25,12 +25,12 @@ namespace RSmartControl
         {
             _pluginManager = pluginManager;
             _syncModule = pluginManager.SyncModule;
-            IPAddress ip = IPAddress.Parse("192.168.1.134");
+            IPAddress ip = IPAddress.Parse("192.168.1.131");
             _com = pluginManager.CommunicationModule;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //Request and bind to an IP from DHCP server
-            socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+            socket.Bind(new IPEndPoint(ip, 80));
             //Debug print our IP address
             Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
             //Start listen for web requests
