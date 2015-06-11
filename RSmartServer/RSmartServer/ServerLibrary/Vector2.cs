@@ -43,9 +43,13 @@ namespace Server.Lib
 
             }
 
-            public double RadianToDegree(double rad)
+            public double DegreeToRadian(double rad)
             {
                 return (Math.PI*rad)/180.0;
+            }
+            public double RadianToDegree(double rad)
+            {
+                return (rad * 180.0) / Math.PI;
             }
 
             public double Distance(Vector2 a, Vector2 b)
