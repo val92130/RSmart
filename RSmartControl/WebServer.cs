@@ -134,6 +134,24 @@ namespace RSmartControl
                         response = BehaviourControl.Behaviours;
                         SendResponse(clientSocket, response);
                         break;
+                    case "AddObstacle" :
+                        try
+                        {
+                            string[] str = ((string) entry.Value).Split(';');
+                            if (str[0] != null && str[1] != null)
+                            {
+                                double x = Double.Parse(str[0]);
+                                double y = Double.Parse(str[1]);
+                                _com.AddObstacle(new Vector2(x,y));
+                            }
+                            SendResponse(clientSocket, "Obstacle added ");
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(e.ToString());
+                        }
+                        break;
+
                     case "GetMethods" :
                         response = "";
                         foreach (string s in BehaviourControl.GetAllMethods())
