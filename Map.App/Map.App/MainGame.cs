@@ -12,11 +12,6 @@ using Newtonsoft.Json.Linq;
 using Server.Lib;
 namespace Map.App
 {
-    public class TestPoint
-    {
-        public string X { get; set; }
-        public string Y { get; set; }
-    }
     public class MainGame
     {
         private Camera2d _cam;
