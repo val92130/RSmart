@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Server.Lib;
 namespace Map.App
 {
+    public class TestPoint
+    {
+        public string X { get; set; }
+        public string Y { get; set; }
+    }
     public class MainGame
     {
         private Camera2d _cam;
@@ -21,6 +29,7 @@ namespace Map.App
         private Robot _robot;
         private readonly RobotControl _robotControl;
         private int boxCountPerLine;
+        
         public MainGame(int widthCm, Game1 game)
         {
             _robotControl = new RobotControl(); 
@@ -46,11 +55,24 @@ namespace Map.App
                 }
             }
 
+            Thread updateThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    _robot.Update();
+                }
+                
+            });
+
+
+            updateThread.Start();
+
+
         }
 
         public void Update(GameTime gameTime)
         {
-            _robot.Update(gameTime);
+            
         }
 
 
@@ -84,9 +106,15 @@ namespace Map.App
             {
                 if (b.Area.Intersects(MouseArea))
                 {
+                    this.AddObstacleRobot(b.Position);
                     b.IsObstacle = true;
                 }
             }
+        }
+
+        public void AddObstacleRobot(Microsoft.Xna.Framework.Vector2 position)
+        {
+            _robotControl.SendRequestRobot("AddObstacle=" + position.X + ";" + position.Y);
         }
 
         public void OnRightClick()
