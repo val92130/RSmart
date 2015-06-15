@@ -15,7 +15,7 @@ namespace Server.Lib
         {
             get
             {
-                return "192.168.1.100";
+                return "192.168.1.132";
             }
         }
 
