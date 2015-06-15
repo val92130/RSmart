@@ -31,16 +31,6 @@ namespace Server.App
             _mjpeg.FrameReady += mjpeg_FrameReady;
             _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
-            
-            Vector2 p1 = new Vector2(1,1);
-            Vector2 p2 = new Vector2(1000,1);
-
-            double radius = Vector2.Radius(p1, p2);
-            int offset = Offset.GetClosestOffset(radius);
-
-            _robotControl.SendRequestRobot( "SetDirection=" + offset );
-            _robotControl.SendRequestRobot( "GoForwardTime=" + 5 );
-
 
         }
         public void Initialize()

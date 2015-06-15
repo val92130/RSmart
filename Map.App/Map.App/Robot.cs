@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Map.App
 {
@@ -22,6 +24,13 @@ namespace Map.App
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
+        }
+
+        public void GetObstacles()
+        {
+            string str = "[{\"Y\":1,\"X\":0}]";
+            string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
+            JArray arrBostacles = JsonConvert.DeserializeObject<JArray>( obstacles );
         }
 
         public Rectangle Area
@@ -53,7 +62,7 @@ namespace Map.App
             set { _position.Y = value; }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             now = DateTime.UtcNow;
 
