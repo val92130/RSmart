@@ -81,6 +81,7 @@
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera2d.cs" />
+    <Compile Include="DestinationPoint.cs" />
     <Compile Include="EControlMode.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

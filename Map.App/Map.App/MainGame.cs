@@ -31,9 +31,8 @@ namespace Map.App
         private List<Button> _buttons;
         public delegate void ClickHandler(object sender);
         public EControlMode _controlMode = EControlMode.AddObstacle;
-        List<Vector2> _points = new List<Vector2>();
-        private Texture2D texture, rectText;
-        private Texture2D circle;
+        List<DestinationPoint> _points = new List<DestinationPoint>();
+        private Texture2D _texturePoint, _textureCircle;
 
         private List<Texture2D> _circles = new List<Texture2D>();
         
@@ -77,8 +76,15 @@ namespace Map.App
 
             _buttons.Add(new Button(new Microsoft.Xna.Framework.Vector2(10,10),"Add Points", 200,30,Color.Brown, this, new ClickHandler(ChangeModeButtonClick) ));
             _buttons.Add( new Button( new Microsoft.Xna.Framework.Vector2( 10, 60 ), "Add Obstacles", 200, 30, Color.Brown, this, new ClickHandler( AddObstaclesButtonClick ) ) );
+            _buttons.Add( new Button( new Microsoft.Xna.Framework.Vector2( 10, 110 ), "Send Points", 200, 30, Color.Brown, this, new ClickHandler( SendDataRobotButtonClick ) ) );
 
 
+
+        }
+
+        private void SendDataRobotButtonClick( object sender )
+        {
+            // TODO - Send point list to robot
         }
 
         private void AddObstaclesButtonClick( object sender )
@@ -108,25 +114,29 @@ namespace Map.App
             _boxTexture = content.Load<Texture2D>("floor");
             _robotTexture = content.Load<Texture2D>("robot");
 
-            texture = new Texture2D( graphics, 1, 1, false, SurfaceFormat.Color );
-            texture.SetData<Color>( new Color[] { Color.Black } );
-
-            rectText = new Texture2D( graphics, 1, 1, false, SurfaceFormat.Color );
-            rectText.SetData<Color>( new Color[] { Color.Blue } );
-
-
-            
 
             foreach (Button b in _buttons)
             {
                 b.LoadContent( graphics );
             }
 
+            _texturePoint = new Texture2D( graphics, 1, 1, false, SurfaceFormat.Color );
+            _texturePoint.SetData<Color>( new Color[] { Color.Blue } );
+
+            _textureCircle = new Texture2D( graphics, 1, 1, false, SurfaceFormat.Color );
+            _textureCircle.SetData<Color>( new Color[] { Color.Red } );
+
 
             double radius = Server.Lib.Vector2.Radius(new Server.Lib.Vector2(1, 1),
                 new Server.Lib.Vector2(_robot.Orientation.X, _robot.Orientation.Y), new Server.Lib.Vector2(100, 200));
+        }
 
-            circle = CreateCircle((int)radius);
+        public Robot Robot
+        {
+            get
+            {
+                return _robot;
+            }
         }
 
         public void Draw( SpriteBatch spriteBatch )
@@ -144,20 +154,19 @@ namespace Map.App
 
             for(int i = 0; i < _points.Count; i++)
             {
-                this.DrawLine(spriteBatch,i == 0 ? _robot.Position : _points[i - 1], _points[i] , Color.Black);
-                DrawPoint( _points[i], spriteBatch );
+                _points[i].Draw(spriteBatch, _texturePoint, _textureCircle);
             }
 
-            DrawPoint( new Vector2( 100, 200 ), spriteBatch);
-            DrawPoint(new Vector2(circle.Width / 2 + 100, circle.Height / 2 + 200) , spriteBatch );
-            spriteBatch.Draw( circle, new Vector2(  - (circle.Width) + 100, 200 - (circle.Height/2) ), Color.Red );
+            //DrawPoint( new Vector2( 100, 200 ), spriteBatch);
+            //DrawPoint(new Vector2(circle.Width / 2 + 100, circle.Height / 2 + 200) , spriteBatch );
+            //spriteBatch.Draw( circle, new Vector2(  - (circle.Width) + 100, 200 - (circle.Height/2) ), Color.Red );
             
             
         }
 
         public void DrawPoint(Vector2 position, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw( rectText, position, new Rectangle( (int)position.X + 3,(int) position.Y + 3, 6, 6 ), Color.White );
+            spriteBatch.Draw( _texturePoint, position, new Rectangle( (int)position.X + 3,(int) position.Y + 3, 6, 6 ), Color.White );
         }
 
         public Texture2D CreateCircle( int radius )
@@ -188,7 +197,7 @@ namespace Map.App
         }
 
 
-        public void DrawLine( SpriteBatch spriteBatch, Vector2 begin, Vector2 end, Color color, int width = 1 )
+        public static void DrawLine( SpriteBatch spriteBatch, Vector2 begin, Vector2 end, Color color,Texture2D texture, int width = 1 )
         {
             Rectangle r = new Rectangle( (int)begin.X, (int)begin.Y, (int)(end - begin).Length() + width, width );
             Vector2 v = Vector2.Normalize( begin - end );
@@ -246,8 +255,15 @@ namespace Map.App
                     }
                     break;
                 case EControlMode.AddPoints:
-                    // TODO
-                    _points.Add(_cam.ScreenToWorld(new Vector2(m.X, m.Y)));
+                    if (_points.Count == 0)
+                    {
+                        _points.Add(new DestinationPoint(this, _cam.ScreenToWorld(new Vector2(m.X, m.Y)), true));
+                    }
+                    else
+                    {
+                        _points.Add( new DestinationPoint( this, _cam.ScreenToWorld( new Vector2( m.X, m.Y ) ), _points.Count == 0 ? null : _points[_points.Count - 1] ) );
+                    }
+                    
                     break;
             }
             
