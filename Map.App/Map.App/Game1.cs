@@ -34,6 +34,7 @@ namespace Map.App
         public bool left, right, up, down, zoomUp, zoomDown = false;
 
         public event EventHandler OnClicked;
+
         public Game1()
         {
             
@@ -48,7 +49,7 @@ namespace Map.App
 
             
 
-            
+            this.Exiting += new EventHandler<EventArgs>(_mainGame.OnExit);
         }
 
         protected override void Initialize()
@@ -60,7 +61,7 @@ namespace Map.App
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            _mainGame.LoadContent(Content);
+            _mainGame.LoadContent(Content, GraphicsDevice);
 
             _font = Content.Load<SpriteFont>("SpriteFont1");
             texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -245,6 +246,12 @@ namespace Map.App
             _mainGame.Draw(spriteBatch);
             spriteBatch.Draw(texture, new Vector2(_mainGame.MouseArea.X, _mainGame.MouseArea.Y), _mainGame.MouseArea, Color.White );
             spriteBatch.End();
+
+
+            spriteBatch.Begin();
+            _mainGame.DrawGUI(spriteBatch, _font);
+            spriteBatch.End();
+
         }
     }
 }

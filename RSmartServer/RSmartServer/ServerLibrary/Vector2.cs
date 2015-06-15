@@ -31,10 +31,10 @@ namespace Server.Lib
                 set { this.y = value; }
             }
 
-            public static double Radius(Vector2 a, Vector2 b)
+            public static double Radius(Vector2 position, Vector2 direction, Vector2 destination)
             {
-                double dist = Distance(a, b)/2;
-                double angle = GetAngle(a, b);
+                double dist = Distance( position, destination ) / 2;
+                double angle = GetAngle(direction, destination);
 
                 double newAngle = 1.5707963268 - angle; // equals 90 deg
 

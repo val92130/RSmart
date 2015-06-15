@@ -23,8 +23,6 @@ namespace Server.App
         private bool _started, _startedBack;
         public MainWindow()
         {
-
-
             _robotControl = new RobotControl(Util.RobotIp);       
             InitializeComponent();
             _mjpeg = new MjpegDecoder();
