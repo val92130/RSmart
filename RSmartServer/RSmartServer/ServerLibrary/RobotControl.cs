@@ -70,13 +70,22 @@ namespace Server.Lib
         public bool PingRobot()
         {
             var ping = new Ping();
-
-            PingReply reply = ping.Send(IPAddress.Parse(_robotIp), 50);
-
-            if (reply.Status == IPStatus.Success)
+            PingReply reply;
+            try
             {
-                return true;
+                reply = ping.Send(IPAddress.Parse(_robotIp), 50);
+                if (reply.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+
             }
+            catch (Exception)
+            {
+                
+                
+            }
+            
             return false;
         }
 
