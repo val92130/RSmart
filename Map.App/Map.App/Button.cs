@@ -16,15 +16,13 @@ namespace Map.App
         private Rectangle _area;
         private Texture2D texture;
         private Color _color;
-        public delegate void ClickEvent(object sender);
-
+        public delegate void ClickEvent(Button sender);
         private MouseState lastMouseState, currentMouseState;
-
         public event ClickEvent OnClick;
-
         private MainGame.ClickHandler _handler;
-
         private string _text;
+        private bool _isSelected = false;
+
  
         public Button(Vector2 position, string text, int width, int height, Color color, MainGame game, MainGame.ClickHandler handler)
         {
@@ -81,21 +79,22 @@ namespace Map.App
             texture.SetData<Color>(new Color[] { _color });
         }
 
+        public bool Selected
+        {
+            get { return _isSelected; }
+            set { _isSelected = value; }
+        }
+
         public void Draw( SpriteBatch spriteBatch, SpriteFont font )
         {
             
             Vector2 FontOrigin = font.MeasureString( _text ) / 2;
-            spriteBatch.Draw( texture, _area, Color.White );
+            spriteBatch.Draw( texture, _area, _isSelected ? Color.Gray : Color.White );
             int paddingWidth = (int)(_area.Width - FontOrigin.X)/2;
             int paddingHeight = (int)(_area.Height - FontOrigin.Y)/2;
             spriteBatch.DrawString( font, _text, _position + new Vector2( paddingWidth / 2, paddingHeight / 2 ), Color.Black );
 
-
-
         }
-
-        
-
 
     }
 }

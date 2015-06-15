@@ -20,11 +20,7 @@ namespace Map.App
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D texture;
-
-        private bool clicked = false;
-
-        private MouseState _mouse;
-
+        private MouseState _mouse, lastMouseState, currentMouseState;
         private MainGame _mainGame;
 
         private SpriteFont _font;
@@ -37,17 +33,15 @@ namespace Map.App
 
         public Game1()
         {
-            
-            _mainGame = new MainGame(10000, this);
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1366;
+            graphics.PreferredBackBufferHeight = 768;
             graphics.PreferMultiSampling = true;
 
-            
+            _mainGame = new MainGame(10000, this, 1366, 768);
 
             this.Exiting += new EventHandler<EventArgs>(_mainGame.OnExit);
         }
@@ -123,17 +117,22 @@ namespace Map.App
         {
             _mouse = Mouse.GetState();
 
-            if (_mouse.LeftButton == ButtonState.Pressed)
+            MouseState m = Mouse.GetState();
+
+            lastMouseState = currentMouseState;
+
+
+            currentMouseState = Mouse.GetState();
+
+            if (lastMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
             {
+                Rectangle area = new Rectangle(this.Window.ClientBounds.X, this.Window.ClientBounds.Y, this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
+                if (!area.Contains(new Point(m.X + this.Window.ClientBounds.X, m.Y + this.Window.ClientBounds.Y)))
+                    return;
                 Clicked();
                 _mainGame.OnLeftClick();
-                clicked = true;
             }
 
-            if (_mouse.LeftButton == ButtonState.Released)
-            {
-                clicked = false;
-            }
 
             if (_mouse.RightButton == ButtonState.Pressed)
             {
@@ -244,14 +243,12 @@ namespace Map.App
             
             base.Draw(gameTime);
             _mainGame.Draw(spriteBatch);
-            spriteBatch.Draw(texture, new Vector2(_mainGame.MouseArea.X, _mainGame.MouseArea.Y), _mainGame.MouseArea, Color.White );
             spriteBatch.End();
 
-
-            spriteBatch.Begin();
+            spriteBatch.Begin();          
             _mainGame.DrawGUI(spriteBatch, _font);
+            spriteBatch.Draw(texture, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), _mainGame.MouseArea, Color.White);
             spriteBatch.End();
-
         }
     }
 }

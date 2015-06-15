@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="ButtonManager.cs" />
     <Compile Include="Camera2d.cs" />
     <Compile Include="DestinationPoint.cs" />
     <Compile Include="EControlMode.cs" />

@@ -20,7 +20,7 @@ namespace Map.App
         private Camera2d _cam;
         private int mapWidth;
         private Box[,] _boxes;
-        private const int BoxWidthCm = 20;
+        private const int BoxWidthCm = 10;
         private Texture2D _collisionTexture, _boxTexture, _robotTexture;
         private Game1 _game;
         private int _windowsWidth, _winwowsHeight;
@@ -28,22 +28,22 @@ namespace Map.App
         private readonly RobotControl _robotControl;
         private int boxCountPerLine;
         private bool _exited = false;
-        private List<Button> _buttons;
+
         public delegate void ClickHandler(object sender);
         public EControlMode _controlMode = EControlMode.AddObstacle;
         List<DestinationPoint> _points = new List<DestinationPoint>();
         private Texture2D _texturePoint, _textureCircle;
-
+        private ButtonManager _buttonManager;
         private List<Texture2D> _circles = new List<Texture2D>();
         
-        public MainGame(int widthCm, Game1 game)
+        public MainGame(int widthCm, Game1 game, int resolutionWidth, int resolutionHeight)
         {
-            _buttons = new List<Button>();
+            _buttonManager = new ButtonManager(this);
             _robotControl = new RobotControl(); 
             _robot = new Robot(this, Microsoft.Xna.Framework.Vector2.Zero,28,30 );
             _game = game;
-            _windowsWidth = _game.Window.ClientBounds.Width;
-            _winwowsHeight = _game.Window.ClientBounds.Height;
+            _windowsWidth = resolutionWidth;
+            _winwowsHeight = resolutionHeight;
             _cam = new Camera2d
             {
                 Pos = new Microsoft.Xna.Framework.Vector2( 0.0f, 0.0f ),
@@ -74,12 +74,17 @@ namespace Map.App
 
             updateThread.Start();
 
-            _buttons.Add(new Button(new Microsoft.Xna.Framework.Vector2(10,10),"Add Points", 200,30,Color.Brown, this, new ClickHandler(ChangeModeButtonClick) ));
-            _buttons.Add( new Button( new Microsoft.Xna.Framework.Vector2( 10, 60 ), "Add Obstacles", 200, 30, Color.Brown, this, new ClickHandler( AddObstaclesButtonClick ) ) );
-            _buttons.Add( new Button( new Microsoft.Xna.Framework.Vector2( 10, 110 ), "Send Points", 200, 30, Color.Brown, this, new ClickHandler( SendDataRobotButtonClick ) ) );
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 10), "Add Points", 200, 30, new Color(103,128,159), this, new ClickHandler(ChangeModeButtonClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 60), "Add Obstacles", 200, 30, new Color(224, 130, 131), this, new ClickHandler(AddObstaclesButtonClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 110), "Send Points", 200, 30, new Color(134,126,213), this, new ClickHandler(SendDataRobotButtonClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245,171,53), this, new ClickHandler(ClearMapClick)));
 
 
+        }
 
+        private void ClearMapClick(object sender)
+        {
+            _points = new List<DestinationPoint>();
         }
 
         private void SendDataRobotButtonClick( object sender )
@@ -101,10 +106,7 @@ namespace Map.App
 
         public void Update(GameTime gameTime)
         {
-            foreach (Button b in _buttons)
-            {
-                b.Update();
-            }
+            _buttonManager.Update();
         }
 
 
@@ -114,11 +116,8 @@ namespace Map.App
             _boxTexture = content.Load<Texture2D>("floor");
             _robotTexture = content.Load<Texture2D>("robot");
 
-
-            foreach (Button b in _buttons)
-            {
-                b.LoadContent( graphics );
-            }
+            _buttonManager.LoadContent(content,graphics);
+            
 
             _texturePoint = new Texture2D( graphics, 1, 1, false, SurfaceFormat.Color );
             _texturePoint.SetData<Color>( new Color[] { Color.Blue } );
@@ -207,10 +206,7 @@ namespace Map.App
         }
         public void DrawGUI(SpriteBatch spriteBatch, SpriteFont font)
         {
-            foreach( Button b in _buttons )
-            {
-                b.Draw( spriteBatch, font );
-            }
+            _buttonManager.Draw(spriteBatch, font);
         }
 
         public Texture2D GetTexture(Robot r)
@@ -234,7 +230,7 @@ namespace Map.App
         {
             MouseState m = Mouse.GetState();
             
-            foreach( Button b in _buttons )
+            foreach( Button b in _buttonManager.Buttons )
             {
                 if( b.Area.Contains( new Point( m.X, m.Y ) ) )
                 {

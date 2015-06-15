@@ -20,7 +20,7 @@ namespace Map.App
         private DateTime now, prev = DateTime.UtcNow;
         public Robot(MainGame game,Vector2 position, int width, int height)
         {
-            _orientation = new Vector2(0, -1);
+            _orientation = new Vector2(0.5f, -1);
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
@@ -85,7 +85,13 @@ namespace Map.App
             Texture2D text = _game.GetTexture(this);
             float ratioWidth = (float)this._area.Width / text.Width;
             float ratioHeight = (float)this._area.Height / text.Height;
-            batch.Draw(_game.GetTexture(this), Position + Orientation, null, Color.White, 0f, Vector2.Zero, new Vector2(ratioWidth, ratioHeight), SpriteEffects.None, 0f);
+
+            Server.Lib.Vector2 curr = new Server.Lib.Vector2(this.X + 1, this.Y + 1);
+            Server.Lib.Vector2 orien = new Server.Lib.Vector2(this.Orientation.X, this.Orientation.Y);
+
+            float angle = (float)Server.Lib.Vector2.RadianToDegree(Server.Lib.Vector2.GetAngle((curr), (orien)));
+
+            batch.Draw(_game.GetTexture(this), Position + Orientation, null, Color.White, angle, Vector2.Zero, new Vector2(ratioWidth, ratioHeight), SpriteEffects.None, 0f);
         }
 
         public void GetNewPosition()
