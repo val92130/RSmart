@@ -29,6 +29,8 @@ namespace Map.App
         private int boxCountPerLine;
         private bool _exited = false;
 
+        public readonly int BoxWidth = 10;
+
         public delegate void ClickHandler(object sender);
         public EControlMode _controlMode = EControlMode.AddObstacle;
         List<DestinationPoint> _points = new List<DestinationPoint>();
@@ -80,6 +82,11 @@ namespace Map.App
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245,171,53), this, new ClickHandler(ClearMapClick)));
 
 
+        }
+
+        public Box[,] Boxes
+        {
+            get { return _boxes; }
         }
 
         private void ClearMapClick(object sender)
@@ -179,12 +186,10 @@ namespace Map.App
             for( int i = 0; i < data.Length; i++ )
                 data[i] = Color.Transparent;
 
-            // Work out the minimum step necessary using trigonometry + sine approximation.
             double angleStep = 1f / radius;
 
             for( double angle = 0; angle < Math.PI * 2; angle += angleStep )
             {
-                // Use the parametric definition of a circle:
                 int x = (int)Math.Round( radius + radius * Math.Cos( angle ) );
                 int y = (int)Math.Round( radius + radius * Math.Sin( angle ) );
 
@@ -298,14 +303,22 @@ namespace Map.App
             }
         }
 
-        public Box this[int x, int y]
+        public Box GetBoxAt(int x, int y)
         {
-            get
-            {
                 if (x < 0 || y < 0 || x >= boxCountPerLine || y >= boxCountPerLine)
                     return null;
 
                return _boxes[x, y];
+        }
+
+        public Box this[int x, int y]
+        {
+            get
+            {
+                if( x < 0 || y < 0 || x >= boxCountPerLine || y >= boxCountPerLine )
+                    return null;
+
+                return _boxes[x / BoxWidthCm, y / BoxWidthCm];
             }
         }
 
@@ -320,9 +333,9 @@ namespace Map.App
             {
                 for (int j = left; j <= right; ++j)
                 {
-                    if (this[i, j] != null)
+                    if( GetBoxAt(i, j) != null )
                     {
-                        Box b = this[j, i];
+                        Box b = GetBoxAt(j, i);
                         if (b == null)
                             continue;
                         boxList.Add(b);

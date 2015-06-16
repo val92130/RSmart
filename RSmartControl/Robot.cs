@@ -373,13 +373,19 @@ namespace RSmartControl
                 {
                     if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
                     {
-                        this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+                        //this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        //this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+
+                        this._pos.X += 46 * this._orientation.X;
+                        this._pos.Y += 46 * this._orientation.Y;
                     }
                     else
                     {
-                        this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+                       // this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        //this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+
+                        this._pos.X -= 46 * this._orientation.X;
+                        this._pos.Y -= 46 * this._orientation.Y;
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,46 @@ namespace Map.App
         private DateTime now, prev = DateTime.UtcNow;
         public Robot(MainGame game,Vector2 position, int width, int height)
         {
-            _orientation = new Vector2(0.5f, -1);
+            _orientation = new Vector2(0f, -1);
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
+
+            GetObstacles();
         }
 
         public void GetObstacles()
         {
-            string str = "[{\"Y\":1,\"X\":0}]";
-            string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
-            JArray arrBostacles = JsonConvert.DeserializeObject<JArray>( obstacles );
+            string str = "[{\"Y\":1,\"X\":0},{\"Y\":5,\"X\":10},{\"Y\":-5,\"X\":18}]";
+            try
+            {
+                string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
+                JArray arrObstacles = JsonConvert.DeserializeObject<JArray>( obstacles );
+
+                for( int i = 0; i < arrObstacles.Count; i++ )
+                {
+                    Debug.Print( arrObstacles[i]["X"].ToString() );
+                    Debug.Print( arrObstacles[i]["Y"].ToString() );
+
+                    Point p = new Point(int.Parse(arrObstacles[i]["X"].ToString()), int.Parse(arrObstacles[i]["Y"].ToString()));
+
+                    int mapX = Convert.ToInt32((double)p.X / _game.BoxWidth);
+                    int mapY = Convert.ToInt32((double)p.Y / _game.BoxWidth);
+
+                    _game.GetBoxAt(mapX , mapY ).IsObstacle = true;
+
+                }
+
+                
+
+            }
+            catch( Exception e)
+            {
+                
+                //
+            }
+
+
         }
 
         public Rectangle Area
@@ -71,6 +101,7 @@ namespace Map.App
             {
                 prev = DateTime.UtcNow;
                 GetNewPosition();
+                GetObstacles();
             }
         }
 
@@ -91,7 +122,7 @@ namespace Map.App
 
             float angle = (float)Server.Lib.Vector2.RadianToDegree(Server.Lib.Vector2.GetAngle((curr), (orien)));
 
-            batch.Draw(_game.GetTexture(this), Position + Orientation, null, Color.White, angle, Vector2.Zero, new Vector2(ratioWidth, ratioHeight), SpriteEffects.None, 0f);
+            batch.Draw(_game.GetTexture(this), Position + Orientation, null, Color.White, 0f, Vector2.Zero, new Vector2(ratioWidth, ratioHeight), SpriteEffects.None, 0f);
         }
 
         public void GetNewPosition()
