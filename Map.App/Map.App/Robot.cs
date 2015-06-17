@@ -97,7 +97,7 @@ namespace Map.App
             now = DateTime.UtcNow;
 
             TimeSpan t = now - prev;
-            if (t.TotalMilliseconds >= 3000)
+            if (t.TotalMilliseconds >= 1000)
             {
                 prev = DateTime.UtcNow;
                 GetNewPosition();

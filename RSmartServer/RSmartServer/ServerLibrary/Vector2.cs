@@ -51,6 +51,23 @@ namespace Server.Lib
             {
                 return (rad * 180.0) / Math.PI;
             }
+            public static double ArcDistance(Vector2 p1, Vector2 p2, Vector2 direction)
+            {
+                double radius = Radius(p1, direction, p2);
+                double Circonferance = radius * 2 * Math.PI;
+                double newAngle = 1.5707963268 - (GetAngle(direction,p2));
+                double alpha =  3.1415926536 - (newAngle + 1.5707963268);
+                alpha = RadianToDegree(alpha);
+                double acrDistance = (double)(((2 * alpha) / 360) * Circonferance);
+                return acrDistance;
+            }
+            public static double TimeBetweenPoints(double Dist, Vector2 p1, Vector2 p2, Vector2 direction)
+            {
+                Dist = ArcDistance(p1, p2, direction);
+                double timeBetweenPoints = Dist / 46;
+                return timeBetweenPoints;
+
+            }
 
             public static double Distance(Vector2 a, Vector2 b)
             {
@@ -73,10 +90,8 @@ namespace Server.Lib
             public static Vector2 Normalize( Vector2 vector )
             {
                 Vector2 newVec = new Vector2();
-
                 newVec.X = vector.X / Vector2.Length( vector );
                 newVec.Y = vector.Y / Vector2.Length( vector );
-
                 return newVec;
             }
 
