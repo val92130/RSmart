@@ -121,17 +121,36 @@ namespace Server.Lib
 
         public Vector2 GetRobotPosition()
         {
-            double x = Double.Parse(SendRequestRobot("GetPositionX"));
-            double y = Double.Parse(SendRequestRobot( "GetPositionY" ));
-            return new Vector2(x,y);
+            try
+            {
+
+                double x = Math.Round(Double.Parse(SendRequestRobot("GetPositionX=true")));
+                double y = Math.Round(Double.Parse(SendRequestRobot("GetPositionY=true")));
+                return new Vector2(x, y);
+            }
+            catch (Exception e)
+            {
+                _debugLog.Write(e.ToString());
+            }
+
+            return null;
 
         }
 
         public Vector2 GetRobotOrientation()
         {
-            double x = Double.Parse( SendRequestRobot( "GetOrientationX" ) );
-            double y = Double.Parse( SendRequestRobot( "GetOrientationY" ) );
-            return new Vector2( x, y );
+            try
+            {
+                double x = Math.Round(Double.Parse(SendRequestRobot("GetOrientationX=true")));
+                double y = Math.Round(Double.Parse(SendRequestRobot("GetOrientationY=true")));
+                return new Vector2(x, y);
+            }
+            catch (Exception e)
+            {
+                _debugLog.Write(e.ToString());
+            }
+
+            return null;
 
         }
 
