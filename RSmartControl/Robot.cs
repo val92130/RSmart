@@ -39,6 +39,7 @@ namespace RSmartControl
             _orientation.Y = 1;
 
             _pluginManager.SensorsManager.BlinkLed();
+           
         }
         public Motor MotorLeft
         {
