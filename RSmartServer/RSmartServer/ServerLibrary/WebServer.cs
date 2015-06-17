@@ -42,6 +42,9 @@ namespace Server.Lib
             this.DeserializeRoutes();
             AddRoute(new Route("GetInfo", "true", "This is the RSmart Web Server"));
             AddRoute(new Route("CalculateAverage", "values", "Returns the average value"));
+            AddRoute( new Route( "GetRadius", true, "(position(x,y);destination(x,y);direction(x,y))") );
+            AddRoute( new Route( "GetAngle", true ) );
+            AddRoute( new Route( "GetDistance", true ) );
             _debugLog.Write("Routes initialized", EMessageCategory.Success);
             this.SerializeRoutes();
         }
@@ -257,6 +260,10 @@ namespace Server.Lib
                 {
                     if(r.Key == key)
                     {
+                        if (r.IsDynamic)
+                        {
+                            return r.AnalyzeQuery(key,value);
+                        }
                         if(r.Value == value)
                         {
                             return r.Response;
@@ -268,7 +275,7 @@ namespace Server.Lib
             string resp = "<html>Welcome To the RSmart WebServer Interface";
             foreach (Route r in _routes)
             {
-                resp += "<br/> <a href=\"" + Util.GetIp() + "?" + r.Key + "=" + r.Value + "\">" + r.Key + "<a/>";
+                resp += "<br/> <a href=\"" + Util.GetIp() + "?" + r.Key + "=" + r.Value + "\">" + r.Key + "<a/>" +  (r.Description == null ? String.Empty : " : " + r.Description);
             }
             resp += "</html>";
             return resp;

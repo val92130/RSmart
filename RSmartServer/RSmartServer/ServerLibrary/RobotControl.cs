@@ -119,6 +119,22 @@ namespace Server.Lib
             return rep;
         }
 
+        public Vector2 GetRobotPosition()
+        {
+            double x = Double.Parse(SendRequestRobot("GetPositionX"));
+            double y = Double.Parse(SendRequestRobot( "GetPositionY" ));
+            return new Vector2(x,y);
+
+        }
+
+        public Vector2 GetRobotOrientation()
+        {
+            double x = Double.Parse( SendRequestRobot( "GetOrientationX" ) );
+            double y = Double.Parse( SendRequestRobot( "GetOrientationY" ) );
+            return new Vector2( x, y );
+
+        }
+
         
     }
 }
