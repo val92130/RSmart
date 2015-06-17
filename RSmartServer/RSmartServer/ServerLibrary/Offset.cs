@@ -28,7 +28,7 @@ namespace Server.Lib
 
         public static int GetClosestOffset(double radius)
         {
-            Tuple<double, KeyValuePair<int, double>> bestMatch = null;
+            
             int closestOffset = int.MaxValue;
             double diff = 0;
             foreach( var e in GetDictionary() )

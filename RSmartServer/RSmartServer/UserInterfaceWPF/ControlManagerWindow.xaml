@@ -14,8 +14,8 @@
         <Slider x:Name="sliderTime" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="111,76,0,0" VerticalAlignment="Top" Width="110" Maximum="50" Minimum="1" SmallChange="1" ValueChanged="sliderTime_ValueChanged"/>
         <Label x:Name="valueTimeLabel" Content="1" HorizontalAlignment="Left" Margin="236,71,0,0" VerticalAlignment="Top"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="10,133,0,0" Stroke="Black" VerticalAlignment="Top" Width="384" Opacity="0.7"/>
-        <TextBox x:Name="xTextBox" HorizontalAlignment="Left" Height="23" Margin="47,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32"/>
-        <TextBox x:Name="yTextBox" HorizontalAlignment="Left" Height="23" Margin="47,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32"/>
+        <TextBox x:Name="xTextBox" HorizontalAlignment="Left" Height="23" Margin="47,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" />
+        <TextBox x:Name="yTextBox" HorizontalAlignment="Left" Height="23" Margin="47,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" />
         <Label Content="x :" HorizontalAlignment="Left" Margin="19,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.263,-0.231" Width="28"/>
         <Label Content="y :" HorizontalAlignment="Left" Margin="19,196,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.263,-0.231" Width="28"/>
         <Label x:Name="currentPosLabel" Content="" HorizontalAlignment="Left" Margin="101,199,0,0" VerticalAlignment="Top" Width="174"/>
