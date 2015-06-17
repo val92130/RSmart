@@ -185,7 +185,7 @@ namespace RSmartControl
                     case "GoForwardTime" :
                         try
                         {
-                            int time = int.Parse( (string)entry.Value );
+                            double time = double.Parse( (string)entry.Value );
                             SendResponse(clientSocket, "Going forward for " + time + " seconds ");
                             _com.Robot.GoForward(time);
                         }

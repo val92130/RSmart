@@ -92,7 +92,7 @@ namespace Server.Lib
                 }
                 try
                 {
-                    string[] pts = s.Split( ',' );
+                    string[] pts = s.Split( ':' );
                     vectors.Add( new Vector2( double.Parse( pts[0] ), double.Parse( pts[1] ) ) );
                 }
                 catch (Exception)

@@ -251,13 +251,13 @@ namespace RSmartControl
             _motorRight.Stop();
         }
 
-        public void GoForward(int timeInSeconds)
+        public void GoForward(double timeInSeconds)
         {
             _motorLeft.Direction = EDirection.Forward;
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Start();
             _motorRight.Start();
-            Thread.Sleep(1000 * timeInSeconds);
+            Thread.Sleep((int)((double)1000 * timeInSeconds));
             _motorLeft.Stop();
             _motorRight.Stop();
         }
