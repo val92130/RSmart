@@ -22,6 +22,7 @@ namespace Server.Lib
             dictionary.Add(45,96);
             dictionary.Add(35, 135);
             dictionary.Add(30, 164);
+            dictionary.Add(0, 5000);
             return dictionary;
         }
 
