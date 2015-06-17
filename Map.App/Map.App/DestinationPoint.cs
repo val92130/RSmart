@@ -46,11 +46,8 @@ namespace Map.App
                 new Server.Lib.Vector2( _game.Robot.Orientation.X, _game.Robot.Orientation.Y ), new Server.Lib.Vector2( child.Position.X, child.Position.Y ) );
 
                 _textureCircle = _game.CreateCircle((int)_circleRadius);
-            }
-
-            
-            
-
+            }          
+             
         }
 
         public Vector2 Position

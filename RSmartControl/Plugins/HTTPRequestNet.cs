@@ -72,7 +72,7 @@ namespace RSmartControl
         /**
          * Sends an HTTP reply and initializes the stream that may be used to read the reply
          */
-        public void Send(string url)
+        public string Send(string url)
         {
             // parses the url, splitting server and path
             int serverindex = url.IndexOf("//");
@@ -154,6 +154,9 @@ namespace RSmartControl
             position = 0;
 
             // does not close the stream (there's no way to detach it from the socket)
+
+            return line;
+            
         }
 
         public override void Close()
