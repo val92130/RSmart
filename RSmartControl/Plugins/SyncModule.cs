@@ -1,6 +1,11 @@
 using System;
 using System.Net;
 using Microsoft.SPOT;
+using SecretLabs.NETMF.Hardware.NetduinoPlus;
+using SecretLabs.NETMF.Hardware;
+using SecretLabs.NETMF.IO;
+using System.IO;
+using SecretLabs.NETMF;
 
 namespace RSmartControl
 {
@@ -9,7 +14,7 @@ namespace RSmartControl
         private IPAddress _client;
         public SyncModule()
         {
-
+            HttpWebRequest webReq;
         }
 
 
@@ -40,8 +45,8 @@ namespace RSmartControl
         }
 
         public double GetRadius( Vector2 position, Vector2 destination, Vector2 orientation )
-        {
-            return double.Parse(SendRequest("GetRadius="+position.X+","+position.Y+";"+destination.X+","+destination.Y+";"+orientation.X+","+orientation.Y));
+        {         
+            return _client == null ? 0 : double.Parse(SendRequest("GetRadius="+position.X+","+position.Y+";"+destination.X+","+destination.Y+";"+orientation.X+","+orientation.Y));
         }
 
         public double GetAngle( Vector2 position, Vector2 destination)

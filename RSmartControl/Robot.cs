@@ -192,10 +192,23 @@ namespace RSmartControl
             
             this._orientation.X = this._orientation.X * System.Math.Cos( -this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( -this._rotationSpeed );
             this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
-
         }
 
-        public void TurnAngle(int angle)
+        public void FollowPath(ArrayList pathInformationList)
+        {
+            _motorLeft.Start();
+            _motorRight.Start();
+
+            foreach (object path in pathInformationList)
+            {
+                
+                PathInformation p = path as PathInformation;
+                Thread.Sleep(p.DurationMilli);
+                this.TurnAngle(p.Angle);
+            }
+        }
+
+        public void TurnAngle(double angle)
         {
             double timeInSec = (angle / 360) * 5.25; // In one sec the robot rotates from 75 deg
 

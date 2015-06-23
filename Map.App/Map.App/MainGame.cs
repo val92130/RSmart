@@ -102,38 +102,62 @@ namespace Map.App
 
             Vector2 orientation = _robot.Orientation;
             Server.Lib.Vector2 robotPosition = new Server.Lib.Vector2(_robot.Position.X, _robot.Position.Y);
+            List<double> angleList = new List<double>();
 
             foreach (DestinationPoint p in _points)
             {
-                
-                Server.Lib.Vector2 destinationPoint = new Server.Lib.Vector2(p.Position.X, p.Position.Y);
-                Server.Lib.Vector2 robotOrientation = new Server.Lib.Vector2(orientation.X, orientation.Y);
+
+                double angle = GetAngle(_robot.Position, _robot.Orientation, p.Position);
+                angleList.Add(angle);
+
+                _robot.Position = p.Position;
+                _robot.Orientation = TransformPoint( _robot.Orientation, (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
 
 
-                Server.Lib.Vector2 destVector = Server.Lib.Vector2.Normalize(new Server.Lib.Vector2(destinationPoint.X - robotPosition.X, destinationPoint.Y - robotPosition.Y));
+                //Server.Lib.Vector2 destinationPoint = new Server.Lib.Vector2(p.Position.X, p.Position.Y);
+                //Server.Lib.Vector2 robotOrientation = new Server.Lib.Vector2(orientation.X, orientation.Y);
 
 
-                double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y), new Server.Lib.Vector2(destVector.X, destVector.Y));
+                //Server.Lib.Vector2 destVector = Server.Lib.Vector2.Normalize(new Server.Lib.Vector2(destinationPoint.X - robotPosition.X, destinationPoint.Y - robotPosition.Y));
 
 
-                Server.Lib.Vector2 newOrientation = new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y);
+                //double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y), new Server.Lib.Vector2(destVector.X, destVector.Y));
 
-                newOrientation.X = newOrientation.X * System.Math.Cos(angle) - newOrientation.Y * System.Math.Sin(angle);
-                newOrientation.Y = newOrientation.X * System.Math.Sin(angle) + newOrientation.Y * System.Math.Cos(angle);
 
-                newOrientation = Server.Lib.Vector2.Normalize(newOrientation);
+                //Server.Lib.Vector2 newOrientation = new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y);
 
-                orientation = new Vector2((float)newOrientation.X, (float)newOrientation.Y);
+                //newOrientation.X = newOrientation.X * System.Math.Cos(angle) - newOrientation.Y * System.Math.Sin(angle);
+                //newOrientation.Y = newOrientation.X * System.Math.Sin(angle) + newOrientation.Y * System.Math.Cos(angle);
 
-                robotPosition = new Server.Lib.Vector2(destinationPoint.X, destinationPoint.Y);
+                //newOrientation = Server.Lib.Vector2.Normalize(newOrientation);
 
-                dictionary.Add(Server.Lib.Vector2.RadianToDegree(angle), newOrientation);
+                //orientation = new Vector2((float)newOrientation.X, (float)newOrientation.Y);
+
+                //robotPosition = new Server.Lib.Vector2(destinationPoint.X, destinationPoint.Y);
+
+                //dictionary.Add(Server.Lib.Vector2.RadianToDegree(angle), newOrientation);
 
 
             }
 
             string json = JsonConvert.SerializeObject(dictionary);
 
+        }
+
+        public double GetAngle(Vector2 position, Vector2 orientation, Vector2 destination)
+        {
+            Server.Lib.Vector2 directionVector = new Server.Lib.Vector2(destination.X - position.X, destination.Y - position.Y);
+            double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(orientation.X, orientation.Y), new Server.Lib.Vector2(destination.X,destination.Y));
+            return Server.Lib.Vector2.RadianToDegree(angle);
+        }
+
+        public Vector2 TransformPoint(Vector2 point, float angleRadian)
+        {
+            Vector2 newPoint = new Vector2(point.X, point.Y);
+            newPoint.X = (float)(newPoint.X * System.Math.Cos(angleRadian) - newPoint.Y * System.Math.Sin(angleRadian));
+            newPoint.Y = (float)(newPoint.X * System.Math.Sin(angleRadian) + newPoint.Y * System.Math.Cos(angleRadian));
+
+            return Vector2.Normalize(newPoint);
         }
 
         private void AddObstaclesButtonClick( object sender )

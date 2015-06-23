@@ -25,7 +25,7 @@ namespace RSmartControl
         {
             _pluginManager = pluginManager;
             _syncModule = pluginManager.SyncModule;
-            IPAddress ip = IPAddress.Parse("192.168.1.132");
+            IPAddress ip = IPAddress.Parse("192.168.1.131");
             _com = pluginManager.CommunicationModule;
             //Initialize Socket class
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -71,7 +71,7 @@ namespace RSmartControl
                         
                         //Blink the onboard LED                  
                         led.Write(true);
-                        Thread.Sleep(30);
+                        Thread.Sleep(150);
                         led.Write(false);                    
                     }
                 }
@@ -352,6 +352,22 @@ namespace RSmartControl
                             Debug.Print(e.ToString());
                         }
                         break;
+
+                    case "TestPath" :
+                        ArrayList arr = new ArrayList();
+                        arr.Add(new PathInformation(90, 4000));
+                        arr.Add(new PathInformation(45, 2000));
+                        arr.Add(new PathInformation(180, 3000));
+                        _com.Robot.FollowPath(arr);
+                        break;
+
+                    case "TestCom":
+                        string t = _pluginManager.SyncModule.SendRequest("test=true");
+                        //double _angle = _pluginManager.SyncModule.GetAngle(new Vector2(1, 1), new Vector2(20, 50));
+                        //double _radius = _pluginManager.SyncModule.GetRadius(new Vector2(1, 1), new Vector2(20, 50), _com.Robot.Orientation);
+                        //double _length = _pluginManager.SyncModule.GetDistance(new Vector2(1, 1), new Vector2(20, 50));
+                        break;  
+
                     case "Speed":
                         if( entry.Value == null )
                             return;

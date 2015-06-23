@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocalCommand.App", "RSmartS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.App", "Map.App\Map.App\Map.App.csproj", "{0546E6B3-8BB6-4CB4-BF9D-A91BE69DA8E1}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Map.AppContent", "Map.App\Map.AppContent\Map.AppContent.contentproj", "{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.AppContent", "Map.App\Map.AppContent\Map.AppContent.contentproj", "{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
