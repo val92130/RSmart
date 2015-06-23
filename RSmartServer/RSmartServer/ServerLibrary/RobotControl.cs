@@ -80,10 +80,10 @@ namespace Server.Lib
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
-                
+
+                _debugLog.Write(e.ToString(), EMessageCategory.Error);
             }
             
             return false;
