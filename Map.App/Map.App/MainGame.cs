@@ -94,9 +94,38 @@ namespace Map.App
             _points = new List<DestinationPoint>();
         }
 
+        Dictionary<double, Server.Lib.Vector2>  dictionary = new Dictionary<double, Server.Lib.Vector2>();
+
         private void SendDataRobotButtonClick( object sender )
         {
-            // TODO - Send point list to robot
+            Vector2 orientation = _robot.Orientation;
+            Server.Lib.Vector2 robotPosition = new Server.Lib.Vector2(_robot.Position.X, _robot.Position.Y);
+
+            foreach (DestinationPoint p in _points)
+            {
+                
+                Server.Lib.Vector2 destinationPoint = new Server.Lib.Vector2(p.Position.X, p.Position.Y);
+                Server.Lib.Vector2 robotOrientation = new Server.Lib.Vector2(orientation.X, orientation.Y);
+                double angle = Server.Lib.Vector2.GetAngle(destinationPoint, new Server.Lib.Vector2(robotOrientation.X + robotPosition.X, robotOrientation.Y + robotPosition.Y));
+
+                
+
+                Server.Lib.Vector2 newOrientation = robotOrientation;
+
+                newOrientation.X = newOrientation.X * System.Math.Cos(angle) - newOrientation.Y * System.Math.Sin(angle);
+                newOrientation.Y = newOrientation.X * System.Math.Sin(angle) + newOrientation.Y * System.Math.Cos(angle);
+
+                newOrientation = Server.Lib.Vector2.Normalize(newOrientation);
+
+                orientation = new Vector2((float)newOrientation.X, (float)newOrientation.Y);
+
+                robotPosition = destinationPoint;
+
+                dictionary.Add(Server.Lib.Vector2.RadianToDegree(angle), newOrientation);
+
+
+            }
+
         }
 
         private void AddObstaclesButtonClick( object sender )

@@ -30,7 +30,7 @@ namespace Map.App
             _circleRadius = Server.Lib.Vector2.Radius( new Server.Lib.Vector2( _position.X, _position.Y ),
                 new Server.Lib.Vector2( _game.Robot.Orientation.X, _game.Robot.Orientation.Y ), new Server.Lib.Vector2( _game.Robot.Position.X + 1, _game.Robot.Position.Y + 1 ) );
 
-            _textureCircle = _game.CreateCircle( (int)_circleRadius );
+            //_textureCircle = _game.CreateCircle( (int)_circleRadius );
         }
 
         public DestinationPoint(MainGame game, Vector2 position, DestinationPoint child)
@@ -45,7 +45,7 @@ namespace Map.App
                 _circleRadius = Server.Lib.Vector2.Radius( new Server.Lib.Vector2( _position.X, _position.Y ),
                 new Server.Lib.Vector2( _game.Robot.Orientation.X, _game.Robot.Orientation.Y ), new Server.Lib.Vector2( child.Position.X, child.Position.Y ) );
 
-                _textureCircle = _game.CreateCircle((int)_circleRadius);
+                //_textureCircle = _game.CreateCircle((int)_circleRadius);
             }          
              
         }
@@ -71,14 +71,14 @@ namespace Map.App
             if (_child != null)
             {
                 MainGame.DrawLine( spriteBatch, this.Position, _child.Position, Color.Red, pointTexture );
-                spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _child.Position.Y  ), Color.Red );
+                //spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _child.Position.Y  ), Color.Red );
 
             }
 
             if( _isRobotChild )
             {
                 MainGame.DrawLine( spriteBatch, this.Position, _game.Robot.Position, Color.Red, pointTexture );
-                spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _game.Robot.Position.Y  ), Color.Red );
+                //spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _game.Robot.Position.Y  ), Color.Red );
 
             }
         }

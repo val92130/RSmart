@@ -21,7 +21,7 @@ namespace Map.App
         private DateTime now, prev = DateTime.UtcNow;
         public Robot(MainGame game,Vector2 position, int width, int height)
         {
-            _orientation = new Vector2(0f, -1);
+            _orientation = new Vector2(0f, 1);
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
