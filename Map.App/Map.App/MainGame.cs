@@ -42,7 +42,7 @@ namespace Map.App
         {
             _buttonManager = new ButtonManager(this);
             _robotControl = new RobotControl(); 
-            _robot = new Robot(this, Microsoft.Xna.Framework.Vector2.Zero,28,30 );
+            _robot = new Robot(this, new Vector2(100,20), 28,30 );
             _game = game;
             _windowsWidth = resolutionWidth;
             _winwowsHeight = resolutionHeight;
@@ -94,10 +94,12 @@ namespace Map.App
             _points = new List<DestinationPoint>();
         }
 
-        Dictionary<double, Server.Lib.Vector2>  dictionary = new Dictionary<double, Server.Lib.Vector2>();
+        
 
         private void SendDataRobotButtonClick( object sender )
         {
+            Dictionary<double, Server.Lib.Vector2> dictionary = new Dictionary<double, Server.Lib.Vector2>();
+
             Vector2 orientation = _robot.Orientation;
             Server.Lib.Vector2 robotPosition = new Server.Lib.Vector2(_robot.Position.X, _robot.Position.Y);
 
@@ -106,11 +108,15 @@ namespace Map.App
                 
                 Server.Lib.Vector2 destinationPoint = new Server.Lib.Vector2(p.Position.X, p.Position.Y);
                 Server.Lib.Vector2 robotOrientation = new Server.Lib.Vector2(orientation.X, orientation.Y);
-                double angle = Server.Lib.Vector2.GetAngle(destinationPoint, new Server.Lib.Vector2(robotOrientation.X + robotPosition.X, robotOrientation.Y + robotPosition.Y));
 
-                
 
-                Server.Lib.Vector2 newOrientation = robotOrientation;
+                Server.Lib.Vector2 destVector = Server.Lib.Vector2.Normalize(new Server.Lib.Vector2(destinationPoint.X - robotPosition.X, destinationPoint.Y - robotPosition.Y));
+
+
+                double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y), new Server.Lib.Vector2(destVector.X, destVector.Y));
+
+
+                Server.Lib.Vector2 newOrientation = new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y);
 
                 newOrientation.X = newOrientation.X * System.Math.Cos(angle) - newOrientation.Y * System.Math.Sin(angle);
                 newOrientation.Y = newOrientation.X * System.Math.Sin(angle) + newOrientation.Y * System.Math.Cos(angle);
@@ -119,12 +125,14 @@ namespace Map.App
 
                 orientation = new Vector2((float)newOrientation.X, (float)newOrientation.Y);
 
-                robotPosition = destinationPoint;
+                robotPosition = new Server.Lib.Vector2(destinationPoint.X, destinationPoint.Y);
 
                 dictionary.Add(Server.Lib.Vector2.RadianToDegree(angle), newOrientation);
 
 
             }
+
+            string json = JsonConvert.SerializeObject(dictionary);
 
         }
 

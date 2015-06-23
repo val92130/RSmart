@@ -73,8 +73,13 @@ namespace Server.Lib
             {
                 return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
             }
-            public static float GetAngle( Vector2 a, Vector2 b )
+
+            public static double GetAngleAtan(Vector2 a, Vector2 b)
             {
+                return Math.Atan2(b.Y - a.Y, b.X - a.X);
+            }
+            public static double GetAngle( Vector2 a, Vector2 b )
+            {              
                 a = Normalize( a );
                 b = Normalize( b );
 
