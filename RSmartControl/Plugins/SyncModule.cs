@@ -1,11 +1,6 @@
 using System;
 using System.Net;
 using Microsoft.SPOT;
-using SecretLabs.NETMF.Hardware.NetduinoPlus;
-using SecretLabs.NETMF.Hardware;
-using SecretLabs.NETMF.IO;
-using System.IO;
-using SecretLabs.NETMF;
 
 namespace RSmartControl
 {
@@ -14,7 +9,6 @@ namespace RSmartControl
         private IPAddress _client;
         public SyncModule()
         {
-            HttpWebRequest webReq;
         }
 
 
