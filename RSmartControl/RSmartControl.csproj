@@ -12,6 +12,7 @@
     <NetMfTargetsBaseDir Condition="'$(NetMfTargetsBaseDir)'==''">$(MSBuildExtensionsPath32)\Microsoft\.NET Micro Framework\</NetMfTargetsBaseDir>
     <DeployDevice>Netduino</DeployDevice>
     <DeployTransport>USB</DeployTransport>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +34,9 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="ERobotMode.cs" />
+    <Compile Include="PathInformation.cs" />
     <Compile Include="Plugins\ISpeedDetection.cs" />
     <Compile Include="Plugins\Communication.cs" />
-    <Compile Include="Plugins\HTTPRequestNet.cs" />
     <Compile Include="Plugins\ISDCardManager.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Plugins\SDCardManager.cs" />
@@ -71,6 +72,7 @@
     <Reference Include="SecretLabs.NETMF.Hardware" />
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino" />
     <Reference Include="System" />
+    <Reference Include="System.Http" />
     <Reference Include="System.IO" />
   </ItemGroup>
 </Project>

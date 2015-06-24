@@ -21,6 +21,8 @@ namespace Server.App
         int _routeCount = 0;
         private bool _isRobotOnline = false;
         private bool _started, _startedBack;
+
+        
         public MainWindow()
         {
             _robotControl = new RobotControl(Util.RobotIp);       
@@ -29,6 +31,9 @@ namespace Server.App
             _mjpeg.FrameReady += mjpeg_FrameReady;
             _mjpeg.Error += _mjpeg_Error;
             this.Initialize();
+            //double d = Vector2.ArcDistance(new Vector2(1, 1), new Vector2(45, 1), new Vector2(0, 1));
+            //double t = Vector2.TimeBetweenPoints(200, new Vector2(1, 1), new Vector2(45, 1), new Vector2(0, 1));
+
         }
         public void Initialize()
         {

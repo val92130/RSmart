@@ -65,7 +65,7 @@
         </member>
         <member name="M:Server.Lib.RobotControl.#ctor(System.String)">
             <summary>
-            Creates a new instance of a RobotControl
+            Creates a new instance of a RobotControl and Starts a webserver
             </summary>
             <param name="robotIp"></param>
         </member>

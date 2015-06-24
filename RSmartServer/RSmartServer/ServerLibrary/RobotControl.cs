@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Globalization;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
@@ -12,7 +14,7 @@ namespace Server.Lib
         DebugLog _debugLog;
 
         /// <summary>
-        /// Creates a new instance of a RobotControl
+        /// Creates a new instance of a RobotControl and Starts a webserver
         /// </summary>
         /// <param name="robotIp"></param>
         public RobotControl(string robotIp)
@@ -68,13 +70,22 @@ namespace Server.Lib
         public bool PingRobot()
         {
             var ping = new Ping();
-
-            PingReply reply = ping.Send(IPAddress.Parse(_robotIp), 50);
-
-            if (reply.Status == IPStatus.Success)
+            PingReply reply;
+            try
             {
-                return true;
+                reply = ping.Send(IPAddress.Parse(_robotIp), 50);
+                if (reply.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+
             }
+            catch (Exception e)
+            {
+
+                _debugLog.Write(e.ToString(), EMessageCategory.Error);
+            }
+            
             return false;
         }
 
@@ -107,5 +118,42 @@ namespace Server.Lib
             _debugLog.Write("Response from " + ip + " : " + rep, EMessageCategory.Information);
             return rep;
         }
+
+        public Vector2 GetRobotPosition()
+        {
+            try
+            {
+
+                double x = Math.Round(Double.Parse(SendRequestRobot("GetPositionX=true")));
+                double y = Math.Round(Double.Parse(SendRequestRobot("GetPositionY=true")));
+                return new Vector2(x, y);
+            }
+            catch (Exception e)
+            {
+                _debugLog.Write(e.ToString());
+            }
+
+            return null;
+
+        }
+
+        public Vector2 GetRobotOrientation()
+        {
+            try
+            {
+                double x = Math.Round(Double.Parse(SendRequestRobot("GetOrientationX=true")));
+                double y = Math.Round(Double.Parse(SendRequestRobot("GetOrientationY=true")));
+                return new Vector2(x, y);
+            }
+            catch (Exception e)
+            {
+                _debugLog.Write(e.ToString());
+            }
+
+            return null;
+
+        }
+
+        
     }
 }

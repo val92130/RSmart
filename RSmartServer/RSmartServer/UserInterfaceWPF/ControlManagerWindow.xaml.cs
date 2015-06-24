@@ -53,7 +53,20 @@ namespace Server.App
 
         private void orientateButton_Click(object sender, RoutedEventArgs e)
         {
+            Vector2 positionRobot = _robotControl.GetRobotPosition();
+            Vector2 orientationRobot = _robotControl.GetRobotOrientation();
+            Vector2 destination = new Vector2(Convert.ToInt32(xTextBox.Text), Convert.ToInt32(yTextBox.Text));
 
+            if (positionRobot == null || orientationRobot == null || destination == null)
+            {
+                _robotControl.DebugLog.Write("Exception in method : orientate, one of the value was null",EMessageCategory.Error);
+                return;
+            }
+
+            double rad = Server.Lib.Vector2.Radius(positionRobot,orientationRobot,destination);
+            _robotControl.SendRequestRobot("SetDirection=" + Offset.GetClosestOffset(rad));
+            double timeTodo = Vector2.TimeBetweenPoints(positionRobot, orientationRobot, destination);
+            _robotControl.SendRequestRobot("GoForwardTime="+(int)timeTodo);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

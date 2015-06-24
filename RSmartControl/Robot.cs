@@ -39,6 +39,7 @@ namespace RSmartControl
             _orientation.Y = 1;
 
             _pluginManager.SensorsManager.BlinkLed();
+           
         }
         public Motor MotorLeft
         {
@@ -191,10 +192,23 @@ namespace RSmartControl
             
             this._orientation.X = this._orientation.X * System.Math.Cos( -this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( -this._rotationSpeed );
             this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
-
         }
 
-        public void TurnAngle(int angle)
+        public void FollowPath(ArrayList pathInformationList)
+        {
+            _motorLeft.Start();
+            _motorRight.Start();
+
+            foreach (object path in pathInformationList)
+            {
+                
+                PathInformation p = path as PathInformation;
+                Thread.Sleep(p.DurationMilli);
+                this.TurnAngle(p.Angle);
+            }
+        }
+
+        public void TurnAngle(double angle)
         {
             double timeInSec = ((double)angle / 360) * 5.20; 
 
@@ -250,13 +264,13 @@ namespace RSmartControl
             _motorRight.Stop();
         }
 
-        public void GoForward(int timeInSeconds)
+        public void GoForward(double timeInSeconds)
         {
             _motorLeft.Direction = EDirection.Forward;
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Start();
             _motorRight.Start();
-            Thread.Sleep(1000 * timeInSeconds);
+            Thread.Sleep((int)((double)1000 * timeInSeconds));
             _motorLeft.Stop();
             _motorRight.Stop();
         }
@@ -373,13 +387,19 @@ namespace RSmartControl
                 {
                     if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
                     {
-                        this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+                        //this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        //this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+
+                        this._pos.X += 46 * this._orientation.X;
+                        this._pos.Y += 46 * this._orientation.Y;
                     }
                     else
                     {
-                        this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+                       // this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
+                        //this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
+
+                        this._pos.X -= 46 * this._orientation.X;
+                        this._pos.Y -= 46 * this._orientation.Y;
                     }
                 }
             }
