@@ -366,6 +366,19 @@ namespace RSmartControl
                         _com.Robot.FollowPath(arr);
                         break;
 
+                    case "FollowPath" :
+                        ArrayList pathList = _pluginManager.SyncModule.ParsePathList((string) entry.Value);
+                        if (pathList != null)
+                        {
+                            _com.Robot.FollowPath(pathList);
+                            SendResponse(clientSocket, "Sending path to robot...");
+                        }
+                        else
+                        {
+                            SendResponse(clientSocket, "Incorrect path ! ");
+                        }
+                        break;
+
                     case "TestCom":
                         string t1 = _pluginManager.SyncModule.SendRequest("test=true");
                         double _angle = _pluginManager.SyncModule.GetAngle(new Vector2(1, 1), new Vector2(20, 50));

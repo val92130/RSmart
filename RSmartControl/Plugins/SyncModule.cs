@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Net;
 using Microsoft.SPOT;
 
@@ -23,6 +24,31 @@ namespace RSmartControl
             {
                 _client = value;
             }
+        }
+
+        public ArrayList ParsePathList(string list)
+        {
+            ArrayList pathList = new ArrayList();
+            string[] t = list.Split(';');
+            foreach (String s in t)
+            {
+                if (s.Length == 0 || s.Length < 1)
+                    continue;
+                string angle, duration;
+                string[] t2 = s.Split(':');
+                if (t2[0] != null && t2[1] != null)
+                {
+                    angle = t2[0];
+                    duration = t2[1];
+
+                    double angleD = double.Parse(angle);
+                    int durationI = int.Parse(duration);
+
+                    pathList.Add(new PathInformation(angleD, durationI));
+                }
+            }
+
+            return pathList;
         }
 
         public string SendRequest(string query)
