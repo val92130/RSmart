@@ -228,6 +228,11 @@ namespace RSmartControl
                         break;
 
                     case "Desynchronize" :
+                        if (_synchronizedClientIp == null)
+                        {
+                            SendResponse(clientSocket,"You are not linked with the robot");
+                            break;
+                        }
                         string tmp = _synchronizedClientIp.ToString();
                         if ((string) entry.Value == _synchronizedClientIp.ToString())
                         {
@@ -362,10 +367,12 @@ namespace RSmartControl
                         break;
 
                     case "TestCom":
-                        string t = _pluginManager.SyncModule.SendRequest("test=true");
-                        //double _angle = _pluginManager.SyncModule.GetAngle(new Vector2(1, 1), new Vector2(20, 50));
-                        //double _radius = _pluginManager.SyncModule.GetRadius(new Vector2(1, 1), new Vector2(20, 50), _com.Robot.Orientation);
-                        //double _length = _pluginManager.SyncModule.GetDistance(new Vector2(1, 1), new Vector2(20, 50));
+                        string t1 = _pluginManager.SyncModule.SendRequest("test=true");
+                        double _angle = _pluginManager.SyncModule.GetAngle(new Vector2(1, 1), new Vector2(20, 50));
+                        double _radius = _pluginManager.SyncModule.GetRadius(new Vector2(1, 1), new Vector2(20, 50), _com.Robot.Orientation);
+                        double _length = _pluginManager.SyncModule.GetDistance(new Vector2(1, 1), new Vector2(20, 50));
+
+                        SendResponse(clientSocket, t1 + " : " + _angle + " : " + _radius + " : " + _length );
                         break;  
 
                     case "Speed":

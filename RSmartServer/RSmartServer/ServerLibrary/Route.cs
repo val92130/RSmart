@@ -60,19 +60,19 @@ namespace Server.Lib
                     List<Vector2> pts = FetchPointsQuery(value);
                     if (pts.Count != 3)
                         goto default;
-                    return Convert.ToString(Vector2.Radius(pts[0], pts[2], pts[1]));
+                    return Math.Round(Vector2.Radius(pts[0], pts[2], pts[1]),2).ToString().Replace(',', '.');
 
                 case "GetAngle" :
                     List<Vector2> points = FetchPointsQuery(value);
                     if( points.Count != 2 )
                         goto default;
-                    return Convert.ToString( Vector2.GetAngle( points[0], points[1] ) );
+                    return Math.Round(Vector2.GetAngle(points[0], points[1]), 2).ToString().Replace(',', '.');
 
                 case "GetDistance":
                     List<Vector2> points2 = FetchPointsQuery( value );
                     if( points2.Count != 2 )
                         goto default;
-                    return Convert.ToString( Vector2.Distance( points2[0], points2[1] ) );
+                    return Math.Round(Vector2.Distance(points2[0], points2[1]), 2).ToString().Replace(',', '.');
 
                 default :
                     return String.Empty;

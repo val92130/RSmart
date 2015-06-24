@@ -37,7 +37,6 @@
     <Compile Include="PathInformation.cs" />
     <Compile Include="Plugins\ISpeedDetection.cs" />
     <Compile Include="Plugins\Communication.cs" />
-    <Compile Include="Plugins\HTTPRequestNet.cs" />
     <Compile Include="Plugins\ISDCardManager.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Plugins\SDCardManager.cs" />
@@ -70,12 +69,10 @@
     <Reference Include="Microsoft.SPOT.Hardware.SerialPort" />
     <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="Microsoft.SPOT.Net" />
-    <Reference Include="NetduinoExtensions, Version=4.3.2.1, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="SecretLabs.NETMF.Hardware" />
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino" />
-    <Reference Include="SecretLabs.NETMF.Hardware.NetduinoPlus, Version=4.3.1.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="SecretLabs.NETMF.IO, Version=4.3.1.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Http" />
     <Reference Include="System.IO" />
   </ItemGroup>
 </Project>
