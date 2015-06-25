@@ -114,30 +114,6 @@ namespace Map.App
                 _robot.Orientation = TransformPoint( _robot.Orientation, (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
 
 
-                //Server.Lib.Vector2 destinationPoint = new Server.Lib.Vector2(p.Position.X, p.Position.Y);
-                //Server.Lib.Vector2 robotOrientation = new Server.Lib.Vector2(orientation.X, orientation.Y);
-
-
-                //Server.Lib.Vector2 destVector = Server.Lib.Vector2.Normalize(new Server.Lib.Vector2(destinationPoint.X - robotPosition.X, destinationPoint.Y - robotPosition.Y));
-
-
-                //double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y), new Server.Lib.Vector2(destVector.X, destVector.Y));
-
-
-                //Server.Lib.Vector2 newOrientation = new Server.Lib.Vector2(robotOrientation.X, robotOrientation.Y);
-
-                //newOrientation.X = newOrientation.X * System.Math.Cos(angle) - newOrientation.Y * System.Math.Sin(angle);
-                //newOrientation.Y = newOrientation.X * System.Math.Sin(angle) + newOrientation.Y * System.Math.Cos(angle);
-
-                //newOrientation = Server.Lib.Vector2.Normalize(newOrientation);
-
-                //orientation = new Vector2((float)newOrientation.X, (float)newOrientation.Y);
-
-                //robotPosition = new Server.Lib.Vector2(destinationPoint.X, destinationPoint.Y);
-
-                //dictionary.Add(Server.Lib.Vector2.RadianToDegree(angle), newOrientation);
-
-
             }
 
             string json = JsonConvert.SerializeObject(dictionary);
@@ -157,7 +133,7 @@ namespace Map.App
             newPoint.X = (float)(newPoint.X * System.Math.Cos(angleRadian) - newPoint.Y * System.Math.Sin(angleRadian));
             newPoint.Y = (float)(newPoint.X * System.Math.Sin(angleRadian) + newPoint.Y * System.Math.Cos(angleRadian));
 
-            return Vector2.Normalize(newPoint);
+            return newPoint;
         }
 
         private void AddObstaclesButtonClick( object sender )
@@ -273,6 +249,11 @@ namespace Map.App
         public void DrawGUI(SpriteBatch spriteBatch, SpriteFont font)
         {
             _buttonManager.Draw(spriteBatch, font);
+        }
+
+        public Texture2D DrawTexture
+        {
+            get { return _textureCircle; }
         }
 
         public Texture2D GetTexture(Robot r)

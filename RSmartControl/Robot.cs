@@ -196,16 +196,18 @@ namespace RSmartControl
 
         public void FollowPath(ArrayList pathInformationList)
         {
-            _motorLeft.Start();
-            _motorRight.Start();
+            
 
             foreach (object path in pathInformationList)
             {
-                
+                _motorLeft.Start();
+                _motorRight.Start();
                 PathInformation p = path as PathInformation;
                 Thread.Sleep(p.DurationMilli);
                 this.TurnAngle(p.Angle);
             }
+            _motorLeft.Stop();
+            _motorRight.Stop();
         }
 
         public void TurnAngle(double angle)

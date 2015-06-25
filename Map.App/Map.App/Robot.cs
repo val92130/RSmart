@@ -26,6 +26,9 @@ namespace Map.App
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
 
+
+
+            
             GetObstacles();
         }
 
@@ -99,9 +102,11 @@ namespace Map.App
             TimeSpan t = now - prev;
             if (t.TotalMilliseconds >= 1000)
             {
+                
                 prev = DateTime.UtcNow;
                 GetNewPosition();
                 GetObstacles();
+               // _orientation = Vector2.Transform(_orientation, Matrix.CreateRotationX(1.5707963268f));
             }
         }
 
@@ -122,7 +127,10 @@ namespace Map.App
 
             float angle = (float)Server.Lib.Vector2.RadianToDegree(Server.Lib.Vector2.GetAngle((curr), (orien)));
 
+
             batch.Draw(_game.GetTexture(this), Position + Orientation, null, Color.White, 0f, Vector2.Zero, new Vector2(ratioWidth, ratioHeight), SpriteEffects.None, 0f);
+            MainGame.DrawLine(batch, this.Position, new Vector2(_position.X + (_orientation.X * 100), _position.Y + (_orientation.Y * 100)), Color.Red, _game.DrawTexture);
+
         }
 
         public void GetNewPosition()
