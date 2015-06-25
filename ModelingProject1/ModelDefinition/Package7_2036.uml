@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="f245f46d-1cbe-478a-bc85-9df0f24ede89"
+  name="Plugins"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="82939595-4bdc-48e6-8f83-3b0f4800601d"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DRSmartControl.Plugins"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <Interface
+        Id="991f603f-5c89-48e4-a313-f25ec9f7ea35"
+        name="ISDCardManager"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="8c46735b-6276-4c0c-8983-92e0b346fb91"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FG:%2FDev%2FC%2523%2FRSmart%2FRSmart%2FRSmartControl%2Fbin%2FDebug%2FRSmartControl.exe Namespace%3DRSmartControl.Plugins Type%3DISDCardManager"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="af469baf-1b57-41e4-ac2a-cb135308e4ea"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="576baf50-bba2-4553-9ce1-277d4cdee38b">
+                <propertyInstance
+                  Id="839e17e0-966a-4640-b5e9-4cb1ac0b0e89"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a76cd0b4-dfa6-498a-8942-c2a566d64daf">
+                <propertyInstance
+                  Id="f8dc55eb-3d02-4ee3-93f7-1074c665d5ea"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4c70f720-93b3-4e9d-93e4-cef271803983">
+                <propertyInstance
+                  Id="036a8c27-492a-4f43-b05c-16ada8e9e532"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="fca68053-32cf-4489-974c-a8781e7af103">
+                <propertyInstance
+                  Id="2ec1af27-b66e-43e6-a144-547ff47c5238"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </Interface>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

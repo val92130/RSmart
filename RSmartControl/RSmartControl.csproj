@@ -75,4 +75,7 @@
     <Reference Include="System.Http" />
     <Reference Include="System.IO" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
 </Project>

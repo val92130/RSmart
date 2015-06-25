@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.App", "Map.App\Map.App\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.AppContent", "Map.App\Map.AppContent\Map.AppContent.contentproj", "{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "ModelingProject1\ModelingProject1.modelproj", "{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,16 @@ Global
 		{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}.Release|Any CPU.ActiveCfg = Release|x86
 		{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{91A4A237-B59C-454E-9F16-DCFD44E1E8AB}.Release|x86.ActiveCfg = Release|x86
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDB97FD5-D0D4-44C9-8FEA-0FDB7BA62959}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

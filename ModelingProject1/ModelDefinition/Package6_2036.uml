@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="6aa6be3b-3193-49a2-ae81-1d5698a8482c"
+  name="Robot_Behaviours"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="21ac26aa-fb29-4d06-b320-99b043be9af3"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DRSmartControl.Robot_Behaviours"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="f3f7721a-cf46-4bcf-8258-c4a1ee045ab8"
+        name="BehaviourControl"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="a4651887-9410-4d29-a549-d7f7e5828fe5"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FG:%2FDev%2FC%2523%2FRSmart%2FRSmart%2FRSmartControl%2Fbin%2FDebug%2FRSmartControl.exe Namespace%3DRSmartControl.Robot_Behaviours Type%3DBehaviourControl"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="66ed3dde-1e8b-4d55-85fe-a7f544134881"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a6f64010-a1a7-408a-84c2-292ed3cc2d87">
+                <propertyInstance
+                  Id="4ff81f84-548a-4119-8355-5bdae6024a4c"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="493d7a43-a7ff-496a-892d-718aa1128662">
+                <propertyInstance
+                  Id="5cc6297f-1f8c-49b3-9177-5dcca8a20672"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="adde3d4f-b252-43bd-9bdc-a8ca5bac94e2">
+                <propertyInstance
+                  Id="e404eed1-7a29-40af-9bcd-94df3d17feb0"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9d2d6478-8411-4302-994f-1b1af9ae8b20">
+                <propertyInstance
+                  Id="63fb9380-6fea-4fe8-8db0-d53ad2fd5e20"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8b420d73-5ab2-4443-95c1-ff1473df4f98">
+                <propertyInstance
+                  Id="843de7b2-dc53-448d-b348-af80b26b7789"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="9b2b9ad3-d10a-43f1-bc88-68db2d170f07"
+        name="RobotBehaviourPlugin"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="a753641d-3ace-4fb9-9d6b-1068743d4b43"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FG:%2FDev%2FC%2523%2FRSmart%2FRSmart%2FRSmartControl%2Fbin%2FDebug%2FRSmartControl.exe Namespace%3DRSmartControl.Robot_Behaviours Type%3DRobotBehaviourPlugin"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="9d85cfb1-c0ee-4367-aa1b-7d2fc2fd4609"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ddf9b784-3ca7-485f-8e29-78feed4eae6b">
+                <propertyInstance
+                  Id="53c74ae4-ca3b-40eb-be2b-bc78fc34b816"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0d4a2a7b-3209-4898-bbe7-099af80c2a92">
+                <propertyInstance
+                  Id="79dac87e-0c6a-4771-b484-2f9a59740fd0"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4efa19b0-b92c-40fa-ae21-6550884801df">
+                <propertyInstance
+                  Id="a76bd3f0-bef1-45e8-af70-48293d2f672f"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0aaac05e-b198-4ad9-83ef-714809faa0fe">
+                <propertyInstance
+                  Id="47f63674-3709-4fce-befc-2dda3f760a22"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e9362556-e7ed-44a2-8e85-e8631a1e7665">
+                <propertyInstance
+                  Id="d98ce6a1-652d-4dc8-af4d-27580b73565b"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

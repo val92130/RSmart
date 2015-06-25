@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="e9b24c82-ad65-47b2-bbcb-7cdb8e4a58e8"
+  name="Sockets"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="1c3f9923-797a-4adb-a3b6-aea950ef17b3"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DSystem.Net.Sockets"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="c7bfa175-278f-4071-a08e-57ca33c2a830"
+        name="Socket"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="e09a800b-eb5e-4ab8-a62d-f1f03fa708ea"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FMicrosoft .NET Micro Framework%2Fv4.3%2FAssemblies%2Fle%2FSystem.dll&quot; Namespace%3DSystem.Net.Sockets Type%3DSocket"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="0e377a90-48e8-4e46-916d-d971284a4091"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="c59250da-370c-4c63-b920-8283d720a144">
+                <propertyInstance
+                  Id="ef2f85c4-f48b-494a-97d2-614a5c97fe44"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b351be00-318e-4a33-a449-3d5c992cf9f9">
+                <propertyInstance
+                  Id="f6ac8b6a-3c8e-438d-b5f2-4d92103264ee"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2d71cc9e-f6df-4e0a-9583-4e1cffb4162d">
+                <propertyInstance
+                  Id="cc4cb200-15d1-4c08-b361-017f2302fd3a"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ee875f78-69d1-495a-9078-a1e903b98a59">
+                <propertyInstance
+                  Id="2cfa8980-3266-45ac-a71b-5889b12751d5"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0e1cced1-aa26-42e0-b822-0a1a1685d1f9">
+                <propertyInstance
+                  Id="0031549e-5804-41d8-91cc-92a91be1ff54"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="641ece38-0d3c-4ff6-99f1-7d3de0e83317">
+            <interfaceMoniker
+              Id="d03bd027-87e3-4f01-9dd7-5bb308999925"
+              LastKnownName="IDisposable"
+              LastKnownLocation="Package1_2036.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

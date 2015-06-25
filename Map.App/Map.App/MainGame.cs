@@ -42,7 +42,7 @@ namespace Map.App
         {
             _buttonManager = new ButtonManager(this);
             _robotControl = new RobotControl(); 
-            _robot = new Robot(this, new Vector2(100,20), 28,30 );
+            _robot = new Robot(this, new Vector2(0,0), 28,30 );
             _game = game;
             _windowsWidth = resolutionWidth;
             _winwowsHeight = resolutionHeight;
@@ -91,6 +91,8 @@ namespace Map.App
 
         private void ClearMapClick(object sender)
         {
+            _robot.Position = Vector2.Zero;
+            _robot.Orientation = new Vector2(0,1);
             _points = new List<DestinationPoint>();
         }
 
@@ -98,6 +100,16 @@ namespace Map.App
 
         private void SendDataRobotButtonClick( object sender )
         {
+            // TESTS
+            double angle180 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(0,-100));
+            double angle90 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(100, 0));
+            double angle45 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(100, 100));
+
+            Vector2 destination = new Vector2(100,0);
+
+            //_robot.Orientation = TransformPoint(_robot.Orientation, (float)Server.Lib.Vector2.DegreeToRadian(45));
+
+            //return;
             Dictionary<double, Server.Lib.Vector2> dictionary = new Dictionary<double, Server.Lib.Vector2>();
 
             Vector2 orientation = _robot.Orientation;
@@ -110,9 +122,24 @@ namespace Map.App
                 double angle = GetAngle(_robot.Position, _robot.Orientation, p.Position);
                 angleList.Add(angle);
 
-                _robot.Position = p.Position;
-                _robot.Orientation = TransformPoint( _robot.Orientation, (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
+                float oX = _robot.Orientation.X;
+                float oY = _robot.Orientation.Y;
+                float dX = p.Position.X;
+                float dY = p.Position.Y;
 
+
+                Vector2 VecToTarget = _robot.Position - p.Position;
+                if ((VecToTarget.X * _robot.Orientation.Y) > (VecToTarget.Y * _robot.Orientation.X))
+                {
+                    _robot.Orientation = TransformPoint(_robot.Orientation,
+                        (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
+                }
+                else
+                {
+                    _robot.Orientation = TransformPoint(_robot.Orientation,
+                        -(float)(Server.Lib.Vector2.DegreeToRadian(angle)));
+                }
+                _robot.Position = p.Position;
 
             }
 
@@ -123,17 +150,21 @@ namespace Map.App
         public double GetAngle(Vector2 position, Vector2 orientation, Vector2 destination)
         {
             Server.Lib.Vector2 directionVector = new Server.Lib.Vector2(destination.X - position.X, destination.Y - position.Y);
-            double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(orientation.X, orientation.Y), new Server.Lib.Vector2(destination.X,destination.Y));
+            double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(orientation.X, orientation.Y), new Server.Lib.Vector2(directionVector.X, directionVector.Y));
             return Server.Lib.Vector2.RadianToDegree(angle);
         }
 
         public Vector2 TransformPoint(Vector2 point, float angleRadian)
         {
             Vector2 newPoint = new Vector2(point.X, point.Y);
-            newPoint.X = (float)(newPoint.X * System.Math.Cos(angleRadian) - newPoint.Y * System.Math.Sin(angleRadian));
-            newPoint.Y = (float)(newPoint.X * System.Math.Sin(angleRadian) + newPoint.Y * System.Math.Cos(angleRadian));
 
-            return newPoint;
+            float x = newPoint.X;
+            float y = newPoint.Y;
+
+            float px = (float)(x * System.Math.Cos(angleRadian) - y * System.Math.Sin(angleRadian));
+            float py = (float)(x * System.Math.Sin(angleRadian) + y * System.Math.Cos(angleRadian));
+
+            return new Vector2(px,py);
         }
 
         private void AddObstaclesButtonClick( object sender )

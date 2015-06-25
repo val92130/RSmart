@@ -28,7 +28,7 @@ namespace Map.App
 
 
 
-            
+            //_orientation = _game.TransformPoint(_orientation, -(float)Server.Lib.Vector2.DegreeToRadian(180));
             GetObstacles();
         }
 
