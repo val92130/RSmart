@@ -21,6 +21,7 @@ namespace Map.App
         public DestinationPoint(MainGame game, Vector2 position)
             : this(game, position, null)
         {
+
         }
 
         public DestinationPoint(MainGame game, Vector2 position, bool IsRobotChild)
@@ -71,6 +72,7 @@ namespace Map.App
             if (_child != null)
             {
                 MainGame.DrawLine( spriteBatch, this.Position, _child.Position, Color.Red, pointTexture );
+                spriteBatch.DrawString(_game.Font, Vector2.Distance(this.Position, _child.Position).ToString() + "(-12)", this.Position, Color.Black);
                 //spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _child.Position.Y  ), Color.Red );
 
             }
@@ -78,6 +80,7 @@ namespace Map.App
             if( _isRobotChild )
             {
                 MainGame.DrawLine( spriteBatch, this.Position, _game.Robot.Position, Color.Red, pointTexture );
+                spriteBatch.DrawString(_game.Font, Vector2.Distance(this.Position, _game.Robot.Position).ToString()+  "(-12)", this.Position, Color.Black);
                 //spriteBatch.Draw( _textureCircle, new Vector2( -(_textureCircle.Width) + this.Position.X, _game.Robot.Position.Y  ), Color.Red );
 
             }

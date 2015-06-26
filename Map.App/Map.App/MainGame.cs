@@ -28,6 +28,7 @@ namespace Map.App
         private readonly RobotControl _robotControl;
         private int boxCountPerLine;
         private bool _exited = false;
+        private SpriteFont _font;
 
         public readonly int BoxWidth = 10;
 
@@ -107,6 +108,8 @@ namespace Map.App
 
             Vector2 destination = new Vector2(100,0);
 
+            List<PathInformation> pathList = new List<PathInformation>();
+
             //_robot.Orientation = TransformPoint(_robot.Orientation, (float)Server.Lib.Vector2.DegreeToRadian(45));
 
             //return;
@@ -114,36 +117,61 @@ namespace Map.App
 
             Vector2 orientation = _robot.Orientation;
             Server.Lib.Vector2 robotPosition = new Server.Lib.Vector2(_robot.Position.X, _robot.Position.Y);
+
+            //Vector2 robotPos = new Vector2(_robot.Position.X, _robot.);
             List<double> angleList = new List<double>();
 
             foreach (DestinationPoint p in _points)
             {
 
                 double angle = GetAngle(_robot.Position, _robot.Orientation, p.Position);
-                angleList.Add(angle);
+                
 
                 float oX = _robot.Orientation.X;
                 float oY = _robot.Orientation.Y;
                 float dX = p.Position.X;
                 float dY = p.Position.Y;
 
-
+                double ang;
                 Vector2 VecToTarget = _robot.Position - p.Position;
                 if ((VecToTarget.X * _robot.Orientation.Y) > (VecToTarget.Y * _robot.Orientation.X))
                 {
+                    ang = angle;
                     _robot.Orientation = TransformPoint(_robot.Orientation,
                         (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
                 }
                 else
                 {
+                    ang = -angle;
                     _robot.Orientation = TransformPoint(_robot.Orientation,
                         -(float)(Server.Lib.Vector2.DegreeToRadian(angle)));
                 }
+
+                PathInformation pathInfo = new PathInformation(ang,GetTimeToDestinationMilli(_robot.Position, p.Position), new Vector2(_robot.Orientation.X, _robot.Orientation.Y) );
+                pathList.Add(pathInfo);
                 _robot.Position = p.Position;
 
             }
 
-            string json = JsonConvert.SerializeObject(dictionary);
+            string query = "";
+            foreach (PathInformation p in pathList)
+            {
+                query += (int)p.Angle + ":" + p.DurationMilli + ":" + p.Orientation.X + "," + p.Orientation.Y +
+                         ";";
+            }
+
+            _robotControl.SendRequestRobot("FollowPath=" + query);
+
+        }
+
+        public int GetTimeToDestinationMilli(Vector2 position, Vector2 destination)
+        {
+            double speedCm = 46;
+
+            double length = Vector2.Distance(position, destination);
+
+            double dist = length/speedCm;
+            return (int)dist * 1000;
 
         }
 
@@ -201,8 +229,15 @@ namespace Map.App
             _textureCircle.SetData<Color>( new Color[] { Color.Red } );
 
 
+            _font = content.Load<SpriteFont>("SpriteFont1");
+
             double radius = Server.Lib.Vector2.Radius(new Server.Lib.Vector2(1, 1),
                 new Server.Lib.Vector2(_robot.Orientation.X, _robot.Orientation.Y), new Server.Lib.Vector2(100, 200));
+        }
+
+        public SpriteFont Font
+        {
+            get { return _font; }
         }
 
         public Robot Robot

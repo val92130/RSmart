@@ -360,9 +360,9 @@ namespace RSmartControl
 
                     case "TestPath" :
                         ArrayList arr = new ArrayList();
-                        arr.Add(new PathInformation(90, 4000));
-                        arr.Add(new PathInformation(45, 2000));
-                        arr.Add(new PathInformation(180, 3000));
+                        arr.Add(new PathInformation(90, 4000, new Vector2(0,0)));
+                        arr.Add(new PathInformation(45, 2000, new Vector2(0, 0)));
+                        arr.Add(new PathInformation(180, 3000, new Vector2(0, 0)));
                         _com.Robot.FollowPath(arr);
                         break;
 

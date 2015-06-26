@@ -200,11 +200,12 @@ namespace RSmartControl
 
             foreach (object path in pathInformationList)
             {
-                _motorLeft.Start();
-                _motorRight.Start();
                 PathInformation p = path as PathInformation;
-                Thread.Sleep(p.DurationMilli);
                 this.TurnAngle(p.Angle);
+                _motorLeft.Start();
+                _motorRight.Start();               
+                Thread.Sleep(p.DurationMilli);
+                _orientation = p.Orientation;
             }
             _motorLeft.Stop();
             _motorRight.Stop();

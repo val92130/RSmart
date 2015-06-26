@@ -36,15 +36,23 @@ namespace RSmartControl
                     continue;
                 string angle, duration;
                 string[] t2 = s.Split(':');
-                if (t2[0] != null && t2[1] != null)
+                if (t2[0] != null && t2[1] != null && t2[2] != null)
                 {
                     angle = t2[0];
                     duration = t2[1];
 
+                    Vector2 direction = new Vector2();
+                    string[] dir = t2[2].Split(',');
+                    var dirX = double.Parse(dir[0]);
+                    var dirY = double.Parse(dir[1]);
+
+                    direction.X = dirX;
+                    direction.Y = dirY;
+
                     double angleD = double.Parse(angle);
                     int durationI = int.Parse(duration);
 
-                    pathList.Add(new PathInformation(angleD, durationI));
+                    pathList.Add(new PathInformation(angleD, durationI, direction));
                 }
             }
 

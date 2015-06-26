@@ -104,8 +104,8 @@ namespace Map.App
             {
                 
                 prev = DateTime.UtcNow;
-                GetNewPosition();
-                GetObstacles();
+                //GetNewPosition();
+                //GetObstacles();
                // _orientation = Vector2.Transform(_orientation, Matrix.CreateRotationX(1.5707963268f));
             }
         }

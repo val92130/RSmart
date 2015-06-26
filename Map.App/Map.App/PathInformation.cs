@@ -1,7 +1,10 @@
-using System;
-using Microsoft.SPOT;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
 
-namespace RSmartControl
+namespace Map.App
 {
     public class PathInformation
     {
