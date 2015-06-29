@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Newtonsoft.Json;
+using TomShane.Neoforce.Controls;
+using EventArgs = System.EventArgs;
+using EventHandler = System.EventHandler;
 
 namespace Map.App
 {
@@ -30,19 +33,20 @@ namespace Map.App
         public bool left, right, up, down, zoomUp, zoomDown = false;
 
         public event EventHandler OnClicked;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            IsMouseVisible = true;
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1366;
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferMultiSampling = true;
+            IsFixedTimeStep = false;
+            
 
             _mainGame = new MainGame(10000, this, 1366, 768);
-
+            
             this.Exiting += new EventHandler<EventArgs>(_mainGame.OnExit);
         }
 
@@ -50,16 +54,19 @@ namespace Map.App
         {
             
             base.Initialize();
+            _mainGame.Initialize(this, graphics);
         }
 
         protected override void LoadContent()
         {
+            
             spriteBatch = new SpriteBatch(GraphicsDevice);
             _mainGame.LoadContent(Content, GraphicsDevice);
 
             _font = Content.Load<SpriteFont>("SpriteFont1");
             texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             texture.SetData<Color>(new Color[] { Color.White });
+
         }
 
         protected override void UnloadContent()
@@ -76,6 +83,7 @@ namespace Map.App
         }
         protected override void Update(GameTime gameTime)
         {
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             base.Update(gameTime);
@@ -109,6 +117,7 @@ namespace Map.App
             {
                 _mainGame.Camera.Zoom += 0.1f;
             }
+
 
         }
 
@@ -231,7 +240,10 @@ namespace Map.App
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            
+            _mainGame.WindowManager.BeginDraw(gameTime);
+            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+
             spriteBatch.Begin(SpriteSortMode.Immediate,
                         BlendState.AlphaBlend,
                         null,
@@ -241,14 +253,20 @@ namespace Map.App
                         _mainGame.Camera.GetTransformation());
 
             
-            base.Draw(gameTime);
+            
+
             _mainGame.Draw(spriteBatch);
             spriteBatch.End();
 
+            base.Draw(gameTime);          
+    
             spriteBatch.Begin();          
             _mainGame.DrawGUI(spriteBatch, _font);
             spriteBatch.Draw(texture, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), _mainGame.MouseArea, Color.White);
             spriteBatch.End();
+            _mainGame.WindowManager.EndDraw(gameTime);
+
+            
         }
     }
 }
