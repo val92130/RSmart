@@ -401,6 +401,10 @@ namespace Map.App
 
         public void OnLeftClick()
         {
+            if (!_game.IsActive)
+            {
+                return;
+            }
             MouseState m = Mouse.GetState();
 
             foreach (GameWindow g in _windowManager.Windows)
@@ -459,6 +463,10 @@ namespace Map.App
 
         public void OnRightClick()
         {
+            if (!_game.IsActive)
+            {
+                return;
+            }
             foreach (Box b in GetOverlappedBoxes())
             {
                 if (b.Area.Intersects(MouseArea))

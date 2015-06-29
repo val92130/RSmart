@@ -124,6 +124,11 @@ namespace Map.App
 
         public void HandleInput()
         {
+            if (!this.IsActive)
+            {
+                return;
+            }
+
             _mouse = Mouse.GetState();
 
             MouseState m = Mouse.GetState();
