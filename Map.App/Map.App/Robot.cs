@@ -40,6 +40,7 @@ namespace Map.App
                 string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
                 JArray arrObstacles = JsonConvert.DeserializeObject<JArray>( obstacles );
 
+
                 for( int i = 0; i < arrObstacles.Count; i++ )
                 {
                     Debug.Print( arrObstacles[i]["X"].ToString() );
@@ -100,12 +101,12 @@ namespace Map.App
             now = DateTime.UtcNow;
 
             TimeSpan t = now - prev;
-            if (t.TotalMilliseconds >= 1000)
+            if (t.TotalMilliseconds >= 2500)
             {
                 
                 prev = DateTime.UtcNow;
-                //GetNewPosition();
-                //GetObstacles();
+                GetNewPosition();
+                GetObstacles();
                // _orientation = Vector2.Transform(_orientation, Matrix.CreateRotationX(1.5707963268f));
             }
         }
@@ -143,7 +144,7 @@ namespace Map.App
             try
             {
                 orientationX = _game.RobotControl.SendRequestRobot("GetOrientationX=true");
-                orientationY = _game.RobotControl.SendRequestRobot( "GetOrientationX=true" );
+                orientationY = _game.RobotControl.SendRequestRobot( "GetOrientationY=true" );
                 x = _game.RobotControl.SendRequestRobot("GetPositionX=true");
                 y = _game.RobotControl.SendRequestRobot("GetPositionY=true");
             }

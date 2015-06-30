@@ -36,6 +36,7 @@ namespace RSmartControl
 
         public void sensorBehaviour(Robot robot)
         {
+            
             double distance = _sanalog.Read();
 
             if (distance >= 0.5)
@@ -46,7 +47,31 @@ namespace RSmartControl
                 if (counter > 10)
 
                 {
+                   
                     robot.GetCommunication.AddObstacle(new Vector2(robot.Position.X + robot.Orientation.X, robot.Position.Y + robot.Orientation.Y));
+                    _collide = true;
+                }
+
+            }
+            else
+            {
+                _collide = false;
+                counter = 0;
+            }
+
+        }
+
+        public void sensorBehaviour(Robot robot, bool dontAddObstacle)
+        {
+            double distance = _sanalog.Read();
+
+            if (distance >= 0.5)
+            {
+                counter++;
+
+                // if the sensor detects an obstacle for more than 10 frames
+                if (counter > 10)
+                {
                     _collide = true;
                 }
 

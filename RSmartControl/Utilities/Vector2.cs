@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Text;
 using Microsoft.SPOT;
+using Math = System.Math;
 
 namespace RSmartControl
 {
@@ -29,18 +32,104 @@ namespace RSmartControl
             set { this.y = value; }
         }
 
+        public static ArrayList FetchPointsQuery(string query)
+        {
+            StringBuilder st = new StringBuilder(query);
+            st.Replace(',', '.');
+
+            string[] points = st.ToString().Split(';');
+
+            ArrayList vectors = new ArrayList();
+            
+
+            foreach (string s in points)
+            {
+                if (s == "" || s.Length <= 1)
+                {
+                    continue;
+                }
+                try
+                {
+                    string[] pts = s.Split(':');
+                    vectors.Add(new Vector2(double.Parse(pts[0]), double.Parse(pts[1])));
+                }
+                catch (Exception e)
+                {
+
+                    Debug.Print(e.ToString());
+                }
+
+            }
+
+            return vectors;
+        }
+
+        public static double Radius(Vector2 position, Vector2 direction, Vector2 destination)
+        {
+            double dist = Distance(position, destination) / 2;
+            double angle = GetAngle(direction, destination);
+
+            double newAngle = 1.5707963268 - angle; // equals 90 deg
+
+            double radius = dist / Math.Cos(newAngle);
+            return radius;
+
+        }
+
+        public static double DegreeToRadian(double rad)
+        {
+            return (Math.PI * rad) / 180.0;
+        }
+        public static double RadianToDegree(double rad)
+        {
+            return (rad * 180.0) / Math.PI;
+        }
+        public static double ArcDistance(Vector2 p1, Vector2 direction, Vector2 p2)
+        {
+            double radius = Radius(p1, direction, p2);
+            double Circonferance = radius * 2 * Math.PI;
+            double newAngle = 1.5707963268 - (GetAngle(direction, p2));
+            double alpha = 3.1415926536 - (newAngle + 1.5707963268);
+            alpha = RadianToDegree(alpha);
+            double acrDistance = (double)(((2 * alpha) / 360) * Circonferance);
+            return acrDistance;
+        }
+        public static double TimeBetweenPoints(Vector2 p1, Vector2 direction, Vector2 p2)
+        {
+            double Dist = ArcDistance(p1, direction, p2);
+            double timeBetweenPoints = Dist / 46;
+            return timeBetweenPoints;
+
+        }
+
+        public static double Distance(Vector2 a, Vector2 b)
+        {
+            return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
+        }
+
+        public static double GetAngleAtan(Vector2 a, Vector2 b)
+        {
+            return Math.Atan2(b.Y - a.Y, b.X - a.X);
+        }
+        public static double GetAngle(Vector2 a, Vector2 b)
+        {
+            a = Normalize(a);
+            b = Normalize(b);
+
+            double dotProduct = (a.X * b.X) + (a.Y * b.Y);
+            return (float)(Math.Acos(dotProduct));
+        }
+
         public static double Length(Vector2 vector)
         {
-            return System.Math.Sqrt((vector.X*vector.X) + (vector.Y*vector.Y));
+            return System.Math.Sqrt((vector.X * vector.X) + (vector.Y * vector.Y));
         }
 
         public static Vector2 Normalize(Vector2 vector)
         {
             Vector2 newVec = new Vector2();
-
-            newVec.X = vector.X/Vector2.Length(vector);
-            newVec.Y = vector.Y / Vector2.Length( vector );
-
+            newVec.X = vector.X / Vector2.Length(vector);
+            newVec.Y = vector.Y / Vector2.Length(vector);
             return newVec;
         }
 
@@ -52,7 +141,7 @@ namespace RSmartControl
             return nv;
         }
 
-        public static Vector2 operator -( Vector2 v1, Vector2 v2 )
+        public static Vector2 operator -(Vector2 v1, Vector2 v2)
         {
             Vector2 nv = new Vector2();
             nv.X = v1.X - v2.X;
@@ -62,7 +151,7 @@ namespace RSmartControl
 
         public override string ToString()
         {
-            return "X : " + this.X.ToString() + "Y : " + this.Y.ToString(); 
+            return "X : " + this.X.ToString() + "Y : " + this.Y.ToString();
         }
     }
 }

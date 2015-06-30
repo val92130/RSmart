@@ -89,6 +89,10 @@ namespace Map.App
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245,171,53), this, new ClickHandler(ClearMapClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 230), "Save Path", 200, 30, new Color(190, 140, 100), this, new ClickHandler(SavePathClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 290), "Load Path", 200, 30, new Color(210, 160, 80), this, new ClickHandler(LoadPathClick)));
+
+            DestinationPoint child = new DestinationPoint(this, new Vector2(100, 0), true);
+            _points.Add(child);
+            _points.Add(new DestinationPoint(this, new Vector2(100, 100),child));
         }
 
         private void LoadPathClick(object sender)
@@ -210,12 +214,21 @@ namespace Map.App
 
         private void SendDataRobotButtonClick( object sender )
         {
+            string queryRobot = "";
 
-           
+            foreach (DestinationPoint d in _points)
+            {
+                queryRobot += Math.Round(d.Position.X, 2) + ":" + Math.Round(d.Position.Y,2) + ";";
+            }
+
+            _robotControl.SendRequestRobot("SendPoints=" + queryRobot);
+            _points = new List<DestinationPoint>();
+
+            return;
             string query = "";
             foreach (PathInformation p in GetPathList())
             {
-                query += (int)p.Angle + ":" + p.DurationMilli + ":" + p.Orientation.X + "," + p.Orientation.Y +
+                query += (int)p.Angle + ":" + p.DurationMilli + ":" + Math.Round(p.Orientation.X,3) + "_" + Math.Round(p.Orientation.Y,3) +
                          ";";
             }
 

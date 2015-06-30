@@ -38,7 +38,6 @@ namespace RSmartControl
 
             _orientation.Y = 1;
 
-            _pluginManager.SensorsManager.BlinkLed();
            
         }
         public Motor MotorLeft
@@ -87,6 +86,7 @@ namespace RSmartControl
             {
                 return _orientation;
             }
+            set { _orientation = value; }
         }
 
         public int DirectionOffset
@@ -195,9 +195,7 @@ namespace RSmartControl
         }
 
         public void FollowPath(ArrayList pathInformationList)
-        {
-            
-
+        {           
             foreach (object path in pathInformationList)
             {
                 PathInformation p = path as PathInformation;
@@ -206,6 +204,7 @@ namespace RSmartControl
                 _motorRight.Start();               
                 Thread.Sleep(p.DurationMilli);
                 _orientation = p.Orientation;
+                _pos = p.Destination;
             }
             _motorLeft.Stop();
             _motorRight.Stop();
@@ -295,7 +294,7 @@ namespace RSmartControl
         {
             _pluginManager.SensorsManager.FrontSensorLeft.sensorBehaviour(this);
             _pluginManager.SensorsManager.FrontSensorRight.sensorBehaviour(this);
-            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this);
+            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this, true);
             _pluginManager.SensorsManager.BackSensor.sensorBehaviour(this);
 
 

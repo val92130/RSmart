@@ -366,6 +366,26 @@ namespace RSmartControl
                         _com.Robot.FollowPath(arr);
                         break;
 
+                    case "SendPoints":
+                        string val = (string) entry.Value;
+
+                        if (val != null && val.Length != 0)
+                        {
+                            ArrayList pts = Vector2.FetchPointsQuery(val);
+                            ArrayList path = Utility.GetPathList(_com.Robot, pts);
+                            if (path != null)
+                            {
+                                _com.Robot.FollowPath(path);
+                                SendResponse(clientSocket, "Sending points to robot..");
+                                break;
+                            }
+                            SendResponse(clientSocket, "Unexpected error");
+                            
+                            break;
+                        }
+                        SendResponse(clientSocket, "Invalid points");
+                        break;
+
                     case "FollowPath" :
                         ArrayList pathList = _pluginManager.SyncModule.ParsePathList((string) entry.Value);
                         if (pathList != null)
