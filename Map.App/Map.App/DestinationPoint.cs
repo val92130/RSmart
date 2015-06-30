@@ -8,14 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Map.App
 {
+    [Serializable]
     public class DestinationPoint
     {
         private Vector2 _position;
         private DestinationPoint _child;
+        [NonSerialized]
         private Texture2D _texturePoint;
+        [NonSerialized]
         private Texture2D _textureCircle;
+        [NonSerialized]
         private Texture2D _textureLine;
         private double _circleRadius;
+        [NonSerialized]
         private MainGame _game;
         private bool _isRobotChild = false;
         public DestinationPoint(MainGame game, Vector2 position)
@@ -57,6 +62,11 @@ namespace Map.App
             {
                 return _position;
             }
+        }
+
+        public void SetMainGame(MainGame game)
+        {
+            _game = game;
         }
 
 

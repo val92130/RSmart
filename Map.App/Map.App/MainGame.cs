@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -11,6 +13,8 @@ using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Server.Lib;
+using TomShane.Neoforce.Controls;
+using EventArgs = System.EventArgs;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Map.App
@@ -38,9 +42,12 @@ namespace Map.App
         private Texture2D _texturePoint, _textureCircle;
         private ButtonManager _buttonManager;
         private List<Texture2D> _circles = new List<Texture2D>();
+
+        private WindowManager _windowManager;
         
         public MainGame(int widthCm, Game1 game, int resolutionWidth, int resolutionHeight)
         {
+            
             _buttonManager = new ButtonManager(this);
             _robotControl = new RobotControl(); 
             _robot = new Robot(this, new Vector2(0,0), 28,30 );
@@ -74,15 +81,71 @@ namespace Map.App
                 
             });
 
-
             updateThread.Start();
 
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 10), "Add Points", 200, 30, new Color(103,128,159), this, new ClickHandler(ChangeModeButtonClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 60), "Add Obstacles", 200, 30, new Color(224, 130, 131), this, new ClickHandler(AddObstaclesButtonClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 110), "Send Points", 200, 30, new Color(134,126,213), this, new ClickHandler(SendDataRobotButtonClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245,171,53), this, new ClickHandler(ClearMapClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 230), "Save Path", 200, 30, new Color(190, 140, 100), this, new ClickHandler(SavePathClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 290), "Load Path", 200, 30, new Color(210, 160, 80), this, new ClickHandler(LoadPathClick)));
+        }
 
+        private void LoadPathClick(object sender)
+        {
+            _windowManager.ShowLoadPathWindow((new Rectangle(0,0,300,200)));
+        }
 
+        public void LoadPoints(List<DestinationPoint> pointList)
+        {
+            _points = pointList;
+        }
+
+        private void SavePathClick(object sender)
+        {
+            _windowManager.ShowSavePathWindow(new Rectangle(0,0,300,200));
+        }
+
+        public void Initialize(Game game, GraphicsDeviceManager graphics)
+        {
+            _windowManager = new WindowManager(this,game,graphics);
+            _windowManager.Initialize();
+        }
+
+        public static string ValidateString(string s)
+        {
+            string str = s;
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                str = str.Replace(c, '_');
+            }
+
+            return str;
+        }
+
+        public void SavePath(string filename)
+        {
+            string name = ValidateString(filename);
+            try
+            {
+                using (Stream stream = File.Open(name + ".path", FileMode.Create))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+                    bin.Serialize(stream, _points);
+                }
+            }
+            catch (IOException)
+            {
+
+            }
+        }
+
+        public WindowManager WindowManager
+        {
+            get
+            {
+                return _windowManager;
+            }
         }
 
         public Box[,] Boxes
@@ -97,64 +160,60 @@ namespace Map.App
             _points = new List<DestinationPoint>();
         }
 
-        
-
-        private void SendDataRobotButtonClick( object sender )
+        public List<PathInformation> GetPathList()
         {
-            // TESTS
-            double angle180 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(0,-100));
-            double angle90 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(100, 0));
-            double angle45 = GetAngle(_robot.Position, _robot.Orientation, new Vector2(100, 100));
-
-            Vector2 destination = new Vector2(100,0);
-
             List<PathInformation> pathList = new List<PathInformation>();
 
-            //_robot.Orientation = TransformPoint(_robot.Orientation, (float)Server.Lib.Vector2.DegreeToRadian(45));
+            Vector2 robotPosition = new Vector2(_robot.Position.X, _robot.Position.Y);
 
-            //return;
-            Dictionary<double, Server.Lib.Vector2> dictionary = new Dictionary<double, Server.Lib.Vector2>();
-
-            Vector2 orientation = _robot.Orientation;
-            Server.Lib.Vector2 robotPosition = new Server.Lib.Vector2(_robot.Position.X, _robot.Position.Y);
-
-            //Vector2 robotPos = new Vector2(_robot.Position.X, _robot.);
-            List<double> angleList = new List<double>();
+            Vector2 currentOrientation = new Vector2(_robot.Orientation.X, _robot.Orientation.Y);
 
             foreach (DestinationPoint p in _points)
             {
 
-                double angle = GetAngle(_robot.Position, _robot.Orientation, p.Position);
-                
+                double angle = GetAngle(robotPosition, currentOrientation, p.Position);
 
-                float oX = _robot.Orientation.X;
-                float oY = _robot.Orientation.Y;
+
+                float oX = currentOrientation.X;
+                float oY = currentOrientation.Y;
                 float dX = p.Position.X;
                 float dY = p.Position.Y;
 
                 double ang;
-                Vector2 VecToTarget = _robot.Position - p.Position;
-                if ((VecToTarget.X * _robot.Orientation.Y) > (VecToTarget.Y * _robot.Orientation.X))
+                Vector2 VecToTarget = robotPosition - p.Position;
+                if ((VecToTarget.X * currentOrientation.Y) > (VecToTarget.Y * currentOrientation.X))
                 {
                     ang = angle;
-                    _robot.Orientation = TransformPoint(_robot.Orientation,
+                    currentOrientation = TransformPoint(currentOrientation,
                         (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
+
+                    _robot.Orientation = currentOrientation;
                 }
                 else
                 {
                     ang = -angle;
-                    _robot.Orientation = TransformPoint(_robot.Orientation,
+                    currentOrientation = TransformPoint(currentOrientation,
                         -(float)(Server.Lib.Vector2.DegreeToRadian(angle)));
+                    _robot.Orientation = currentOrientation;
                 }
 
-                PathInformation pathInfo = new PathInformation(ang,GetTimeToDestinationMilli(_robot.Position, p.Position), new Vector2(_robot.Orientation.X, _robot.Orientation.Y) );
+                PathInformation pathInfo = new PathInformation(ang, GetTimeToDestinationMilli(robotPosition, p.Position), new Vector2(currentOrientation.X, currentOrientation.Y));
                 pathList.Add(pathInfo);
-                _robot.Position = p.Position;
+                robotPosition = p.Position;
 
             }
 
+            return pathList;
+        }
+
+        
+
+        private void SendDataRobotButtonClick( object sender )
+        {
+
+           
             string query = "";
-            foreach (PathInformation p in pathList)
+            foreach (PathInformation p in GetPathList())
             {
                 query += (int)p.Angle + ":" + p.DurationMilli + ":" + p.Orientation.X + "," + p.Orientation.Y +
                          ";";
@@ -209,6 +268,7 @@ namespace Map.App
 
         public void Update(GameTime gameTime)
         {
+            _windowManager.Update(gameTime);
             _buttonManager.Update();
         }
 
@@ -341,7 +401,24 @@ namespace Map.App
 
         public void OnLeftClick()
         {
+            if (!_game.IsActive)
+            {
+                return;
+            }
             MouseState m = Mouse.GetState();
+
+            foreach (GameWindow g in _windowManager.Windows)
+            {
+                if (g.Visible)
+                {
+                    if (
+                        new Rectangle(g.AbsoluteRect.X, g.AbsoluteRect.Y, g.AbsoluteRect.Width, g.AbsoluteRect.Height).Contains(
+                            new Point(m.X, m.Y)))
+                    {
+                        return;
+                    }
+                }
+            }
             
             foreach( Button b in _buttonManager.Buttons )
             {
@@ -386,6 +463,10 @@ namespace Map.App
 
         public void OnRightClick()
         {
+            if (!_game.IsActive)
+            {
+                return;
+            }
             foreach (Box b in GetOverlappedBoxes())
             {
                 if (b.Area.Intersects(MouseArea))
