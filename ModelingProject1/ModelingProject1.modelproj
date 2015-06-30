@@ -25,22 +25,43 @@
     <Content Include="ModelDefinition\Package10_2036.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package1_1019.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package1_2036.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1019.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package2_2036.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package3_1019.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package3_2036.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package4_1019.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package4_2036.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package5_1019.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package5_2036.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package6_1019.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package6_2036.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package7_1019.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package7_2036.uml">
@@ -52,6 +73,9 @@
     <Content Include="ModelDefinition\Package9_2036.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package_1019.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package_2036.uml">
       <SubType>Content</SubType>
     </Content>
@@ -61,6 +85,13 @@
     <Content Include="RSmart.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>RSmart.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ServerLib.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ServerLib.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ServerLib.classdiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\ModelingProject1.uml">
