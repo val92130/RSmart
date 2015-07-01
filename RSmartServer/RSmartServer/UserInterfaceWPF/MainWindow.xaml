@@ -14,6 +14,9 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Options" >
+                <MenuItem x:Name="showVocalCommandButton" Header="_Show Vocal Command" Click="ShowVocalButtonClick">
+
+                </MenuItem>
                 <MenuItem x:Name="showMapButton" Header="_Display Map" Click="ShowMapButton_OnClickButton_Click">
 
                 </MenuItem>

@@ -246,5 +246,11 @@ namespace Server.App
             ControlManagerWindow m = new ControlManagerWindow(_robotControl) { Owner = this };
             m.ShowDialog();
         }
+
+        private void ShowVocalButtonClick(object sender, RoutedEventArgs e)
+        {
+            VocalCommand.audioControlForm a = new VocalCommand.audioControlForm();
+            a.Show();
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace Map.App
             _cam = new Camera2d
             {
                 Pos = new Microsoft.Xna.Framework.Vector2( 0.0f, 0.0f ),
-                Zoom = 1f
+                Zoom = 3f
             };
             mapWidth = widthCm;
             _boxes = new Box[mapWidth / BoxWidthCm, mapWidth / BoxWidthCm];
@@ -90,9 +90,6 @@ namespace Map.App
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 230), "Save Path", 200, 30, new Color(190, 140, 100), this, new ClickHandler(SavePathClick)));
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 290), "Load Path", 200, 30, new Color(210, 160, 80), this, new ClickHandler(LoadPathClick)));
 
-            DestinationPoint child = new DestinationPoint(this, new Vector2(100, 0), true);
-            _points.Add(child);
-            _points.Add(new DestinationPoint(this, new Vector2(100, 100),child));
         }
 
         private void LoadPathClick(object sender)
@@ -162,55 +159,7 @@ namespace Map.App
             _robot.Position = Vector2.Zero;
             _robot.Orientation = new Vector2(0,1);
             _points = new List<DestinationPoint>();
-        }
-
-        public List<PathInformation> GetPathList()
-        {
-            List<PathInformation> pathList = new List<PathInformation>();
-
-            Vector2 robotPosition = new Vector2(_robot.Position.X, _robot.Position.Y);
-
-            Vector2 currentOrientation = new Vector2(_robot.Orientation.X, _robot.Orientation.Y);
-
-            foreach (DestinationPoint p in _points)
-            {
-
-                double angle = GetAngle(robotPosition, currentOrientation, p.Position);
-
-
-                float oX = currentOrientation.X;
-                float oY = currentOrientation.Y;
-                float dX = p.Position.X;
-                float dY = p.Position.Y;
-
-                double ang;
-                Vector2 VecToTarget = robotPosition - p.Position;
-                if ((VecToTarget.X * currentOrientation.Y) > (VecToTarget.Y * currentOrientation.X))
-                {
-                    ang = angle;
-                    currentOrientation = TransformPoint(currentOrientation,
-                        (float)(Server.Lib.Vector2.DegreeToRadian(angle)));
-
-                    _robot.Orientation = currentOrientation;
-                }
-                else
-                {
-                    ang = -angle;
-                    currentOrientation = TransformPoint(currentOrientation,
-                        -(float)(Server.Lib.Vector2.DegreeToRadian(angle)));
-                    _robot.Orientation = currentOrientation;
-                }
-
-                PathInformation pathInfo = new PathInformation(ang, GetTimeToDestinationMilli(robotPosition, p.Position), new Vector2(currentOrientation.X, currentOrientation.Y));
-                pathList.Add(pathInfo);
-                robotPosition = p.Position;
-
-            }
-
-            return pathList;
-        }
-
-        
+        }    
 
         private void SendDataRobotButtonClick( object sender )
         {
@@ -223,48 +172,6 @@ namespace Map.App
 
             _robotControl.SendRequestRobot("SendPoints=" + queryRobot);
             _points = new List<DestinationPoint>();
-
-            return;
-            string query = "";
-            foreach (PathInformation p in GetPathList())
-            {
-                query += (int)p.Angle + ":" + p.DurationMilli + ":" + Math.Round(p.Orientation.X,3) + "_" + Math.Round(p.Orientation.Y,3) +
-                         ";";
-            }
-
-            _robotControl.SendRequestRobot("FollowPath=" + query);
-
-        }
-
-        public int GetTimeToDestinationMilli(Vector2 position, Vector2 destination)
-        {
-            double speedCm = 46;
-
-            double length = Vector2.Distance(position, destination);
-
-            double dist = length/speedCm;
-            return (int)dist * 1000;
-
-        }
-
-        public double GetAngle(Vector2 position, Vector2 orientation, Vector2 destination)
-        {
-            Server.Lib.Vector2 directionVector = new Server.Lib.Vector2(destination.X - position.X, destination.Y - position.Y);
-            double angle = Server.Lib.Vector2.GetAngle(new Server.Lib.Vector2(orientation.X, orientation.Y), new Server.Lib.Vector2(directionVector.X, directionVector.Y));
-            return Server.Lib.Vector2.RadianToDegree(angle);
-        }
-
-        public Vector2 TransformPoint(Vector2 point, float angleRadian)
-        {
-            Vector2 newPoint = new Vector2(point.X, point.Y);
-
-            float x = newPoint.X;
-            float y = newPoint.Y;
-
-            float px = (float)(x * System.Math.Cos(angleRadian) - y * System.Math.Sin(angleRadian));
-            float py = (float)(x * System.Math.Sin(angleRadian) + y * System.Math.Cos(angleRadian));
-
-            return new Vector2(px,py);
         }
 
         private void AddObstaclesButtonClick( object sender )

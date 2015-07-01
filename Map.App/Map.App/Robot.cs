@@ -25,16 +25,11 @@ namespace Map.App
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
-
-
-
-            //_orientation = _game.TransformPoint(_orientation, -(float)Server.Lib.Vector2.DegreeToRadian(180));
             GetObstacles();
         }
 
         public void GetObstacles()
         {
-            string str = "[{\"Y\":1,\"X\":0},{\"Y\":5,\"X\":10},{\"Y\":-5,\"X\":18}]";
             try
             {
                 string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
@@ -107,7 +102,6 @@ namespace Map.App
                 prev = DateTime.UtcNow;
                 GetNewPosition();
                 GetObstacles();
-               // _orientation = Vector2.Transform(_orientation, Matrix.CreateRotationX(1.5707963268f));
             }
         }
 

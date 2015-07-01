@@ -86,7 +86,7 @@ namespace RSmartControl
             {
                 return _orientation;
             }
-            set { _orientation = value; }
+            //set { _orientation = value; }
         }
 
         public int DirectionOffset
@@ -294,7 +294,7 @@ namespace RSmartControl
         {
             _pluginManager.SensorsManager.FrontSensorLeft.sensorBehaviour(this);
             _pluginManager.SensorsManager.FrontSensorRight.sensorBehaviour(this);
-            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this, true);
+            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this);
             _pluginManager.SensorsManager.BackSensor.sensorBehaviour(this);
 
 
