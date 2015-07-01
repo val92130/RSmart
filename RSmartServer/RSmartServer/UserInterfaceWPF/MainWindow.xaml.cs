@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Server.Lib;
 using MjpegProcessor;
 using System.Windows.Media;
+using VocalCommand;
 
 namespace Server.App
 {
@@ -245,6 +246,12 @@ namespace Server.App
         {
             ControlManagerWindow m = new ControlManagerWindow(_robotControl) { Owner = this };
             m.ShowDialog();
+        }
+
+        private void ShowVocalCommandClick(object sender, RoutedEventArgs e)
+        {
+            audioControlForm a = new audioControlForm();
+            a.Show();
         }
     }
 }

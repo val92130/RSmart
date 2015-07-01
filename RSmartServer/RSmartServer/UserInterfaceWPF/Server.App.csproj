@@ -138,6 +138,10 @@
       <Project>{06cf789a-5a12-4d7c-bf25-01591e8c2f0b}</Project>
       <Name>Server.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VocalCommand\VocalCommand.App.csproj">
+      <Project>{71152889-6507-49be-a6b8-69205a069f3f}</Project>
+      <Name>VocalCommand.App</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -215,7 +215,7 @@ namespace RSmartControl
 
         public void TurnAngle(double angle)
         {
-            double timeInSec = ((double)angle / 360) * 5.20; 
+            double timeInSec = ((double)angle / 360) * 4.5; 
 
             if(angle > 0)
             {

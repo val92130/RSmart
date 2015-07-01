@@ -324,6 +324,9 @@ namespace Map.App
 
             List<Box> boxes = GetOverlappedBoxes(new Rectangle((int)_cam.Pos.X, (int)_cam.Pos.Y, (int)(_windowsWidth / _cam.Zoom), (int)(_winwowsHeight / _cam.Zoom)));
 
+
+            
+
             foreach (Box b in boxes)
             {
                 b.Draw(spriteBatch);
@@ -340,6 +343,23 @@ namespace Map.App
             //DrawPoint( new Vector2( 100, 200 ), spriteBatch);
             //DrawPoint(new Vector2(circle.Width / 2 + 100, circle.Height / 2 + 200) , spriteBatch );
             //spriteBatch.Draw( circle, new Vector2(  - (circle.Width) + 100, 200 - (circle.Height/2) ), Color.Red );
+
+
+            
+            if (_points.Count != 0)
+            {
+                DrawLine(spriteBatch, _points[_points.Count - 1].Position,
+                    Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
+
+                spriteBatch.DrawString(_font, Vector2.Distance(_points[_points.Count - 1].Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black) ;
+            }
+            else
+            {
+                DrawLine(spriteBatch, _robot.Position,
+                    Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
+
+                spriteBatch.DrawString(_font, Vector2.Distance(_robot.Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black);
+            }
 
 
         }
