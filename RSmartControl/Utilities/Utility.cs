@@ -52,98 +52,6 @@ namespace RSmartControl
             return collection;
         }
 
-        public static double GetAngle(Vector2 position, Vector2 orientation, Vector2 destination)
-        {
-            Vector2 directionVector = new Vector2(destination.X - position.X, destination.Y - position.Y);
-            double angle = Vector2.GetAngle(new Vector2(orientation.X, orientation.Y), new Vector2(directionVector.X, directionVector.Y));
-            return Vector2.RadianToDegree(angle);
-        }
-
-        public static ArrayList GetPathList(Robot robot, ArrayList vectorList)
-        {
-            ArrayList pathList = new ArrayList();
-
-            Vector2 robotPosition = new Vector2(robot.Position.X, robot.Position.Y);
-
-            Vector2 currentOrientation = new Vector2(robot.Orientation.X, robot.Orientation.Y);
-
-            foreach (Vector2 p in vectorList)
-            {
-
-                double angle = GetAngle(robotPosition, currentOrientation, p);
-
-
-                double oX = currentOrientation.X;
-                double oY = currentOrientation.Y;
-                double dX = p.X;
-                double dY = p.Y;
-
-
-                double ang;
-                Vector2 VecToTarget = robotPosition - p;
-                if ((VecToTarget.X * currentOrientation.Y) > (VecToTarget.Y * currentOrientation.X))
-                {
-                    ang = angle;
-                    currentOrientation = TransformPoint(currentOrientation,
-                        (float)(Vector2.DegreeToRadian(angle)));
-
-                    //robot.Orientation = currentOrientation;
-                }
-                else
-                {
-                    ang = -angle;
-                    currentOrientation = TransformPoint(currentOrientation,
-                        -(float)(Vector2.DegreeToRadian(angle)));
-
-                    //robot.Orientation = currentOrientation;
-                }
-
-                PathInformation pathInfo = new PathInformation(Round(ang), GetTimeToDestinationMilli(robotPosition, p), new Vector2(Round(currentOrientation.X), Round(currentOrientation.Y)), new Vector2(Round(dX), Round(dY)));
-                pathList.Add(pathInfo);
-                robotPosition = p;
-
-            }
-
-            return pathList;
-        }
-
-        public static int GetTimeToDestinationMilli(Vector2 position, Vector2 destination)
-        {
-            double speedCm = 46;
-
-            double length = Vector2.Distance(position, destination);
-
-            double dist = length / speedCm;
-            return (int)dist * 1000;
-
-        }
-
-        public static float Round(float value)
-        {
-            double t = value*100;
-            t = System.Math.Round(t);
-            return (float)t/100f;
-        }
-        public static double Round(double value)
-        {
-            double t = value * 100;
-            t = System.Math.Round(t);
-            return t / 100f;
-        }
-
-        public static Vector2 TransformPoint(Vector2 point, float angleRadian)
-        {
-            Vector2 newPoint = new Vector2(point.X, point.Y);
-
-            double x = newPoint.X;
-            double y = newPoint.Y;
-
-            float px = (float)(x * System.Math.Cos(angleRadian) - y * System.Math.Sin(angleRadian));
-            float py = (float)(x * System.Math.Sin(angleRadian) + y * System.Math.Cos(angleRadian));
-
-            return new Vector2(Round(px), Round(py));
-        }
-
         public static Hashtable ParseQueryString(object query)
         {
             if (query == null)
@@ -263,5 +171,99 @@ namespace RSmartControl
         {
             return degree*(System.Math.PI/180);
         }
+        public static double GetAngle(Vector2 position, Vector2 orientation, Vector2 destination)
+        {
+            Vector2 directionVector = new Vector2(destination.X - position.X, destination.Y - position.Y);
+            double angle = Vector2.GetAngle(new Vector2(orientation.X, orientation.Y), new Vector2(directionVector.X, directionVector.Y));
+            return Vector2.RadianToDegree(angle);
+        }
+
+
+
+        public static ArrayList GetPathList(Robot robot, ArrayList vectorList)
+        {
+            ArrayList pathList = new ArrayList();
+
+            Vector2 robotPosition = new Vector2(robot.Position.X, robot.Position.Y);
+
+            Vector2 currentOrientation = new Vector2(robot.Orientation.X, robot.Orientation.Y);
+
+            foreach (Vector2 p in vectorList)
+            {
+
+                double angle = GetAngle(robotPosition, currentOrientation, p);
+
+
+                double oX = currentOrientation.X;
+                double oY = currentOrientation.Y;
+                double dX = p.X;
+                double dY = p.Y;
+
+
+                double ang;
+                Vector2 VecToTarget = robotPosition - p;
+                if ((VecToTarget.X * currentOrientation.Y) > (VecToTarget.Y * currentOrientation.X))
+                {
+                    ang = angle;
+                    currentOrientation = TransformPoint(currentOrientation,
+                        (float)(Vector2.DegreeToRadian(angle)));
+
+                    //robot.Orientation = currentOrientation;
+                }
+                else
+                {
+                    ang = -angle;
+                    currentOrientation = TransformPoint(currentOrientation,
+                        -(float)(Vector2.DegreeToRadian(angle)));
+
+                    //robot.Orientation = currentOrientation;
+                }
+
+                PathInformation pathInfo = new PathInformation(Round(ang), GetTimeToDestinationMilli(robotPosition, p), new Vector2(Round(currentOrientation.X), Round(currentOrientation.Y)), new Vector2(Round(dX), Round(dY)));
+                pathList.Add(pathInfo);
+                robotPosition = p;
+
+            }
+
+            return pathList;
+        }
+
+        public static int GetTimeToDestinationMilli(Vector2 position, Vector2 destination)
+        {
+            double speedCm = 46;
+
+            double length = Vector2.Distance(position, destination);
+
+            double dist = length / speedCm;
+            return (int)dist * 1000;
+
+        }
+
+        public static float Round(float value)
+        {
+            double t = value * 100;
+            t = System.Math.Round(t);
+            return (float)t / 100f;
+        }
+        public static double Round(double value)
+        {
+            double t = value * 100;
+            t = System.Math.Round(t);
+            return t / 100f;
+        }
+
+        public static Vector2 TransformPoint(Vector2 point, float angleRadian)
+        {
+            Vector2 newPoint = new Vector2(point.X, point.Y);
+
+            double x = newPoint.X;
+            double y = newPoint.Y;
+
+            float px = (float)(x * System.Math.Cos(angleRadian) - y * System.Math.Sin(angleRadian));
+            float py = (float)(x * System.Math.Sin(angleRadian) + y * System.Math.Cos(angleRadian));
+
+            return new Vector2(Round(px), Round(py));
+        }
+
     }
 }

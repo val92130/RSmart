@@ -11,35 +11,48 @@ namespace RSmartControl
 
     public class Robot
     {
-        private ERobotMode _robotMode = ERobotMode.Autonomous;
         Motor _motorLeft, _motorRight;
+        Sensor _frontSensorLeft, _frontSensorRight, _downSensor, _backSensor;
         bool _collideUnder = false;
-        Vector2 _pos, _orientation;
-
-        private int _directionOffset = 0;
-        
+        Vector2 _pos, _dir;
+        Box _box;
+        OutputPort _led = new OutputPort(Pins.GPIO_PIN_D2, false);
         MainLoop _mainLoop;
-        private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
-        readonly PluginManager _pluginManager;
 
-        private DateTime now, prev = DateTime.UtcNow;
+        private double RotationSpeed = Utility.DegreeToRadian(30);
 
         private Communication _com;
-        public Robot(MainLoop mainLoop, Motor motorLeft, Motor motorRight, PluginManager pluginManager)
+
+        public Robot(MainLoop MainLoop, Motor MotorLeft, Motor MotorRight, Sensor frontSensorLeft, Sensor frontSensorRight, Sensor downSensor, Sensor backSensor, Communication Com)
         {
             _pos = new Vector2();
-            _orientation = new Vector2();
+            _dir = new Vector2();
 
-            _pluginManager = pluginManager;
-            _mainLoop = mainLoop;
-            _com = pluginManager.CommunicationModule;
-            _motorLeft = motorLeft;
-            _motorRight = motorRight;
+            _mainLoop = MainLoop;
 
-            _orientation.Y = 1;
+            _motorLeft = MotorLeft;
+            _motorRight = MotorRight;
 
-            _pluginManager.SensorsManager.BlinkLed();
-           
+<<<<<<< HEAD
+            _frontSensorLeft = frontSensorLeft;
+            _frontSensorRight = frontSensorRight;
+=======
+             _frontSensorLeft = frontSensorLeft;
+             _frontSensorRight = frontSensorRight;
+             _downSensor = downSensor;
+             _backSensor = backSensor;
+>>>>>>> 20d42810a46b375cd8f55e71f512ec55421a51f2
+
+            _com = Com;
+
+<<<<<<< HEAD
+            _dir.Y = 1;
+=======
+             _dir.Y = 1;
+
+            // We blink to tell the robot has initialized correctly
+             this.BlinkLed();
+>>>>>>> 20d42810a46b375cd8f55e71f512ec55421a51f2
         }
         public Motor MotorLeft
         {
@@ -53,6 +66,12 @@ namespace RSmartControl
             }
         }
 
+        public void BlinkLed()
+        {
+            _led.Write(true);
+            Thread.Sleep(100);
+            _led.Write(false);
+        }
 
         public Motor MotorRight
         {
@@ -70,57 +89,14 @@ namespace RSmartControl
         {
             get
             {
-                return _pluginManager.CommunicationModule;
+                return _com;
             }
-        }
-        public Vector2 Position
-        {
-            get
-            {
-                return _pos;
-            }
-        }
-
-        public Vector2 Orientation
-        {
-            get
-            {
-                return _orientation;
-            }
-<<<<<<< HEAD
-            //set { _orientation = value; }
-=======
->>>>>>> 4aecdde2f4b88726e433f10590cd9feaaa3c0fb2
-        }
-
-        public int DirectionOffset
-        {
-            get { return _directionOffset; }
             set
             {
-                if (value >= 100 || value <= -100)
-                {
-                    throw new Exception("Direction offset has to be between -100 and 100");
-                }
-
-                if (value >= 0)
-                {
-                    _motorLeft.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)(((double)value / (double)100)));
-                    _motorRight.DutyCycle = Motor.MaxDutyCycle;
-                }
-                if (value <= 0)
-                {
-                    int v = value * -1;
-                    _motorLeft.DutyCycle = Motor.MaxDutyCycle;
-                    _motorRight.DutyCycle = Motor.MaxDutyCycle - (double)(Motor.MaxDutyCycle * (double)(((double)v / (double)100)));
-                }
+                _com = value;
             }
         }
 
-        /// <summary>
-        /// Reverse the direction of the robot for a given time
-        /// </summary>
-        /// <param name="time"></param>
         public void Reverse(int time)
         {
             if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
@@ -145,10 +121,6 @@ namespace RSmartControl
             }
         }
 
-
-        /// <summary>
-        /// Go backward for a few milliseconds then turn left
-        /// </summary>
         public void  TurnLeft()
         {
             _motorRight.Direction = EDirection.BackWard;
@@ -160,14 +132,10 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._orientation.X = this._orientation.X * System.Math.Cos( this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( this._rotationSpeed );
-            this._orientation.Y = this._orientation.X * System.Math.Sin( this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( this._rotationSpeed );
+            this._dir.X = this._dir.X * System.Math.Cos( this.RotationSpeed ) - this._dir.Y * System.Math.Sin( this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( this.RotationSpeed ) + this._dir.Y * System.Math.Cos( this.RotationSpeed );
 
         }
-
-        /// <summary>
-        /// Turn left without going backward before
-        /// </summary>
         public void TurnLeftDirect()
         {
             _motorRight.Direction = EDirection.Forward;
@@ -175,198 +143,96 @@ namespace RSmartControl
 
             _motorRight.ReverseDirection(0.6);
 
-            this._orientation.X = this._orientation.X * System.Math.Cos(this._rotationSpeed) - this._orientation.Y * System.Math.Sin(this._rotationSpeed);
-            this._orientation.Y = this._orientation.X * System.Math.Sin(this._rotationSpeed) + this._orientation.Y * System.Math.Cos(this._rotationSpeed);
+            this._dir.X = this._dir.X * System.Math.Cos(this.RotationSpeed) - this._dir.Y * System.Math.Sin(this.RotationSpeed);
+            this._dir.Y = this._dir.X * System.Math.Sin(this.RotationSpeed) + this._dir.Y * System.Math.Cos(this.RotationSpeed);
 
         }
-        /// <summary>
-        /// Go backward for a few milliseconds then turn right
-        /// </summary>
         public void TurnRight()
         {
             _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.BackWard;
 
             Thread.Sleep(700);
-
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
 
             _motorLeft.ReverseDirection( 0.6 );
             
-            this._orientation.X = this._orientation.X * System.Math.Cos( -this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( -this._rotationSpeed );
-            this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
-        }
+            this._dir.X = this._dir.X * System.Math.Cos( -this.RotationSpeed ) - this._dir.Y * System.Math.Sin( -this.RotationSpeed );
+            this._dir.Y = this._dir.X * System.Math.Sin( -this.RotationSpeed ) + this._dir.Y * System.Math.Cos( -this.RotationSpeed );
 
-        public void FollowPath(ArrayList pathInformationList)
-        {
-            
-
-            foreach (object path in pathInformationList)
-            {
-                PathInformation p = path as PathInformation;
-                this.TurnAngle(p.Angle);
-                _motorLeft.Start();
-                _motorRight.Start();               
-                Thread.Sleep(p.DurationMilli);
-                _orientation = p.Orientation;
-            }
-            _motorLeft.Stop();
-            _motorRight.Stop();
-        }
-
-        public void TurnAngle(double angle)
-        {
-            double timeInSec = ((double)angle / 360) * 5.20; 
-
-            if(angle > 0)
-            {
-                TurnRight(timeInSec);
-            }
-            else
-            {
-                TurnLeft(-timeInSec);
-            }
-        }
-
-        public void OrientateTo(Vector2 destination)
-        {
-            double newX = this.Position.X + this.Orientation.X;
-            double newY = this.Position.Y + this.Orientation.Y;
-
-
-            double deltaY = destination.Y - newY;
-            double deltaX = destination.X - newX;
-
-            int angleInDegrees = (int)(System.Math.Atan((deltaY / deltaX) * 180 / System.Math.PI));
-
-            TurnAngle(angleInDegrees);
-        }
-
-        public void TurnRight(double timeInSeconds)
-        {
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
-
-            _motorLeft.Start();
-            _motorRight.Stop();
-
-            Thread.Sleep((int)(timeInSeconds * 1000));
-
-            _motorLeft.Stop();
-            _motorRight.Stop();
-        }
-
-        public void TurnLeft(double timeInSeconds)
-        {
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
-
-            _motorLeft.Stop();
-            _motorRight.Start();
-
-            Thread.Sleep((int)(timeInSeconds * 1000));
-
-            _motorLeft.Stop();
-            _motorRight.Stop();
-        }
-
-        public void GoForward(double timeInSeconds)
-        {
-            _motorLeft.Direction = EDirection.Forward;
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Start();
-            _motorRight.Start();
-            Thread.Sleep((int)((double)1000 * timeInSeconds));
-            _motorLeft.Stop();
-            _motorRight.Stop();
         }
       
 
+        public Vector2 Position
+        {
+            get
+            {
+                return _pos;                
+            }
+        }
+
+        public Vector2 Direction
+        {
+            get
+            {
+                return _dir;
+            }
+        }
         public void GoForward()
         {
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
         }
-
         public void GoBackward()
         {
             _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.BackWard;
         }
 
+
+       
         public void Behavior()
         {
-            _pluginManager.SensorsManager.FrontSensorLeft.sensorBehaviour(this);
-            _pluginManager.SensorsManager.FrontSensorRight.sensorBehaviour(this);
-            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this);
-            _pluginManager.SensorsManager.BackSensor.sensorBehaviour(this);
-
+            _frontSensorLeft.sensorBehaviour();
+            _frontSensorRight.sensorBehaviour();
+            _downSensor.sensorBehaviour();
+            _backSensor.sensorBehaviour();
 
             if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
+                if (_frontSensorLeft.Collide  && _frontSensorRight.Collide)
                 {
-                    
-                    if (_robotMode == ERobotMode.Manual)
-                    {
-                        _pluginManager.BehaviourControl.OnObstacleFront();
-                    }
-                    else
-                    {
-                        this.TurnRight();
-                    }
-                    
+                    this.TurnRight();
+                    _motorLeft.Direction = EDirection.Forward;
+                    _motorRight.Direction = EDirection.Forward;
+                    Thread.Sleep(1000);
+                    this.TurnLeftDirect();
                     return;
                 } 
-                // If collide front-left but not front-right
-                if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && !_pluginManager.SensorsManager.FrontSensorRight.Collide)
+                if (_frontSensorLeft.Collide && !_frontSensorRight.Collide)
                 {
-                    if( _robotMode == ERobotMode.Manual )
-                    {
-                        _pluginManager.BehaviourControl.OnObstacleFrontLeft();
-                    }
-                    else
-                    {
-                        this.TurnRight();
-                    }
-
+                    this.TurnRight();
                     return;
                 }
-
-                // If collide front-right but not front-left
-                if (!_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
+                if (!_frontSensorLeft.Collide && _frontSensorRight.Collide)
                 {
-                    
-                    if( _robotMode == ERobotMode.Manual )
-                    {
-                        _pluginManager.BehaviourControl.OnObstacleFrontRight();
-                    }
-                    else
-                    {
-                        this.TurnRight();
-                    }
-      
+                    this.TurnRight();
                     return;
                 }
-
-                // If collide in the back
-                if (_pluginManager.SensorsManager.BackSensor.Collide && _motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
+                if (_backSensor.Collide)
                 {
-                    _pluginManager.BehaviourControl.OnObstacleBack();
                     _motorLeft.Direction = EDirection.Forward;
                     _motorRight.Direction = EDirection.Forward;
                     return;
                 }
-
-                // If we don't collide on the down
-                if (!_pluginManager.SensorsManager.DownSensor.Collide && _collideUnder)
+                if (!_downSensor.Collide && _collideUnder)
                 {
                     _collideUnder = false;
                     this.TurnLeft();
                     return;
                 }
-                else if (!_pluginManager.SensorsManager.DownSensor.Collide)
+                else if(!_downSensor.Collide)
                 {
                     _collideUnder = true;
                 }
@@ -375,6 +241,22 @@ namespace RSmartControl
 
         }
 
+        public void RandomMethod()
+        {
+            Random r = new Random();
+            int method = r.Next(1);
+            if (method == 0)
+            {
+                this.TurnRight();
+                return;
+            }
+            else
+            {
+                this.TurnLeft();
+                return;
+
+            }
+        }
 
         public void Update()
         {
@@ -383,34 +265,23 @@ namespace RSmartControl
 
             Behavior();
 
-            now = DateTime.UtcNow;
-
-            TimeSpan t = now - prev;
-
-            if (t.Seconds >= 1)
+            if (_motorLeft.IsStarted || _motorRight.IsStarted)
             {
-                prev = DateTime.UtcNow;
-                if (_motorLeft.IsStarted || _motorRight.IsStarted)
+
+                double _step = _motorRight.DutyCycle / 100;
+
+                if(_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
                 {
-                    if (_motorLeft.Direction == EDirection.Forward && _motorRight.Direction == EDirection.Forward)
-                    {
-                        //this._pos.X += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        //this._pos.Y += _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
-
-                        this._pos.X += 46 * this._orientation.X;
-                        this._pos.Y += 46 * this._orientation.Y;
-                    }
-
-
-                    else
-                    {
-                       // this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
-                        //this._pos.Y -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.Y;
-
-                        this._pos.X -= 46 * this._orientation.X;
-                        this._pos.Y -= 46 * this._orientation.Y;
-                    }
+                    this._pos.X += _step * this._dir.X;
+                    this._pos.Y += _step * this._dir.Y;
                 }
+                else
+                {
+                    this._pos.X -= _step * this._dir.X;
+                    this._pos.Y -= _step * this._dir.Y;
+                }
+                
+
             }
 
         }

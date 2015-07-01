@@ -87,6 +87,7 @@ namespace RSmartControl
             {
                 return _orientation;
             }
+            set { _orientation = value; }
         }
 
         public int DirectionOffset
@@ -206,6 +207,7 @@ namespace RSmartControl
                 _motorRight.Start();               
                 Thread.Sleep(p.DurationMilli);
                 _orientation = p.Orientation;
+                _pos = p.Destination;
             }
             _motorLeft.Stop();
             _motorRight.Stop();
@@ -396,8 +398,6 @@ namespace RSmartControl
                         this._pos.X += 46 * this._orientation.X;
                         this._pos.Y += 46 * this._orientation.Y;
                     }
-
-
                     else
                     {
                        // this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;

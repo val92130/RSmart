@@ -42,7 +42,7 @@ namespace RSmartControl
                     duration = t2[1];
 
                     Vector2 direction = new Vector2();
-                    string[] dir = t2[2].Split('_');
+                    string[] dir = t2[2].Split(',');
                     var dirX = double.Parse(dir[0]);
                     var dirY = double.Parse(dir[1]);
 

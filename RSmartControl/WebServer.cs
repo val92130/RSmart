@@ -161,6 +161,27 @@ namespace RSmartControl
                         response = response.Substring(0, response.Length - 1);
                         SendResponse(clientSocket, response);
                         break;
+
+                    case "SendPoints":
+                        string val = (string)entry.Value;
+
+                        if (val != null && val.Length != 0)
+                        {
+                            ArrayList pts = Vector2.FetchPointsQuery(val);
+                            ArrayList path = Utility.GetPathList(_com.Robot, pts);
+                            if (path != null)
+                            {
+                                _com.Robot.FollowPath(path);
+                                SendResponse(clientSocket, "Sending points to robot..");
+                                break;
+                            }
+                            SendResponse(clientSocket, "Unexpected error");
+
+                            break;
+                        }
+                        SendResponse(clientSocket, "Invalid points");
+                        break;
+
                     case "GetDirectionString":
                         response = _com.MotorLeft.DirectionString;
                         SendResponse(clientSocket, response);
@@ -364,26 +385,6 @@ namespace RSmartControl
                         arr.Add(new PathInformation(45, 2000, new Vector2(0, 0)));
                         arr.Add(new PathInformation(180, 3000, new Vector2(0, 0)));
                         _com.Robot.FollowPath(arr);
-                        break;
-
-                    case "SendPoints":
-                        string val = (string) entry.Value;
-
-                        if (val != null && val.Length != 0)
-                        {
-                            ArrayList pts = Vector2.FetchPointsQuery(val);
-                            ArrayList path = Utility.GetPathList(_com.Robot, pts);
-                            if (path != null)
-                            {
-                                _com.Robot.FollowPath(path);
-                                SendResponse(clientSocket, "Sending points to robot..");
-                                break;
-                            }
-                            SendResponse(clientSocket, "Unexpected error");
-                            
-                            break;
-                        }
-                        SendResponse(clientSocket, "Invalid points");
                         break;
 
                     case "FollowPath" :

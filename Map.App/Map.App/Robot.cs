@@ -25,6 +25,10 @@ namespace Map.App
             _position = position;
             _game = game;
             _area = new Rectangle((int)_position.X, (int)_position.Y, width, height);
+
+
+
+            //_orientation = _game.TransformPoint(_orientation, -(float)Server.Lib.Vector2.DegreeToRadian(180));
             GetObstacles();
         }
 
@@ -34,7 +38,6 @@ namespace Map.App
             {
                 string obstacles = _game.RobotControl.SendRequestRobot( "GetObstacles=true" );
                 JArray arrObstacles = JsonConvert.DeserializeObject<JArray>( obstacles );
-
 
                 for( int i = 0; i < arrObstacles.Count; i++ )
                 {
@@ -96,12 +99,13 @@ namespace Map.App
             now = DateTime.UtcNow;
 
             TimeSpan t = now - prev;
-            if (t.TotalMilliseconds >= 2500)
+            if (t.TotalMilliseconds >= 1000)
             {
                 
                 prev = DateTime.UtcNow;
                 GetNewPosition();
                 GetObstacles();
+               // _orientation = Vector2.Transform(_orientation, Matrix.CreateRotationX(1.5707963268f));
             }
         }
 

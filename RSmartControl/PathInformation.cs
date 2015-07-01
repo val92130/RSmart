@@ -7,7 +7,7 @@ namespace RSmartControl
     {
         private double _rotationAngle;
         private int _durationMilli;
-        private Vector2 _orientation, _destination;
+        private Vector2 _orientation,_destination;
         public PathInformation(double rotationAngle, int durationMilliSeconds, Vector2 orientation)
         {
             _rotationAngle = rotationAngle;
@@ -16,7 +16,8 @@ namespace RSmartControl
         }
 
         public PathInformation(double rotationAngle, int durationMilliSeconds, Vector2 endOrientation,
-            Vector2 destination) : this(rotationAngle, durationMilliSeconds, endOrientation)
+    Vector2 destination)
+            : this(rotationAngle, durationMilliSeconds, endOrientation)
         {
             _destination = destination;
         }
