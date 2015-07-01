@@ -44,7 +44,6 @@ namespace Map.App
             graphics.PreferMultiSampling = true;
             IsFixedTimeStep = false;
             
-
             _mainGame = new MainGame(10000, this, 1366, 768);
             
             this.Exiting += new EventHandler<EventArgs>(_mainGame.OnExit);

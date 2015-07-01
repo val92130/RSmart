@@ -351,14 +351,14 @@ namespace Map.App
                 DrawLine(spriteBatch, _points[_points.Count - 1].Position,
                     Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
 
-                spriteBatch.DrawString(_font, Vector2.Distance(_points[_points.Count - 1].Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black) ;
+                spriteBatch.DrawString(_font, Math.Round(Vector2.Distance(_points[_points.Count - 1].Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))),2).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black) ;
             }
             else
             {
                 DrawLine(spriteBatch, _robot.Position,
                     Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
 
-                spriteBatch.DrawString(_font, Vector2.Distance(_robot.Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black);
+                spriteBatch.DrawString(_font, Math.Round(Vector2.Distance(_robot.Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))),2).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black);
             }
 
 
