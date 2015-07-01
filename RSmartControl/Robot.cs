@@ -38,7 +38,7 @@ namespace RSmartControl
 
             _orientation.Y = 1;
 
-            //_pluginManager.SensorsManager.BlinkLed();
+            _pluginManager.SensorsManager.BlinkLed();
            
         }
         public Motor MotorLeft
@@ -396,6 +396,8 @@ namespace RSmartControl
                         this._pos.X += 46 * this._orientation.X;
                         this._pos.Y += 46 * this._orientation.Y;
                     }
+
+
                     else
                     {
                        // this._pos.X -= _pluginManager.SpeedDetectionModuleModule.SpeedCm*this._orientation.X;
