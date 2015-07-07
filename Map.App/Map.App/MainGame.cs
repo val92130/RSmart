@@ -43,12 +43,14 @@ namespace Map.App
         private Texture2D _texturePoint, _textureCircle;
         private ButtonManager _buttonManager;
         private List<Texture2D> _circles = new List<Texture2D>();
+        bool _addPointsSelected = false;
 
         private WindowManager _windowManager;
+        
 
         public MainGame(int widthCm, Game1 game, int resolutionWidth, int resolutionHeight)
         {
-
+            mapWidth = widthCm;
             _buttonManager = new ButtonManager(this);
             _robotControl = new RobotControl();
             _robot = new Robot(this, new Vector2(0, 0), 28, 30);
@@ -60,7 +62,7 @@ namespace Map.App
                 Pos = new Microsoft.Xna.Framework.Vector2(0.0f, 0.0f),
                 Zoom = 1f
             };
-            mapWidth = widthCm;
+            
             _boxes = new Box[mapWidth / BoxWidthCm, mapWidth / BoxWidthCm];
 
             boxCountPerLine = mapWidth / BoxWidthCm;
@@ -84,13 +86,37 @@ namespace Map.App
 
             updateThread.Start();
 
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 10), "Add Points", 200, 30, new Color(103, 128, 159), this, new ClickHandler(ChangeModeButtonClick)));
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 60), "Add Obstacles", 200, 30, new Color(224, 130, 131), this, new ClickHandler(AddObstaclesButtonClick)));
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 110), "Send Points", 200, 30, new Color(134, 126, 213), this, new ClickHandler(SendDataRobotButtonClick)));
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245, 171, 53), this, new ClickHandler(ClearMapClick)));
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 230), "Save Path", 200, 30, new Color(190, 140, 100), this, new ClickHandler(SavePathClick)));
-            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 290), "Load Path", 200, 30, new Color(210, 160, 80), this, new ClickHandler(LoadPathClick)));
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 10), "Add Points", 200, 30, new Color(103, 128, 159), this, new ClickHandler(ChangeModeButtonClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 60), "Add Obstacles", 200, 30, new Color(224, 130, 131), this, new ClickHandler(AddObstaclesButtonClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 110), "Send Points", 200, 30, new Color(134, 126, 213), this, new ClickHandler(SendDataRobotButtonClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 170), "Clear", 200, 30, new Color(245, 171, 53), this, new ClickHandler(ClearMapClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 230), "Save Path", 200, 30, new Color(190, 140, 100), this, new ClickHandler(SavePathClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 290), "Load Path", 200, 30, new Color(210, 160, 80), this, new ClickHandler(LoadPathClick)), ButtonClick);
+            _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 350), "View Robot", 200, 30, new Color(100, 160, 120), this, new ClickHandler(ViewRobotClick)), ButtonClick);
 
+
+            _cam.Pos = _robot.Position;           
+        }
+
+        private void ViewRobotClick(object sender)
+        {
+            _cam.Pos = _robot.Position;
+        }
+
+        public int MapWidth
+        {
+            get { return mapWidth; }
+        }
+
+        public void ButtonClick(object sender)
+        {
+            Button b = sender as Button;
+            _addPointsSelected = b.Text == "Add Points";
+        }
+
+        public void OnRobotLost()
+        {
+            _windowManager.ShowAlertWindow(new Rectangle(0, 0, 500, 500), "Your robot is lost, you need to setup a new path !");
         }
 
         private void LoadPathClick(object sender)
@@ -213,7 +239,7 @@ namespace Map.App
         private void SendDataRobotButtonClick(object sender)
         {
             string queryRobot = "";
-
+            _robotControl.SendRequestRobot("Synchronize=" + Util.GetIp());
             foreach (DestinationPoint d in _points)
             {
                 queryRobot += Math.Round(d.Position.X, 2) + ":" + Math.Round(d.Position.Y, 2) + ";";
@@ -221,16 +247,6 @@ namespace Map.App
 
             _robotControl.SendRequestRobot("SendPoints=" + queryRobot);
             _points = new List<DestinationPoint>();
-
-            return;
-            string query = "";
-            foreach (PathInformation p in GetPathList())
-            {
-                query += (int)p.Angle + ":" + p.DurationMilli + ":" + Math.Round(p.Orientation.X, 3) + "_" + Math.Round(p.Orientation.Y, 3) +
-                           ";";
-            }
-
-            _robotControl.SendRequestRobot("FollowPath=" + query);
 
         }
 
@@ -340,27 +356,36 @@ namespace Map.App
                 _points[i].Draw(spriteBatch, _texturePoint, _textureCircle);
             }
 
-            //DrawPoint( new Vector2( 100, 200 ), spriteBatch);
-            //DrawPoint(new Vector2(circle.Width / 2 + 100, circle.Height / 2 + 200) , spriteBatch );
-            //spriteBatch.Draw( circle, new Vector2(  - (circle.Width) + 100, 200 - (circle.Height/2) ), Color.Red );
 
-
-            
-            if (_points.Count != 0)
+            if (_addPointsSelected)
             {
-                DrawLine(spriteBatch, _points[_points.Count - 1].Position,
-                    Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
+                if (_points.Count != 0)
+                {
+                    DrawLine(spriteBatch, _points[_points.Count - 1].Position,
+                        Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red,
+                        _texturePoint);
 
-                spriteBatch.DrawString(_font, Math.Round(Vector2.Distance(_points[_points.Count - 1].Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))),2).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black) ;
+                    spriteBatch.DrawString(_font,
+                        Math.Round(
+                            Vector2.Distance(_points[_points.Count - 1].Position,
+                                Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))), 2)
+                            .ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)),
+                        Color.Black);
+                }
+                else
+                {
+                    DrawLine(spriteBatch, _robot.Position,
+                        Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red,
+                        _texturePoint);
+
+                    spriteBatch.DrawString(_font,
+                        Math.Round(
+                            Vector2.Distance(_robot.Position,
+                                Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))), 2)
+                            .ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)),
+                        Color.Black);
+                }
             }
-            else
-            {
-                DrawLine(spriteBatch, _robot.Position,
-                    Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)), Color.Red, _texturePoint);
-
-                spriteBatch.DrawString(_font, Math.Round(Vector2.Distance(_robot.Position, Camera.ScreenToWorld(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))),2).ToString(), Camera.ScreenToWorld(new Vector2(Mouse.GetState().X + 50, Mouse.GetState().Y)), Color.Black);
-            }
-
 
         }
 

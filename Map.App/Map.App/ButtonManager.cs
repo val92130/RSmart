@@ -20,15 +20,16 @@ namespace Map.App
         }
 
         public void Add(Vector2 position, string text, int width, int height, Color color, MainGame game,
-            MainGame.ClickHandler handler)
+            MainGame.ClickHandler specifiClickHandler, MainGame.ClickHandler globalHandler)
         {
-            this.Add(new Button(position, text, width, height,color, game, handler));
+            this.Add(new Button(position, text, width, height, color, game, specifiClickHandler), globalHandler);
         }
 
-        public void Add(Button b)
+        public void Add(Button b, MainGame.ClickHandler globalClickHandler)
         {
             _buttons.Add(b);
             b.OnClick += new Button.ClickEvent(ButtonClick);
+            b.OnClick += new Button.ClickEvent(globalClickHandler);
         }
 
         private void ButtonClick(Button sender)

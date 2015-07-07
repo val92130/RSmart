@@ -18,6 +18,10 @@ namespace Server.Lib
         bool _pause = false;
         List<Route> _routes;
 
+        public delegate void RobotLostHandler(object sender);
+
+        public event RobotLostHandler OnRobotLostEvent;
+
         public WebServer( string prefixes, DebugLog debugLog )
         {
             _routes = new List<Route>();
@@ -47,6 +51,14 @@ namespace Server.Lib
             AddRoute( new Route( "GetDistance", true ) );
             _debugLog.Write("Routes initialized", EMessageCategory.Success);
             this.SerializeRoutes();
+        }
+
+        public void OnRobotLost()
+        {
+            if (OnRobotLostEvent != null)
+            {
+                OnRobotLostEvent(this);
+            }
         }
 
         public void AddRoute(Route r)
@@ -255,6 +267,12 @@ namespace Server.Lib
             
             foreach( string key in request )
             {
+                if (key == "IAmLost")
+                {
+                    OnRobotLost();
+                    return "I'm coming to help you !";
+                }
+
                 string value = request[key];
                 foreach(Route r in _routes)
                 {

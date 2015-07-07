@@ -85,13 +85,11 @@ namespace Map.App
         public int X
         {
             get { return (int)_position.X; }
-            set { _position.X = value; }
         }
 
         public int Y
         {
             get { return (int)_position.Y; }
-            set { _position.Y = value; }
         }
 
         public void Update()
@@ -99,7 +97,7 @@ namespace Map.App
             now = DateTime.UtcNow;
 
             TimeSpan t = now - prev;
-            if (t.TotalMilliseconds >= 1000)
+            if (t.TotalMilliseconds >= 2500)
             {
                 
                 prev = DateTime.UtcNow;
@@ -156,8 +154,9 @@ namespace Map.App
                 return;
             }
             this.Orientation = new Vector2(float.Parse(orientationX, CultureInfo.InvariantCulture),float.Parse(orientationY, CultureInfo.InvariantCulture)) ;
-            this.X = (int)(double.Parse(x, CultureInfo.InvariantCulture) );
-            this.Y = (int)(double.Parse(y, CultureInfo.InvariantCulture) );
+
+            Vector2 v = new Vector2((int)(double.Parse(x, CultureInfo.InvariantCulture)), (int)(double.Parse(y, CultureInfo.InvariantCulture)));
+            this.Position = v;
         }
     }
 }

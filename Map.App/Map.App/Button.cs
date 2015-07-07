@@ -22,7 +22,7 @@ namespace Map.App
         private MainGame.ClickHandler _handler;
         private string _text;
         private bool _isSelected = false;
-
+        
  
         public Button(Vector2 position, string text, int width, int height, Color color, MainGame game, MainGame.ClickHandler handler)
         {
@@ -83,6 +83,12 @@ namespace Map.App
         {
             get { return _isSelected; }
             set { _isSelected = value; }
+        }
+
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; }
         }
 
         public void Draw( SpriteBatch spriteBatch, SpriteFont font )

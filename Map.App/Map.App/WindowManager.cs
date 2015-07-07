@@ -125,6 +125,28 @@ namespace Map.App
             _manager.Add(window);
         }
 
+        public void ShowAlertWindow(Rectangle position, string alert)
+        {
+            GameWindow window = new GameWindow(_manager, "alert", position);
+            _windows.Add(window);
+            window.Center();
+            window.Visible = true;
+
+            _savePathTextBox = new TextBox(_manager);
+            _savePathTextBox.Init();
+            _savePathTextBox.Parent = window;
+            _savePathTextBox.Left = 32;
+            _savePathTextBox.Top = 32;
+            _savePathTextBox.Width = window.ClientWidth - 64;
+            _savePathTextBox.TextChanged += new TomShane.Neoforce.Controls.EventHandler(TextChanged);
+
+            _savePathTextBox.Text = alert;
+            _savePathTextBox.Enabled = false;
+            _savePathTextBox.Anchor = Anchors.Left | Anchors.Top | Anchors.Right;
+
+            _manager.Add(window);
+        }
+
         private void TextChanged(object sender, System.EventArgs e)
         {
             TextBox t = sender as TextBox;

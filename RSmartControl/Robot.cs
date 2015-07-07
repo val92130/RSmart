@@ -19,12 +19,12 @@ namespace RSmartControl
         private int _directionOffset = 0;
         
         MainLoop _mainLoop;
-        private readonly double _rotationSpeed = Utility.DegreeToRadian(30);
         readonly PluginManager _pluginManager;
-
         private DateTime now, prev = DateTime.UtcNow;
 
         private Communication _com;
+        private bool _followPath = false;
+        private bool _lost = false;
         public Robot(MainLoop mainLoop, Motor motorLeft, Motor motorRight, PluginManager pluginManager)
         {
             _pos = new Vector2();
@@ -155,10 +155,11 @@ namespace RSmartControl
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
 
-            _motorRight.ReverseDirection(0.6);
+            double angle = 30;
+            this.TurnAngle(angle);
 
-            this._orientation.X = this._orientation.X * System.Math.Cos( this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( this._rotationSpeed );
-            this._orientation.Y = this._orientation.X * System.Math.Sin( this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( this._rotationSpeed );
+            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
 
         }
 
@@ -171,9 +172,11 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.Forward;
 
             _motorRight.ReverseDirection(0.6);
+            double angle = 30;
+            this.TurnAngle(angle);
 
-            this._orientation.X = this._orientation.X * System.Math.Cos(this._rotationSpeed) - this._orientation.Y * System.Math.Sin(this._rotationSpeed);
-            this._orientation.Y = this._orientation.X * System.Math.Sin(this._rotationSpeed) + this._orientation.Y * System.Math.Cos(this._rotationSpeed);
+            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
 
         }
         /// <summary>
@@ -189,18 +192,23 @@ namespace RSmartControl
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
 
-            _motorLeft.ReverseDirection( 0.6 );
-            
-            this._orientation.X = this._orientation.X * System.Math.Cos( -this._rotationSpeed ) - this._orientation.Y * System.Math.Sin( -this._rotationSpeed );
-            this._orientation.Y = this._orientation.X * System.Math.Sin( -this._rotationSpeed ) + this._orientation.Y * System.Math.Cos( -this._rotationSpeed );
+            double angle = 30;
+            this.TurnAngle(-angle);
+
+            this._orientation.X = this._orientation.X * System.Math.Cos(-angle) - this._orientation.Y * System.Math.Sin(-angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(-angle) + this._orientation.Y * System.Math.Cos(-angle);
         }
 
         public void FollowPath(ArrayList pathInformationList)
         {
-            
-
+            _lost = false;
+            _followPath = true;
             foreach (object path in pathInformationList)
             {
+                if (_lost)
+                {
+                    return;
+                }
                 PathInformation p = path as PathInformation;
                 this.TurnAngle(p.Angle);
                 _motorLeft.Start();
@@ -211,6 +219,7 @@ namespace RSmartControl
             }
             _motorLeft.Stop();
             _motorRight.Stop();
+            _followPath = false;
         }
 
         public void TurnAngle(double angle)
@@ -293,11 +302,18 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.BackWard;
         }
 
+        public void OnRobotLost()
+        {
+            this.TurnRight();
+            _lost = true;
+            _pluginManager.SyncModule.SendRequest("IAmLost=true");
+        }
+
         public void Behavior()
         {
             _pluginManager.SensorsManager.FrontSensorLeft.sensorBehaviour(this);
             _pluginManager.SensorsManager.FrontSensorRight.sensorBehaviour(this);
-            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this);
+            _pluginManager.SensorsManager.DownSensor.sensorBehaviour(this, true);
             _pluginManager.SensorsManager.BackSensor.sensorBehaviour(this);
 
 
@@ -305,7 +321,12 @@ namespace RSmartControl
             {
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    
+                    if (_followPath)
+                    {
+
+                        OnRobotLost();
+                        return;
+                    }
                     if (_robotMode == ERobotMode.Manual)
                     {
                         _pluginManager.BehaviourControl.OnObstacleFront();
@@ -320,6 +341,11 @@ namespace RSmartControl
                 // If collide front-left but not front-right
                 if (_pluginManager.SensorsManager.FrontSensorLeft.Collide && !_pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
+                    if (_followPath)
+                    {
+                        OnRobotLost();                     
+                        return;
+                    }
                     if( _robotMode == ERobotMode.Manual )
                     {
                         _pluginManager.BehaviourControl.OnObstacleFrontLeft();
@@ -335,7 +361,11 @@ namespace RSmartControl
                 // If collide front-right but not front-left
                 if (!_pluginManager.SensorsManager.FrontSensorLeft.Collide && _pluginManager.SensorsManager.FrontSensorRight.Collide)
                 {
-                    
+                    if (_followPath)
+                    {
+                        OnRobotLost();                    
+                        return;
+                    }
                     if( _robotMode == ERobotMode.Manual )
                     {
                         _pluginManager.BehaviourControl.OnObstacleFrontRight();
@@ -351,6 +381,11 @@ namespace RSmartControl
                 // If collide in the back
                 if (_pluginManager.SensorsManager.BackSensor.Collide && _motorLeft.Direction == EDirection.BackWard && _motorRight.Direction == EDirection.BackWard)
                 {
+                    if (_followPath)
+                    {
+                        OnRobotLost();                    
+                        return;
+                    }
                     _pluginManager.BehaviourControl.OnObstacleBack();
                     _motorLeft.Direction = EDirection.Forward;
                     _motorRight.Direction = EDirection.Forward;

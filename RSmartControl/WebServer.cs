@@ -164,15 +164,14 @@ namespace RSmartControl
 
                     case "SendPoints":
                         string val = (string)entry.Value;
-
                         if (val != null && val.Length != 0)
                         {
                             ArrayList pts = Vector2.FetchPointsQuery(val);
                             ArrayList path = Utility.GetPathList(_com.Robot, pts);
                             if (path != null)
                             {
-                                _com.Robot.FollowPath(path);
                                 SendResponse(clientSocket, "Sending points to robot..");
+                                _com.Robot.FollowPath(path);                               
                                 break;
                             }
                             SendResponse(clientSocket, "Unexpected error");
@@ -356,14 +355,6 @@ namespace RSmartControl
                             break;
                         }
                         
-                        //try
-                        //{
-                        //    int t = int.Parse((string)(entry.Value));
-                        //}
-                        //catch(Exception e)
-                        //{
-                        //    Debug.Print(e.ToString());
-                        //}
 
                         break;
 
@@ -371,10 +362,12 @@ namespace RSmartControl
                         try
                         {
                             int angle = int.Parse((string)entry.Value);
+                            SendResponse(clientSocket, "Turning angle..");
                             _com.Robot.TurnAngle(angle);
                         }
                         catch (Exception e)
                         {
+                            SendResponse(clientSocket, e.ToString());
                             Debug.Print(e.ToString());
                         }
                         break;

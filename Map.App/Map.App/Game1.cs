@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,9 +10,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Newtonsoft.Json;
+using Server.Lib;
 using TomShane.Neoforce.Controls;
 using EventArgs = System.EventArgs;
 using EventHandler = System.EventHandler;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Map.App
 {
@@ -33,8 +36,17 @@ namespace Map.App
         public bool left, right, up, down, zoomUp, zoomDown = false;
 
         public event EventHandler OnClicked;
+        private DebugLog _debugLog = new DebugLog();
+        private WebServer _server;
         public Game1()
         {
+            Thread serverThread = new Thread(() =>
+            {
+                _server = new WebServer("http://" + Util.GetIp() + ":80/", _debugLog);
+                _server.Run();
+            });
+            serverThread.Start();
+            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -45,8 +57,15 @@ namespace Map.App
             IsFixedTimeStep = false;
             
             _mainGame = new MainGame(10000, this, 1366, 768);
-            
+
+
+            _server.OnRobotLostEvent += WebServerOnOnRobotLostEvent;
             this.Exiting += new EventHandler<EventArgs>(_mainGame.OnExit);
+        }
+
+        private void WebServerOnOnRobotLostEvent(object sender)
+        {
+            _mainGame.OnRobotLost();
         }
 
         protected override void Initialize()

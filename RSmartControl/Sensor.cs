@@ -58,6 +58,29 @@ namespace RSmartControl
             }
 
         }
+
+        public void sensorBehaviour(Robot robot, bool nocollide)
+        {
+            double distance = _sanalog.Read();
+
+            if (distance >= 0.5)
+            {
+                counter++;
+
+                // if the sensor detects an obstacle for more than 10 frames
+                if (counter > 10)
+                {
+                    _collide = true;
+                }
+
+            }
+            else
+            {
+                _collide = false;
+                counter = 0;
+            }
+
+        }
        
     }
 }

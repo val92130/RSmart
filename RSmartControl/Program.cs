@@ -21,7 +21,7 @@ namespace RSmartControl
             PluginManager pluginManager = new PluginManager();
 
             //pluginManager.SdCardManager.Write("Helloooo", "config.txt");
-            Debug.Print(pluginManager.BehaviourControl.ReadConfigurationFile());
+
             // Start speed detection
             pluginManager.SpeedDetectionModuleModule.Run();
 
