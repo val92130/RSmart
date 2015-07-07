@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace Server.App
 {
     /// <summary>
@@ -53,8 +54,14 @@ namespace Server.App
 
         private void orientateButton_Click(object sender, RoutedEventArgs e)
         {
-            Vector2 positionRobot = _robotControl.GetRobotPosition();
-            Vector2 orientationRobot = _robotControl.GetRobotOrientation();
+            
+           string  posX = _robotControl.SendRequestRobot("GetPositionX=true");
+           string  posY = _robotControl.SendRequestRobot("GetPositionY=true");
+
+           string orX = _robotControl.SendRequestRobot("GetOrientationX=true");
+           string orY = _robotControl.SendRequestRobot("GetOrientationY=true");
+            Vector2 positionRobot = new Vector2((double.Parse(posX)),(double.Parse(posY)));
+            Vector2 orientationRobot = new Vector2(double.Parse(orX), double.Parse(orY));
             Vector2 destination = new Vector2(Convert.ToInt32(xTextBox.Text), Convert.ToInt32(yTextBox.Text));
 
             if (positionRobot == null || orientationRobot == null || destination == null)
@@ -62,11 +69,20 @@ namespace Server.App
                 _robotControl.DebugLog.Write("Exception in method : orientate, one of the value was null",EMessageCategory.Error);
                 return;
             }
+            double angl = Server.Lib.Vector2.GetAngle(orientationRobot, destination);
+            if (angl <= 0.7853981)
+            {
+                double rad = Server.Lib.Vector2.Radius(positionRobot, orientationRobot, destination);
+               _robotControl.SendRequestRobot("SetDirection=" + Offset.GetClosestOffset(rad));
+                double timeTodo = Vector2.TimeBetweenPoints(positionRobot, orientationRobot, destination);
+                _robotControl.SendRequestRobot("GoForwardTime=" + (int)timeTodo);
+            }
+            if (angl > 0.7853981)
+            {
+                double nwAngl = Vector2.RadianToDegree(angl);
 
-            double rad = Server.Lib.Vector2.Radius(positionRobot,orientationRobot,destination);
-            _robotControl.SendRequestRobot("SetDirection=" + Offset.GetClosestOffset(rad));
-            double timeTodo = Vector2.TimeBetweenPoints(positionRobot, orientationRobot, destination);
-            _robotControl.SendRequestRobot("GoForwardTime="+(int)timeTodo);
+                _robotControl.SendRequestRobot("RotateAngle=" +((int)nwAngl));
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
