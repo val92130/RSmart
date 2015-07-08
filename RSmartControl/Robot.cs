@@ -165,6 +165,22 @@ namespace RSmartControl
 
         }
 
+        public void TurnLeftNormal()
+        {
+            _motorLeft.Direction = EDirection.BackWard;
+            _motorRight.Direction = EDirection.Forward;
+
+            _motorLeft.Start();
+            _motorRight.Start();
+
+            Thread.Sleep(700);
+
+            _motorLeft.Direction = EDirection.Forward;
+
+            _motorLeft.Stop();
+            _motorRight.Stop();
+        }
+
         /// <summary>
         /// Turn left without going backward before
         /// </summary>
@@ -212,6 +228,22 @@ namespace RSmartControl
             _motorRight.Start();
             _motorLeft.Start();
       
+        }
+
+        public void TurnRightDirect()
+        {
+            _motorRight.Direction = EDirection.BackWard;
+            _motorLeft.Direction = EDirection.Forward;
+
+            _motorLeft.Start();
+            _motorRight.Start();
+
+            Thread.Sleep(700);
+
+            _motorRight.Direction = EDirection.Forward;
+
+            _motorLeft.Stop();
+            _motorRight.Stop();
         }
 
         public void AvoidObstacle()

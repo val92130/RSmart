@@ -446,7 +446,7 @@ namespace RSmartControl
                     case "Right":
                         if( (string)entry.Value == "true" )
                         {
-                            _com.Robot.TurnRight();
+                            _com.Robot.TurnRightDirect();
                             response = "Robot turning right";
                             SendResponse( clientSocket, response );
                         }
@@ -454,7 +454,7 @@ namespace RSmartControl
                     case "Left":
                         if( (string)entry.Value == "true" )
                         {
-                            _com.Robot.TurnLeft();
+                            _com.Robot.TurnLeftNormal();
                             response = "Robot turning left";
                             SendResponse( clientSocket, response );
                         }
