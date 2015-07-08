@@ -155,8 +155,10 @@ namespace RSmartControl
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
 
-            double angle = 30;
+            double angle = 90;
             this.TurnAngle(angle);
+            _motorRight.Start();
+            _motorLeft.Start();
 
             this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
             this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
@@ -192,11 +194,51 @@ namespace RSmartControl
             _motorRight.Direction = EDirection.Forward;
             _motorLeft.Direction = EDirection.Forward;
 
-            double angle = 30;
+            double angle = 90;
             this.TurnAngle(-angle);
 
             this._orientation.X = this._orientation.X * System.Math.Cos(-angle) - this._orientation.Y * System.Math.Sin(-angle);
             this._orientation.Y = this._orientation.X * System.Math.Sin(-angle) + this._orientation.Y * System.Math.Cos(-angle);
+            _motorRight.Start();
+            _motorLeft.Start();
+
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+            Thread.Sleep(1000);
+
+            this.TurnAngle(angle);
+            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
+            _motorRight.Start();
+            _motorLeft.Start();
+      
+        }
+
+        public void AvoidObstacle()
+        {
+            _motorRight.Direction = EDirection.BackWard;
+            _motorLeft.Direction = EDirection.BackWard;
+
+            Thread.Sleep(700);
+
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+
+            double angle = 90;
+            this.TurnAngle(-angle);
+
+            this._orientation.X = this._orientation.X * System.Math.Cos(-angle) - this._orientation.Y * System.Math.Sin(-angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(-angle) + this._orientation.Y * System.Math.Cos(-angle);
+            _motorRight.Start();
+            _motorLeft.Start();
+
+            _motorRight.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.Forward;
+            Thread.Sleep(1000);
+
+            this.TurnAngle(angle);
+            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
+            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
         }
 
         public void FollowPath(ArrayList pathInformationList)
@@ -224,7 +266,7 @@ namespace RSmartControl
 
         public void TurnAngle(double angle)
         {
-            double timeInSec = ((double)angle / 360) * 4.5; 
+            double timeInSec = ((double)angle / 360) * 3.2; 
 
             if(angle > 0)
             {
@@ -234,6 +276,7 @@ namespace RSmartControl
             {
                 TurnLeft(-timeInSec);
             }
+
         }
 
         public void OrientateTo(Vector2 destination)
@@ -252,13 +295,15 @@ namespace RSmartControl
 
         public void TurnRight(double timeInSeconds)
         {
-            _motorRight.Direction = EDirection.Forward;
+            _motorRight.Direction = EDirection.BackWard;
             _motorLeft.Direction = EDirection.Forward;
 
             _motorLeft.Start();
-            _motorRight.Stop();
+            _motorRight.Start();
 
             Thread.Sleep((int)(timeInSeconds * 1000));
+
+            _motorRight.Direction = EDirection.Forward;
 
             _motorLeft.Stop();
             _motorRight.Stop();
@@ -267,13 +312,13 @@ namespace RSmartControl
         public void TurnLeft(double timeInSeconds)
         {
             _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
+            _motorLeft.Direction = EDirection.BackWard;
 
-            _motorLeft.Stop();
+            _motorLeft.Start();
             _motorRight.Start();
 
             Thread.Sleep((int)(timeInSeconds * 1000));
-
+            _motorLeft.Direction = EDirection.Forward;
             _motorLeft.Stop();
             _motorRight.Stop();
         }
@@ -304,7 +349,7 @@ namespace RSmartControl
 
         public void OnRobotLost()
         {
-            this.TurnRight();
+            this.AvoidObstacle();
             _lost = true;
             _pluginManager.SyncModule.SendRequest("IAmLost=true");
         }
