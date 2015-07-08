@@ -261,16 +261,6 @@ namespace RSmartControl
 
             this._orientation.X = this._orientation.X * System.Math.Cos(-angle) - this._orientation.Y * System.Math.Sin(-angle);
             this._orientation.Y = this._orientation.X * System.Math.Sin(-angle) + this._orientation.Y * System.Math.Cos(-angle);
-            _motorRight.Start();
-            _motorLeft.Start();
-
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
-            Thread.Sleep(1000);
-
-            this.TurnAngle(angle);
-            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
-            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
         }
 
         public void FollowPath(ArrayList pathInformationList)
@@ -380,10 +370,10 @@ namespace RSmartControl
         }
 
         public void OnRobotLost()
-        {
-            this.AvoidObstacle();
+        {          
             _lost = true;
             _pluginManager.SyncModule.SendRequest("IAmLost=true");
+            this.AvoidObstacle();
         }
 
         public void Behavior()
