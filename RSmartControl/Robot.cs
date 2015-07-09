@@ -156,30 +156,16 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.Forward;
 
             double angle = 90;
-            this.TurnAngle(angle);
-            _motorRight.Start();
-            _motorLeft.Start();
-
+            this.TurnAngle(-angle);
             this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
             this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
 
-        }
-
-        public void TurnLeftNormal()
-        {
-            _motorLeft.Direction = EDirection.BackWard;
-            _motorRight.Direction = EDirection.Forward;
-
-            _motorLeft.Start();
             _motorRight.Start();
+            _motorLeft.Start();
 
-            Thread.Sleep(700);
-
-            _motorLeft.Direction = EDirection.Forward;
-
-            _motorLeft.Stop();
-            _motorRight.Stop();
+            
         }
+
 
         /// <summary>
         /// Turn left without going backward before
@@ -211,23 +197,13 @@ namespace RSmartControl
             _motorLeft.Direction = EDirection.Forward;
 
             double angle = 90;
-            this.TurnAngle(-angle);
+            this.TurnAngle(angle);
 
             this._orientation.X = this._orientation.X * System.Math.Cos(-angle) - this._orientation.Y * System.Math.Sin(-angle);
             this._orientation.Y = this._orientation.X * System.Math.Sin(-angle) + this._orientation.Y * System.Math.Cos(-angle);
             _motorRight.Start();
             _motorLeft.Start();
 
-            _motorRight.Direction = EDirection.Forward;
-            _motorLeft.Direction = EDirection.Forward;
-            Thread.Sleep(1000);
-
-            this.TurnAngle(angle);
-            this._orientation.X = this._orientation.X * System.Math.Cos(angle) - this._orientation.Y * System.Math.Sin(angle);
-            this._orientation.Y = this._orientation.X * System.Math.Sin(angle) + this._orientation.Y * System.Math.Cos(angle);
-            _motorRight.Start();
-            _motorLeft.Start();
-      
         }
 
         public void TurnRightDirect()
@@ -291,12 +267,12 @@ namespace RSmartControl
             double timeInSec = ((double)angle / 360) * 3.2; 
 
             if(angle > 0)
-            {
-                TurnRight(timeInSec);
+            {               
+                TurnLeft(timeInSec);
             }
             else
             {
-                TurnLeft(-timeInSec);
+                TurnRight(-timeInSec);
             }
 
         }

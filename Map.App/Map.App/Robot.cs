@@ -44,12 +44,20 @@ namespace Map.App
                     Debug.Print( arrObstacles[i]["X"].ToString() );
                     Debug.Print( arrObstacles[i]["Y"].ToString() );
 
-                    Point p = new Point(int.Parse(arrObstacles[i]["X"].ToString()), int.Parse(arrObstacles[i]["Y"].ToString()));
+                    try
+                    {
+                        double X = double.Parse(arrObstacles[i]["X"].ToString());
+                        double Y = double.Parse(arrObstacles[i]["Y"].ToString());
 
-                    int mapX = Convert.ToInt32((double)p.X / _game.BoxWidth);
-                    int mapY = Convert.ToInt32((double)p.Y / _game.BoxWidth);
+                        X = Math.Round(X, 2);
+                        Y = Math.Round(Y, 2);
 
-                    _game.GetBoxAt(mapX , mapY ).IsObstacle = true;
+                        _game.AddObstacle(new Rectangle((int)X, (int)Y, 10, 10));
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
 
                 }
 

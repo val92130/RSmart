@@ -35,6 +35,8 @@ namespace Map.App
         private bool _exited = false;
         private SpriteFont _font;
 
+        private List<Obstacle> _obstacleList = new List<Obstacle>(); 
+
         public readonly int BoxWidth = 10;
 
         public delegate void ClickHandler(object sender);
@@ -95,7 +97,13 @@ namespace Map.App
             _buttonManager.Add(new Button(new Microsoft.Xna.Framework.Vector2(10, 350), "View Robot", 200, 30, new Color(100, 160, 120), this, new ClickHandler(ViewRobotClick)), ButtonClick);
 
 
-            _cam.Pos = _robot.Position;           
+            _cam.Pos = _robot.Position;      
+     
+        }
+
+        public void AddObstacle(Rectangle r)
+        {
+            _obstacleList.Add(new Obstacle(r.X,r.Y,r.Width,r.Height,this));
         }
 
         private void ViewRobotClick(object sender)
@@ -348,6 +356,11 @@ namespace Map.App
                 b.Draw(spriteBatch);
             }
 
+            foreach (Obstacle o in _obstacleList)
+            {
+                o.Draw(spriteBatch);
+            }
+
             _robot.Draw(spriteBatch);
 
 
@@ -441,6 +454,11 @@ namespace Map.App
         public Texture2D GetTexture(Robot r)
         {
             return _robotTexture;
+        }
+
+        public Texture2D GetTexture(Obstacle o)
+        {
+            return _collisionTexture;
         }
 
         public RobotControl RobotControl

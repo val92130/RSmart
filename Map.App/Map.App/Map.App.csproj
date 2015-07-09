@@ -89,6 +89,7 @@
     <Compile Include="EControlMode.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="MainGame.cs" />
+    <Compile Include="Obstacle.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

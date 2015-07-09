@@ -341,7 +341,7 @@ namespace RSmartControl
 
                         if( (string)entry.Value == "left" )
                         {
-                            _com.MotorLeft.Stop( Motor.TimeAngleRotation( _pluginManager.SpeedDetectionModuleModule.Speed, 90 ) );
+                            _com.Robot.TurnLeftDirect();
                             response = "Turning left";
                             SendResponse( clientSocket, response );
                             break;
@@ -349,7 +349,7 @@ namespace RSmartControl
 
                         if( (string)entry.Value == "right" )
                         {
-                            _com.MotorRight.Stop(Motor.TimeAngleRotation(_pluginManager.SpeedDetectionModuleModule.Speed, 90));
+                            _com.Robot.TurnRightDirect();
                             response = "Turning right";
                             SendResponse( clientSocket, response );
                             break;
@@ -424,7 +424,7 @@ namespace RSmartControl
                         SendResponse( clientSocket, response );
                         break;
                     case "GetSpeed":
-                        response = _pluginManager.SpeedDetectionModuleModule.Speed.ToString();
+                        response = "48";
                         SendResponse(clientSocket, response);
                         break;
                     case "Forward":
@@ -446,7 +446,9 @@ namespace RSmartControl
                     case "Right":
                         if( (string)entry.Value == "true" )
                         {
-                            _com.Robot.TurnRightDirect();
+                            _com.Robot.TurnAngle(45);
+                            _com.Robot.MotorLeft.Start();
+                            _com.Robot.MotorRight.Start();
                             response = "Robot turning right";
                             SendResponse( clientSocket, response );
                         }
@@ -454,7 +456,9 @@ namespace RSmartControl
                     case "Left":
                         if( (string)entry.Value == "true" )
                         {
-                            _com.Robot.TurnLeftNormal();
+                            _com.Robot.TurnAngle(-45);
+                            _com.Robot.MotorLeft.Start();
+                            _com.Robot.MotorRight.Start();
                             response = "Robot turning left";
                             SendResponse( clientSocket, response );
                         }

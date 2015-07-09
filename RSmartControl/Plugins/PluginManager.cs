@@ -56,13 +56,6 @@ namespace RSmartControl
             }
         }
 
-        public SpeedDetectionModule SpeedDetectionModuleModule
-        {
-            get
-            {
-                return _speedDetectionModule;
-            }
-        }
         public SyncModule SyncModule
         {
             get

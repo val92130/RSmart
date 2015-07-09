@@ -23,7 +23,7 @@ namespace RSmartControl
             //pluginManager.SdCardManager.Write("Helloooo", "config.txt");
 
             // Start speed detection
-            pluginManager.SpeedDetectionModuleModule.Run();
+            //pluginManager.SpeedDetectionModuleModule.Run();
 
             // Enabling DHCP
             //Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
